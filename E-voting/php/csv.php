@@ -106,20 +106,20 @@ function array_to_table($array, $recursive = false, $null = '&nbsp;') {
 function array_values_recursive($array)
 {
     $arrayValues = array();
-
-    foreach ($array as $value)
-    {
-        if (is_scalar($value) OR is_resource($value))
-        {
-             $arrayValues[] = $value;
+    if(is_array($array)) {
+        foreach ($array as $value) {
+            if (is_scalar($value) OR is_resource($value))
+            {
+                 $arrayValues[] = $value;
+            }
+            elseif (is_array($value))
+            {
+                 $arrayValues = array_merge($arrayValues, array_values_recursive($value));
+            }
         }
-        elseif (is_array($value))
-        {
-             $arrayValues = array_merge($arrayValues, array_values_recursive($value));
-        }
+        return $arrayValues;
     }
-
-    return $arrayValues;
+    else return false;
 }
 
 function csv_valid_voters($csvFields = array(), $query_result = array(), $fields = array(), $status = 0) {
@@ -135,7 +135,7 @@ function csv_valid_voters($csvFields = array(), $query_result = array(), $fields
         foreach($query_result as $row) {
             if(search_in_array($email, $row)) {
                 $valid_voters_id[$i][$fields[0]]  = $row[$fields[0]];
-                $valid_voters_emails[$i]  = $row[$fields[1]];
+                $valid_voters_emails[$i]  = $row[$fields[count($fields) - 1]];
                 $i++;
             }   
         }

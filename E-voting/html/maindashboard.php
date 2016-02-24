@@ -1,14 +1,6 @@
 <?php
-//include('../php/session.php');
-//open connection
-include('../php/connection.php');
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
+include_once('../php/main_dashboard.php');
 ?>
-
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
@@ -40,6 +32,17 @@ if(isset($_SESSION['login_user'])){
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript">
+        function created(id){
+            window.location = "postnews.php?key="  + id ;
+        }
+        function invited(id){
+            window.location = "accept_invite.php?key="  + id ;
+        }
+        function joined(id){
+            window.location = "election_detailsNews.php?key="  + id ;
+        }
+    </script>
 </head>
 <body>
 
@@ -89,8 +92,6 @@ if(isset($_SESSION['login_user'])){
 		</div>
 		<!-- /.navbar-collapse -->
     </nav>
-
-
         <div id="page-wrapper">
         <!-- /#page-wrapper -->
 					<!-- Modal -->
@@ -99,19 +100,20 @@ if(isset($_SESSION['login_user'])){
 								<div class="modal-content">
 								  <div class="modal-header">
 									<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-									<h3> class="modal-title" id="myModalLabel" style="color:black;border:none;">Enter the election pin</h3>
+									<h3 class="modal-title" id="myModalLabel" style="color:black;border:none;">Enter the election pin</h3>
 								  </div>
-								  <form  onsubmit="joinSuccess()">
-								  <div class="modal-body row" id="input" style="text-align:center;" >
-									  <div class=" col-md-4 col-md-offset-4 " >
-											<input type="text" name="pin" class=" form-control" style="background: rgba(0,0,0,0.1);text-align:center;" placeholder="PIN">
-									  </div>
-								  </div>
-								  <div class="modal-footer" id="input2">
-									<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-									<input type="submit" class="btn btn-success" value="Join">
-								  </div>
-								  </form>
+                                    <form  method="POST" id="thatForm">
+                                        <div class="modal-body row" id="input" style="text-align:center;" >
+                                            <div class=" col-md-4 col-md-offset-4 " >
+                                                <input type="text" name="pin" class=" form-control" style="background: rgba(0,0,0,0.1);text-align:center;" placeholder="PIN">
+                                             </div>
+                                            <p class="col-md-8 col-md-offset-2 " id="output"></p>
+                                        </div>
+                                        <div class="modal-footer" id="input2">
+                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                            <input type="submit" class="btn btn-success" value="Join" id="formSubmit">
+                                        </div>
+                                    </form>
 								</div>
 							  </div>
 							</div>
@@ -120,7 +122,7 @@ if(isset($_SESSION['login_user'])){
 
                 <!-- /.row -->
                 <div class="row elections1">
-					<div class="col-md-10 col-md-offset-1 ">
+					<div class="col-md-12">
 						<div class="col-md-12 electheading">
 							<ol class="breadcrumb">
 								<li class="active">
@@ -132,44 +134,11 @@ if(isset($_SESSION['login_user'])){
 							<div class="row">
 							<div class="col-md-11 col-md-offset-1 ">
 							<?php
-                            $get_id = "SELECT user_id FROM users WHERE email='$myemail'";
-                            $user_id =  mysqli_fetch_row(mysqli_query($connection2,$get_id));
-                            $admin_query= "SELECT * FROM election WHERE user_id='$user_id[0]'";
-                            $admin= mysqli_query($connection2,$admin_query);
-                            $add=mysqli_fetch_row($admin);
-                            $elections_displayed="";
-
-                            if($add){
-                                $elections_displayed.="<table >
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Start Date</th>
-                                                        <th>End Date</th>
-                                                        <th>Start Time</th>
-                                                        <th>End Time</th>
-                                                        <th>Pin</th>
-														<th></th>
-                                                    </tr>";
-                                do {
-                                    $elections_displayed.="<tr>";
-                                    for($i=1;$i<=6;$i++)
-                                    {
-                                        $elections_displayed.="<td style='padding: 0 20px 5px 2px;border: none'>$add[$i]</td>";
-                                    }
-                                    $elections_displayed.="<td><a href='postnews.php'>Edit</a></td>";
-                                    $elections_displayed.="</tr>";
-
-                                }  while($add=mysqli_fetch_row($admin));
-
-                                $elections_displayed.=   "</table>";
-                            }else{
-                                $elections_displayed.="You are yet to create an election";
-                            }
                             print $elections_displayed;
                             ?>
 
-						</div>
-						</div>
+						    </div>
+						    </div>
 						</div>
 					</div>
 					<div class="col-md-10 col-md-offset-1 ">
@@ -182,54 +151,31 @@ if(isset($_SESSION['login_user'])){
 						</div>
 						<div class="col-md-12 electlist">
 							<div class="row">
-							<div class="col-md-10 col-md-offset-2 ">
-							<?php
-                            $joined_displayed='';
-                            $election_id_query= "SELECT election_id FROM joined WHERE user_id='$user_id[0]'";
-                            $election_id=mysqli_query($connection2,$election_id_query)or print('election_id problem');
-                            $election_id_value= mysqli_fetch_row($election_id);
-                            if($election_id_value){
-                                $joined_displayed.="<table>
-                                                    <tr>
-                                                        <th>Name</th>
-                                                        <th>Date</th>
-                                                        <th>Admin</th>
-                                                        <th></th>
-                                                    </tr>";
-                                do{
-                                    $election_details_query="SELECT * FROM election WHERE election_id='$election_id_value[0]'";
-                                    $detail= mysqli_query($connection2,$election_details_query);
-                                    $details=mysqli_fetch_row($detail);
-                                    $joined_displayed.="<tr>";
-                                    for($i=1;$i<=2;$i++)
-                                    {
-                                        $joined_displayed.="<td style='padding: 0 20px 5px 2px;border: none'>$details[$i]</td>";
-                                    }
-                                    $get_admin_query="SELECT * FROM users WHERE user_id='$details[8]'";
-                                    $get_admin=mysqli_query($connection2,$get_admin_query);
-                                    $admin_details= mysqli_fetch_row($get_admin);
-                                    $joined_displayed.="<td style='padding: 0 20px 5px 2px;border: none'>$admin_details[4]</td>";
-                                    $joined_displayed.="<td><a href='viewcontestant.php'>View</a></td>";
-                                    $joined_displayed.="</tr>";
-                                }while($election_id_value=mysqli_fetch_row($election_id));
-                                $joined_displayed.="</table>";
-
-                            }else{
-                                $joined_displayed.='You have not joined any election';
-                            }
-
-                            print $joined_displayed;
-
-                            ?>
-						</div>
-						</div>
+                                <div class="col-md-10 col-md-offset-2 ">
+                                <?php
+                                print $joined_displayed;
+                                ?>
+                                </div>
+                            </div>
 						</div>
 					</div>
+                    <?php
+                    print $invites_displayed;print $request_displayed;
+                    ?>
+                    <?php
+
+                    print $public_elections_displayed;
+
+
+                    ?>
                 </div>
+
             </div>
 
         </div>
+
     </div>
+
 <!--    wrapper-->
 
 
@@ -238,10 +184,9 @@ if(isset($_SESSION['login_user'])){
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../js/bootstrap.min.js"></script>
-	
+
     <!-- Custom JavaScript -->
     <script src="../js/file.js"></script>
-
 </body>
 
 </html>

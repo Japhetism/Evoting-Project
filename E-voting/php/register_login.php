@@ -79,8 +79,8 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
         } else {
 
 
-            $sql = "INSERT INTO users(fname, lname, username, email, phone, password)
-                            VALUES('" . $fname . "', '" . $lname . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword . "')";
+            $sql = "INSERT INTO users(fname, lname, username, email, phone, password,gender)
+                            VALUES('" . $fname . "', '" . $lname . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword ."','" . $sex . "')";
 
 
             if (mysqli_query($connection2, $sql)) {

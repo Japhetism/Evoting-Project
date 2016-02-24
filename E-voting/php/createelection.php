@@ -1,276 +1,249 @@
 <?php
-//include('session.php');
+
+include('session.php');
 require_once '../php/csv.php';
-//include('connection.php');
+include('connection.php');
+include_once('function.php');
 define('CSV_PATH', '../csv/');
-define('MAX_FILE_SIZE', 1024000);
+define('MAX_FILE_SIZE', 2097152);
 
-session_start();
+//checking if a user has a photo uploaded before creating election
+$upload_photo = $user_id=$success="";
+$check_photo = $connection1->prepare("SELECT user_id,picture_name FROM  users WHERE email = '$myemail'");
+$check_photo->execute();
+$get_photo_name = $check_photo->setFetchMode(PDO::FETCH_ASSOC);
+$get_photo_name = $check_photo->fetchAll();
+$photo_name = $get_photo_name[0]['picture_name'];
+$user_id=$get_photo_name[0]['user_id'];
 
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
+//check if picture name in the database is null
+if(empty($photo_name)){
+    $upload_photo = "<br><div class='form-group' style='text-align: center'><label>Picture</label>".
+        "<input type='file' name='image'></div><br>";
 }
-
-//validation and database
-
-function test_inputs($data)
-{
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
-}
-
-// php function that convert date to its corresponding timestamp
-function convert_date($date){
-    $date = strtotime($date);
-    return $date;
-}
-
-
-
-function post_pin()
-{
-    $posts = array();
-    if (isset($_POST["submit"])) {
-        $number_of_posts = $_POST["number_of_posts"];
-        for ($i = 1; $i <= $number_of_posts; $i++) {
-            $currentPost = 'post' . $i;
-            $currentPin = 'pin' . $i;
-            $posts[$_POST[$currentPin]] = $_POST[$currentPost];
-        }
-    }
-    return $posts;
-
-}
-
-function election_pins(){
-    $serverName = "localhost";
-    $userName = "root";
-    $password = "eminence";
-    $election_pin_occur=true;
-//    global $connection1;
-
-    do{
-        $elect_pin = "0" . rand(01, 9) . " - " . rand(1000, 9999);
-        try {
-            $conn = new PDO("mysql:host=$serverName; dbname=eVoting", $userName, $password);
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            $stmt = $conn->prepare("SELECT election_pin FROM election");
-            $stmt->execute();
-            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-            $result = $stmt->fetchAll();
-            if (count($result)!=0) {
-
-                for($i=0;$i<count($result);$i++){
-                    if($result[$i]["election_pin"]!=$elect_pin){
-                        $election_pin_occur=false;
-                        return $elect_pin;
-                    }else{
-                        $election_pin_occur=true;
-                    }
-
-                }
-            }else{
-                return $elect_pin;
-            }
-
-        }catch (PDOException $e) {
-            //echo "connection failed: " . $e->getMessage();
-        }
-
-    }while($election_pin_occur);
-
-}
-
-function user_id_from_session()
-{
-//    global $connection1;
-    $serverName = "localhost";
-    $userName = "root";
-    $password = "eminence";
-    try {
-        $conn = new PDO("mysql:host=$serverName; dbname=eVoting", $userName, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        $email = $_SESSION["login_user"];
-        $stmt = $conn->prepare("SELECT  user_id FROM users WHERE email='$email'");
-        $stmt->execute();
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $stmt->fetchAll();
-        return $result[0]["user_id"];
-
-    } catch (PDOException $e) {
-        //echo "connection failed: " . $e->getMessage();
-    }
-}
-
-function check_election_in_database($election_name, $election_date, $user_id, $posts){
-    $serverName = "localhost";
-    $userName = "root";
-    $password = "eminence";
-//    global $connection1;
-
-    try{
-        $conn = new PDO("mysql:host=$serverName; dbname=eVoting", $userName, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        // echo "connected successfully";
-        $sql = $conn->prepare("SELECT election_id, election_name, election_start_date, date_created, user_id FROM election");
-        $sql->execute();
-        $result = $sql->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $sql->fetchAll();
-        if(count($result)!=0){
-            $i=0;
-            while($i<count($result)){
-                $election_id_value=$result[$i]["election_id"];
-                $sql2= $conn->prepare("SELECT post FROM posts WHERE election_id= '$election_id_value'");
-                $sql2->execute();
-                $result2 = $sql2->setFetchMode(PDO::FETCH_ASSOC);
-                $result2 = $sql2->fetchAll();
-                foreach($posts as $key=>$value){
-                    if(strtolower($value)== strtolower($result2[$i]["post"])&& $election_name ==
-                        strtoupper($result[$i]["election_name"])&& $user_id==$result[$i]["user_id"]&& strtotime($election_date)==
-                        strtotime($result[$i]["election_start_date"])){
-                        $answer = "true";
-                        return $answer;
-                    }elseif(strtolower($value)== strtolower($result2[$i]["post"])&& $election_name==
-                        strtoupper($result[$i]["election_name"]) && $user_id!=$result[$i]['user_id']&& strtotime($election_date)==
-                        strtotime($result[$i]['election_start_date'])){
-                        $user_id_value=$result[$i]["user_id"];
-                        $sql3 = $conn->prepare("SELECT fname, lname FROM users WHERE user_id = '$user_id_value'");
-                        $sql3->execute();
-                        $result3 = $sql3->setFetchMode(PDO::FETCH_ASSOC);
-                        $result3 = $sql3->fetchAll();
-                        $answer = "The Election ". $result[$i]['election_name']. " has been created by ". $result3[0]['fname'] ." ". $result3[0]['lname']." on ". $result[$i]['date_created'];
-                        return $answer;
-                    }else{
-                        $answer = "false";
-                        return $answer;
-                    }
-                }
-                $i++;
-            }
-        }else{
-            $answer="false";
-            return $answer;
-        }
-    }catch(Exception $e){
-        //echo "connection failed ". $e->getMessage();
-    }
-}
-
 
 //Declaring variables
-$name_of_electionErr = $start_date_of_electionErr = $end_date_of_electionErr = $time_of_election_fromErr = $election_pinErr = $time_of_election_toErr =$message=$message2= "";
-$name_of_election = $start_date_of_election =$start_date_of_election1 = $end_date_of_election =  $end_date_of_election1 = $time_of_election_from = $time_of_election_to = $election_pin = "";
+$uploadErr=$picture_name=$imageFileType="";
+$name_of_electionErr = $start_date_of_electionErr = $end_date_of_electionErr = $time_of_election_fromErr =$dummy1=$dummy2=
+$election_pinErr = $time_of_election_toErr =$message=$message2= $privacy=$privacyErr="";
+$name_of_election = $name_of_election_temp = $start_date_of_election =$start_date_of_election1 = $end_date_of_election =
+$end_date_of_election1 = $time_of_election_from = $time_of_election_to = $election_pin = "";
 $last_election_id=0;
 $last_post_id=0;
 $now_date =convert_date(date("Y-m-d"));
-//$now_time = convert_date(date("h:i"));
+$now_time = convert_date(date("H:i:s"));
 
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(empty($photo_name)){
+        //validating photo file selected
+        $target_dir = "../images/users/";
+        $uploadOK = 0;
+        $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
+        $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
+        if (!empty($_FILES["image"]["name"])) {
+            //$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
+            $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id . ".";
+            $name = $currentTime;
+            $target_file = $target_dir . $name . $imageFileType;
+
+            $folderIsWritable = is_writable($target_dir);
+            if ($folderIsWritable) {
+                if($_FILES["image"]["error"]==1) {
+                    $uploadErr = " Size of photo must not exceed 2MB";
+                }elseif($_FILES["image"]["error"]==2) {
+                    $uploadErr = $_FILES["image"]["name"]. " is too big". "(max: 2MB)";
+                }elseif($_FILES["image"]["error"]==3) {
+                    $uploadErr = "The uploaded file was only partially uploaded";
+                }elseif($_FILES["image"]["error"]==4){
+                    $uploadErr ="No file was uploaded";
+                }else if($_FILES["image"]["error"]==6) {
+                    $uploadErr= " Sorry temporary folder is missing on our server ";
+                }else if($_FILES["image"]["error"]==7) {
+                    $uploadErr= " Failed to write file to disk.";
+                }else if($_FILES["image"]["error"]==8) {
+                    $uploadErr= " A PHP extension stopped the file upload.";
+               }else {
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if ($check !== false) {
+                        if (!($imageFileType != 'jpeg' || $imageFileType != "png" || $imageFileType != "jpg")) {
+                            $uploadErr = "Only images with jpeg, png or jpg is allowed";
+                        } elseif (($_FILES["image"]["size"] > 2097152 || $_FILES["image"]["size"] < 20480)) {
+                            $uploadErr = "Photo size should be between 20KB and 2MB";
+                        } else {
+                            $success = "";
+                        }
+
+                    } else {
+                        $uploadErr = "File is not an image";
+                    }
+                }
+            } else {
+                trigger_error("Sorry cannot currently write to folder images");
+
+                $success = "false";
+            }
+        } else {
+            $uploadErr = "No image file has been chosen yet please choose a valid picture.";
+        }
+
+    }
+
+    $dummy1=$_POST['start_date'];
+    $dummy2=$_POST['end_date'];
+
     if (empty($_POST["name_of_election"])) {
         $name_of_electionErr = "Name of election is required";
-    } else if (!preg_match("/^[a-zA-Z ]*$/", test_inputs($_POST["name_of_election"]))) {
+    } else if (!preg_match("/^[a-zA-Z0-9 ]*$/", try_input($_POST["name_of_election"]))) {
         $name_of_electionErr = "Only letters and white space allowed";
     } else {
-        $name_of_election = test_inputs($_POST["name_of_election"]);
+        $name_of_election_temp = try_input($_POST["name_of_election"]);
+        $election_namearray = array();
+        $election_namearray = explode(" ", ucwords($name_of_election_temp));
+        for ($i = 0; $i < count($election_namearray); $i++) {
+            if (!empty($election_namearray[$i])) {
+                $name_of_election = $name_of_election . " " . trim($election_namearray[$i]);
+            }
+        }
+        $name_of_election = trim($name_of_election);
     }
 
-    if (empty($_POST["start_date_of_election"])) {
+if (($_POST["start_date"]==='') ) {
         $start_date_of_electionErr = "Start date of election is required";
     } else {
-        $start_date_of_election1 = convert_date(test_inputs($_POST["start_date_of_election"]));
-        if($now_date > $start_date_of_election1){
-            $start_date_of_electionErr = "Time is in the past";
-        }else{
-            $start_date_of_election = test_inputs($_POST["start_date_of_election"]);
+        $start_date_of_election1 = convert_date(try_input($_POST["start_date"]));
+        if ($now_date > $start_date_of_election1) {
+            $start_date_of_electionErr = "Invalid start date of election, date is in the past";
+        } else {
+            $start_date_of_election = try_input($_POST["start_date"]);
         }
 
     }
 
-    if (empty($_POST["end_date_of_election"])) {
+    //comparing between start and end date of election
+    if (($_POST["end_date"]==='')) {
         $end_date_of_electionErr = "End date of election is required";
     } else {
-        $end_date_of_election = test_inputs($_POST["end_date_of_election"]);
-        $end_date_of_election1 = convert_date($end_date_of_election);
-        if($now_date > $end_date_of_election1){
-            $end_date_of_electionErr = "Time is in the past";
+        $end_date_of_election1 = convert_date(try_input($_POST["end_date"]));
+        if ($now_date > $end_date_of_election1) {
+            $end_date_of_electionErr = "Invalid end date of election, date is in the past";
+        } elseif ($start_date_of_election1 > $end_date_of_election1) {
+            $end_date_of_electionErr = "Invalid election duration, end date of election cannot be less than the start date";
+        } else {
+            $end_date_of_election = try_input($_POST["end_date"]);
         }
 
-
-        //comparing between start and end date of election
-        if($start_date_of_election1 > $end_date_of_election1){
-            $end_date_of_electionErr = "Invalid election duration";
-        }else{
-            $end_date_of_electionErr = "";
-        }
     }
 
-
-
-    if (empty($_POST["time_of_election_from"])) {
-        $time_of_election_fromErr = "start time of election is required";
+    $time_of_election_from_temp = $time_of_election_to_temp = "";
+    if (empty($_POST["number_of_posts"])) {
+        $number_of_postsErr = "Number of post for the election is required";
     } else {
-        $time_of_election_from = test_inputs($_POST["time_of_election_from"]);
-        //$time_of_election_from1 = convert_date($time_of_election_from);
+        $number_of_posts = $_POST["number_of_posts"];
     }
 
-    if (empty($_POST["time_of_election_to"])) {
+    if ($_POST["end_hour"]===''|| $_POST["end_minute"]==='') {
         $time_of_election_toErr = "End time of election is required";
 
     } else {
-        $time_of_election_to = test_inputs($_POST["time_of_election_to"]);
-        // $time_of_election_to1 = convert_date($time_of_election_to);
-    }
+        $time_of_election_to_temp = $_POST["end_hour"].':'.$_POST["end_minute"].':'.'00';
 
+    }
 
     //if start and end date is same
-    if($start_date_of_election1 == $end_date_of_election1){
-        $time_of_election_from1 = convert_date($time_of_election_from);
-        $time_of_election_to1 = convert_date($time_of_election_to);
-        if($time_of_election_from1 > $time_of_election_to1){
-            $time_of_election_toErr = "Invalid time, election date is same";
+    if ($_POST["start_hour"]==='' || $_POST["start_minute"]==='') {
+        $time_of_election_fromErr = "start time of election is required";
+    } else {
+        $time_of_election_from_temp = $_POST["start_hour"].':'.$_POST["start_minute"].':'.'00';
+        if (convert_date($start_date_of_election) === convert_date($end_date_of_election) && convert_date($end_date_of_election) === $now_date) {
+            $time_of_election_from1 = convert_date($time_of_election_from_temp);
+            $time_of_election_to1 = convert_date($time_of_election_to_temp);
+            if ($time_of_election_from1 < $now_time) {
+                $time_of_election_fromErr = "Invalid time, election date is same, time is in the past ";
+            } else {
+                $time_of_election_from = $time_of_election_from_temp;
+                if ($time_of_election_to1 < $now_time) {
+                    $time_of_election_toErr = "Invalid time, election date is same, time is in the past ";
+                } else {
+                    if($time_of_election_to1< $time_of_election_from1){
+                        $time_of_election_toErr = "Invalid end time of election, end time of election cannot be less than the start time";
+                    }elseif($time_of_election_to1==$time_of_election_from1 || $time_of_election_to1 < ($time_of_election_from1 + (2*60*60))) {
+                        $time_of_election_toErr = "At least a minimum of 2 hours election duration is required" ;
+                    }else {
+                        $time_of_election_to = $time_of_election_to_temp;
+                    }
+                }
+            }
+        }elseif (convert_date($start_date_of_election) === convert_date($end_date_of_election)){
+            $time_of_election_from1 = convert_date($time_of_election_from_temp);
+            $time_of_election_to1 = convert_date($time_of_election_to_temp);
+            $time_of_election_from = $time_of_election_from_temp;
+            if($time_of_election_to1< $time_of_election_from1){
+                $time_of_election_toErr = "Invalid end time of election, end time of election cannot be less than the start time";
+            }elseif($time_of_election_to1==$time_of_election_from1 || $time_of_election_to1 < ($time_of_election_from1 + (2*60*60))) {
+                $time_of_election_toErr = "At least a minimum of 2 hours election duration is required" ;
+            }else {
+                $time_of_election_to = $time_of_election_to_temp;
+            }
+
+        }else{
+            $time_of_election_from = $time_of_election_from_temp;
+            $time_of_election_to = $time_of_election_to_temp;
         }
+
+    }
+    //validating privacy
+    if (empty($_POST["privacy"])) {
+        $privacyErr = "Privacy of election is required";
+    } else {
+        $privacy = $_POST["privacy"];
     }
 
-    $serverName = "localhost";
-    $userName = "root";
-    $password = "eminence";
-    $election_pin = election_pins();
-    $date_created = date('Y-m-d');
-    $user_id = user_id_from_session();
-    $posts = post_pin();
 
-    try {
-        $conn = new PDO("mysql:host=$serverName; dbname=eVoting", $userName, $password);
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-        if ($name_of_election && $start_date_of_election && $end_date_of_election && $time_of_election_from && $time_of_election_to != "" && count($posts)!=0) {
 
-            if(check_election_in_database($name_of_election, $start_date_of_election, $user_id, $posts)=="true"){
-                $message="This election has already been created by you";
-            }elseif(check_election_in_database($name_of_election, $start_date_of_election, $user_id, $posts)=="false") {
+}
+
+$election_pin = election_pins();
+$posts = post_pin();
+if(count(array_unique(array_values($posts)))<count(array_values($posts))){
+    $message="No two posts can have the same you";
+}
+
+
+    if ($name_of_election && $start_date_of_election && $end_date_of_election && $time_of_election_from && $time_of_election_to && $privacy != "" && count($posts)!=0) {
+
+        $sql3 = $connection1->prepare("SELECT * FROM election WHERE user_id='$user_id'");
+        $sql3->execute();
+        $result2=$sql3->setFetchMode(PDO::FETCH_ASSOC);
+        $result2=$sql3->fetchAll();
+        if(count($result2)<12){
+
+            $sql2 = $connection1->prepare("SELECT * FROM election WHERE election_name='$name_of_election'");
+            $sql2->execute();
+            $result1=$sql2->setFetchMode(PDO::FETCH_ASSOC);
+            $result1=$sql2->fetchAll();
+            if(empty($result1)){
+
                 $csv_name = date('His') . trim($_FILES['election_csv']['name']);
                 $csv_type = $_FILES['election_csv']['type'];
                 $csv_size = $_FILES['election_csv']['size'];
                 $csv_tmp = $_FILES['election_csv']['tmp_name'];
-                $csv_arr= explode('.', $csv_name);
-                $csv_ext= strtolower(array_pop($csv_arr));
-                $csv_valid_types = array('text/csv', 'text/plain', 'application/csv', 'text/comma-separated-values',
-                    'application/excel', 'application/vnd.ms-excel', 'application/vnd.msexcel',
-                    'text/anytext', 'application/octet-stream', 'application/txt');
+                $csv_ext= strtolower(end(explode('.', $csv_name)));
+                $csv_valid_types = array('text/csv', 'application/csv', 'text/comma-separated-values',
+                    'application/excel', 'application/vnd.ms-excel', 'application/vnd.msexcel','application/octet-stream');
+
 
                 $target = CSV_PATH . basename($csv_name);
 
                 if(!is_uploaded_file($csv_tmp)) {
-                    $errors[] = 'Please upload CSV file';
+                    $errors[0] = 'Please upload CSV file';
                 }
                 elseif($csv_size > MAX_FILE_SIZE) {
                     $errors[] = 'The CSV file must not be greater than ' . (MAX_FILE_SIZE / 1024) . 'KB';
                 }
                 elseif(!in_array($csv_type, $csv_valid_types) || $csv_ext !== 'csv')  {
-                    $errors[] = 'Uploaded file must be in the CSV format';
+                    $errors[0] = 'Uploaded file must be in the CSV format';
                 }
                 elseif(!move_uploaded_file($csv_tmp, $target)) {
                     $errors[] = 'There was problem uploading your csv file';
@@ -280,7 +253,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $field_count = 0;
 
                 if(!$csvFields) {
-                    $errors[] = 'Cannot read csv file. Please upload a valid csv file';
+                    $errors[0] = 'Cannot read csv file. Please upload a valid csv file';
                 }
                 else {
                     foreach($csvFields as $field) {
@@ -289,15 +262,59 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     if($field_count != 1) {
                         $errors[] = 'Please upload a csv file containing emails only';
                     }
+
+                    $csvArray = base64url_encode(serialize($csvFields));
+
+                    $emails = array_values_recursive($csvFields);
+                    $valid_email_count = 0;
+                    if(count($emails) == 0) {
+                        $errors[] = 'The uploaded csv file contains no valid email address';
+                    }
+                    else {
+                        foreach($emails as $row => $email) {
+                            if(strpos($email, '@') == false) {
+                                $valid_email_count++;
+                            }
+                        }
+                        if($valid_email_count > 1) {
+                            $errors[] = 'Please upload a csv file containing email addresses';
+                        }
+                    }
                 }
 
-                if(empty($errors)) {
-                    $sql1 = "INSERT INTO election(election_name, election_start_date, election_end_date, election_time_from, election_time_to, election_pin, user_id)
-                    VALUES('$name_of_election', '$start_date_of_election', '$end_date_of_election', '$time_of_election_from', '$time_of_election_to', '$election_pin', '$user_id')";
-                    $conn->exec($sql1);
-                    $last_election_id = $conn->lastInsertId();
+                $status = array('valid' => false);
 
-                    $sql = $conn->prepare("INSERT INTO posts(post_key, post, election_id)VALUES (:posts_key, :posts_post, :last_election_id)");
+                if(empty($errors) && empty($uploadErr) ) {
+                    if(empty($photo_name)){
+                        //moving the photo to its directory
+                        if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
+                            $picture_name = $name . $imageFileType;
+                            //$picture_name = basename($_FILES["image"]["name"]);
+                            $success = "The file was successfully uploaded";
+                            $uploadOK = 1;
+                        } else {
+                            $success = "The file was not successfully uploaded.";
+                            $uploadOK=0;
+                        }
+
+
+                        //verify if the picture_name to be keyin to the database is not a space
+                        if($picture_name != "" ){
+                            //update the picture name in the database
+                            $sql_picture_name = "UPDATE users SET picture_name = '$picture_name' WHERE email = '$myemail'";
+                            $connection1->exec($sql_picture_name);
+                        }
+                    }
+
+                    $start_date_of_election=explodeDatePicker($start_date_of_election);
+                    $end_date_of_election=explodeDatePicker($end_date_of_election);
+
+                    $sql1 = "INSERT INTO election(election_name, election_start_date, election_end_date, election_time_from, election_time_to, election_pin, user_id, privacy)
+                    VALUES('$name_of_election', '$start_date_of_election', '$end_date_of_election', '$time_of_election_from', '$time_of_election_to', '$election_pin', '$user_id', '$privacy')";
+                    $connection1->exec($sql1);
+                    $last_election_id = $connection1->lastInsertId();
+
+                    $sql = $connection1->prepare("INSERT INTO posts(post_key, post, election_id)VALUES (:posts_key, :posts_post, :last_election_id)");
                     $sql->bindParam(':posts_key', $posts_key_value);
                     $sql->bindParam(':posts_post', $posts_post_value);
                     $sql->bindParam(':last_election_id', $last_election_id_value);
@@ -308,61 +325,109 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         $last_election_id_value = $last_election_id;
                         $sql->execute();
                     }
-                    $last_post_id = $conn->lastInsertId();
+                    $last_post_id = $connection1->lastInsertId();
 
                     //csv module
-
+                    $status['valid'] = true;
                     $select_query = "SELECT email, user_id FROM users";
-                    $smh = $conn->prepare($select_query);
+                    $smh = $connection1->prepare($select_query);
 
-                    if ($smh->execute()) {
+                    if($smh->execute()) {
                         $result = $smh->fetchAll(PDO::FETCH_ASSOC);
                     }
 
                     $fields = array('user_id', 'email');
                     $valid_voters_id = csv_valid_voters($csvFields, $result, $fields);
+                    $_SESSION['csv'] = $csvArray;
 
-                    if ($valid_voters_id) {
+                    if($valid_voters_id) {
                         $query_electionId = "SELECT election_id FROM election WHERE election_pin = '$election_pin'";
-                        foreach ($conn->query($query_electionId) as $election) {
+                        foreach($result = $connection1->query($query_electionId) as $election) {
                             $election_id = $election['election_id'];
                         }
+                        $result->closeCursor();
 
-                        for ($i = 0; $i < count($valid_voters_id); $i++) {
+                        for($i=0; $i<count($valid_voters_id); $i++) {
                             $valid_voters_id[$i]['election_id'] = $election_id;
                         }
 
-                        foreach ($valid_voters_id as $voter) {
-                            $insertQuery = "INSERT INTO joined (user_id, election_id) VALUES (:user_id, :election_id)";
-                            $smh = $conn->prepare($insertQuery);
+                        foreach($valid_voters_id as $voter) {
+                            $insertQuery = "INSERT INTO invites (user_id, election_id) VALUES (:user_id, :election_id)";
+                            $smh = $connection1->prepare($insertQuery);
                             $smh->execute($voter);
                         }
-                        $valid_users_emails = csv_valid_voters($csvFields, $result, $fields, 1);
-                    } else @unlink($target);
+                    }
+                    else $status['valid'] = false;
                 }
-            }else {
-                $message = check_election_in_database($name_of_election, $start_date_of_election, $user_id, $posts);
+                else @unlink($target);
             }
+            else {
+                $message = "Sorry this election has already been created by another person";
+            }
+        }else{
+            $message = "Sorry the maximum numbers of elections you can create is only five";
         }
-
-
-    }
-    catch (PDOException $e) {
-        echo "connection failed: " . $e->getMessage();
     }
 
+    $connection1 = null;
 
-    $conn = null;
-}
 
 if ($last_election_id >0 && $last_post_id > 0) {
-    $v_voters = base64url_encode(serialize($valid_voters_id));
-    $v_users = base64url_encode(serialize($valid_users_emails));
-    $page = 'createelection3.php?inid=' . $v_voters . '&notinid=' . $v_users;
-    header('Location: ' . $page);
+    $status = base64url_encode(serialize($status));
+    $page = 'createelection3.php?status=' . $status;
+    header('Location: '. $page);
+}
 
-}else{
-//    $message2= "Election creation is Unsuccessful please fill in the necessary fields and try again";
+function post_pin()
+{
+    $posts = $post_namearray =array();
+    if (isset($_POST["submit"])) {
+        $number_of_posts = $_POST["number_of_posts"];
+        for ($i = 1; $i <= $number_of_posts; $i++) {
+            $currentPost = 'post' . $i;
+            $currentPin = 'pin' . $i;
+            $name_of_post_temp = trim($_POST[$currentPost]);
+
+            $name_of_post="";
+            $post_namearray = explode(" ", ucwords($name_of_post_temp));
+            for ($j = 0; $j < count($post_namearray); $j++) {
+                if (!empty($post_namearray[$j])) {
+                    $name_of_post = $name_of_post . " " . trim($post_namearray[$j]);
+                }
+                $posts[$_POST[$currentPin]] = trim($name_of_post);
+            }
+        }
+    }
+    return $posts;
+
+}
+
+function election_pins(){
+    $election_pin_occur=false;
+    global $connection1;
+    $count=0;
+    do{
+        $elect_pin =   (range('A','Z')[rand(0,25)]).(range('A','Z')[rand(0,25)]).rand(10, 999999). (range('A','Z')[rand(0,25)]).(range('A','Z')[rand(0,25)]);
+        try {
+            $stmt = $connection1->prepare("SELECT * FROM election WHERE election_pin='$elect_pin'");
+            $stmt->execute();
+            $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
+            $result = $stmt->fetchAll();
+            if (empty($result)) {
+                return $elect_pin;
+            }else{
+
+                $election_pin_occur=true;
+
+            }
+
+        }catch (PDOException $e) {
+            echo "connection failed: " . $e->getMessage();
+        }
+
+    }while($election_pin_occur);
+
 }
 
 ?>
+

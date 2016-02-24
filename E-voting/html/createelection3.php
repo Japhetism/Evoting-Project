@@ -1,23 +1,17 @@
 <?php
 require_once '../php/csv.php';
 
-//include('session.php');
+error_reporting(0);
 
-session_start();
+require_once '../php/connection.php';
+include_once('../php/session.php');
 
-include('../php/connection.php');
 
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
+if(isset($_GET['status']) && isset($_SESSION['csv'])) {
+    $status = unserialize(base64url_decode($_GET['status']));
+    $csv_arrays = unserialize(base64url_decode($_SESSION['csv']));
 }
-
-
-//submitting the form
-if(!empty($_POST["submit"]) && isset($_POST["submit"])){
-    header("Location:maindashboard.php");
-}
-
+else header('Location: createelection1.php');
 ?>
 
 
@@ -84,7 +78,7 @@ if(!empty($_POST["submit"]) && isset($_POST["submit"])){
 			<ul class="nav navbar-nav side-nav">
 				<h4><span class="fa fa-th-large"></span> Dashboard</h4>
 				<li >
-					<a href="maindashboard.php" data-toggle="collapse" data-target="#accounts"><i class="fa fa-fw fa-th"></i>My Elections<i class="fa fa-fw fa-caret-right"></i></a>
+					<a  data-toggle="collapse" data-target="#accounts"><i class="fa fa-fw fa-th"></i>My Elections<i class="fa fa-fw fa-caret-right"></i></a>
 						<ul id="accounts" class="collapse">
 							<li>
 								<a href="#"><i class="fa fa-fw fa-edit"></i>Manage Created Election</a>
@@ -101,7 +95,7 @@ if(!empty($_POST["submit"]) && isset($_POST["submit"])){
                             <a class="inactive" href="#">Step 1<i class="fa fa-check"> </i></a>
                         </li>
                         <li>
-                            <a class="inactive" href="createelection2.php">Step 2<i class="fa fa-check"> </i></a>
+                            <a class="inactive" href="#">Step 2<i class="fa fa-check"> </i></a>
                         </li>
                         <li>
                             <a class="active" href="#">Step 3<i class="fa fa-spinner fa-spin"> </i></a>
@@ -127,47 +121,71 @@ if(!empty($_POST["submit"]) && isset($_POST["submit"])){
                             <div class="row">
                                 <div class="col-lg-8 col-lg-offset-2 form">
                                     <fieldset>
-                                        <form name = "thatForm" >
 											<div class="row" style="padding-top:30px;">
                                                 <div class="col-md-12" id="csvemails">
 													<p style="font-size:30px;font-weight:bolder;">Election created successfully <span class='fa fa-check' style='color:lawngreen;'> </span></p>
-													<?php
-                                                        if(isset($_GET['inid']) && isset($_GET['notinid'])) {
-                                                            $v_voters = $_GET['inid'];
-                                                            $valid_voters_id = base64url_decode($v_voters);
-                                                            $valid_voters_id = unserialize($valid_voters_id);
+                                                    <?php
+                                                        $error = false;
+                                                        if($status['valid'] == true) {
+                                                            if(is_array($csv_arrays) && !empty($csv_arrays)) {
+                                                                $select_query = "SELECT email FROM users";
+                                                                $smh = $connection1->prepare($select_query);
 
-                                                            $u_voters = $_GET['notinid'];
-                                                            $valid_users_emails = base64url_decode($u_voters);
-                                                            $valid_users_emails = unserialize($valid_users_emails);
-
-                                                            $user_ids = array();
-                                                            foreach($valid_voters_id as $voters => $voter) {
-                                                                array_push($user_ids, $voter['user_id']);
-                                                            }
-
-                                                            $result = array();
-                                                            for($i=0; $i<count($user_ids); $i++) {
-                                                                $getEmailQuery = "SELECT email FROM users WHERE user_id = '$user_ids[$i]'";
-                                                                foreach($connection1->query($getEmailQuery) as $row) {
-                                                                    array_push($result, $row['email']);
+                                                                if($smh->execute()) {
+                                                                    $result_1 = $smh->fetchAll(PDO::FETCH_ASSOC);
                                                                 }
-                                                            }
+                                                                else {
+                                                                    echo 'Not executed';
+                                                                }
+                                                                $fields = array('email');
+                                                                $valid_users = csv_valid_voters($csv_arrays, $result_1, $fields, 1);
+                                                                $valid_voters = array_values_recursive(csv_valid_voters($csv_arrays, $result_1, $fields));
+                                                                $user_count = (empty($valid_users)) ? 0 : count($valid_users);
 
-                                                            $csvFields = array_merge($valid_users_emails, $result);
+                                                                if(empty($valid_voters)) {
+                                                                    $error = true;
+                                                                }
+                                                                else echo '<p>The total number of individuals invited for election is: ' . count($valid_voters) . '</p>';
+                                                                echo '<p>The total number of individuals not invited for election is: ' . $user_count . '</p>';
 
-                                                            $count = (count($csvFields) - 5 <= 0) ? count($csvFields) : 5;
-															if ($count>0){
-																echo"<h3>These E-mail address(es) were not found on our database, please notify them to create an account with us and join the election manually</h3><hr>";
+                                                                unset($_SESSION['csv']);
                                                             }
-															for($i=0; $i<$count; $i++) {
-                                                                echo $csvFields[$i] . '<br>';
+                                                            else {
+                                                                echo '<p>There was a problem displaying the final outcome of election creation. Please proceed to be sure of the final outcome</p>';
                                                             }
+                                                        }
+                                                        if($status['valid'] == false || $error) {
+                                                        ?>
+                                                            <p><strong>Please Note: </strong>No individual with the email address(es) in the uploaded csv file has an active account.</p>
+                                                    <?php
+                                                        }
+                                                        echo '<hr><p style="font-size: 1.2em; font-weight:bold;">The first five (or less) email addresses in the uploaded csv file are as follows:<p>';
+                                                        $count = ((count($csv_arrays) - 5) <= 0) ? count($csv_arrays) : 5;
+                                                        $emails = array_values_recursive($csv_arrays);
+                                                        if(is_array($emails)) {
+                                                            echo '<table><tr><th>Index</th><th>Email</th></tr>';
+                                                            for($i=0; $i<$count; $i++) {
+                                                                $j = $i + 1;
+                                                                echo '<tr><td>' . $j . '</td><td style="text-align:left;">' . $emails[$i] . '</td></tr>';
+                                                            }
+                                                            echo '</table>';
+                                                        }
+                                                        else echo '<p>There was a problem displaying the final outcome of election creation. Please proceed to be sure of the final outcome</p>';
+
+                                                        foreach($csv_arrays as $array => $value) {
+                                                            if(is_array($value))
+                                                                $key = array_keys($value);
+                                                            else $key = $array[0];
+                                                        }
+
+                                                        if(strpos($key[0], '@')) {
+                                                            echo '<hr>';
+                                                            echo '<p><em>**Please note that </em><strong>' . $key[0] . '</strong><em> is invalid as it was used as the header of the csv file uploaded**</em></p>';
                                                         }
                                                     ?>
                                                 </div>
+                                                <a href="maindashboard.php"><input type="button" class="btn btn-success" value="Finish"></a>
                                             </div>
-                                        </form>
                                     </fieldset>
                                 </div>
                             </div>

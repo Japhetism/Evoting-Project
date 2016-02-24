@@ -1,17 +1,12 @@
 <?php
-//include('session.php');
-
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
+include_once('../php/register_candidate.php');
 ?>
 
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/html">
+<html lang="en" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
 
 <head>
+
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -39,11 +34,11 @@ if(isset($_SESSION['login_user'])){
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+
 </head>
 <body>
 
 <div id="wrapper">
-
     <!-- Navigation -->
     <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -125,63 +120,81 @@ if(isset($_SESSION['login_user'])){
     <div class="col-md-8 col-md-offset-2 col-sm-6 col-xs-12 personal-info">
       
       <h3 style="padding-left:55px;border-bottom:1px solid">Information</h3><br>
-      <form class="form-horizontal" role="form" id="706641944">
-        <div class="form-group">
+      <form enctype="multipart/form-data"class="form-horizontal" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="POST">
+        <div class="form-group"><span class="error"><?php echo $registration_message; ?></span>
           <label class="col-lg-3 control-label">first name:</label>
           <div class="col-md-8">
-            <input class="form-control" type="text">
+            <input class="form-control" type="text" value="<?php echo $contestant_fname;?>">
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label">last name:</label>
           <div class="col-md-8">
-            <input class="form-control" type="text">
+            <input class="form-control" type="text" value="<?php echo $contestant_lname; ?>">
           </div>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label">Email:</label>
           <div class="col-lg-8">
-            <input class="form-control" type="email" placeholder="Email address" required/>
+            <input class="form-control" type="email" placeholder="Email address" value="<?php echo $myemail; ?>" />
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Username:</label>
           <div class="col-md-8">
-            <input class="form-control" type="text">
+            <input class="form-control" type="text" name="" value="<?php echo $contestant_username; ?>">
+          </div>
+        </div>
+          <div class="form-group">
+              <label class="col-md-3 control-label">Nickname:</label>
+              <div class="col-md-8">
+                  <input class="form-control" type="text" name="nick_name" value="<?php echo $nick_name; ?>"><span class="error"> <?php echo $nick_nameErr; ?></span>
+              </div>
+          </div>
+        <div class="form-group">
+          <label class="col-md-3 control-label">Post:</label>
+          <div class="col-md-8">
+                <?php echo $postString;?>
+              <span class="error"><?php echo $contestant_postErr; ?></span>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Pin:</label>
           <div class="col-md-8">
-            <input class="form-control" type="pin">
-          </div>
-        </div>
-        <div class="form-group">
-          <label class="col-md-3 control-label">Post:</label>
-          <div class="col-md-8">
-            <input class="form-control" type="text">
+            <input class="form-control" type="text" name="contestant_pin" value="<?php echo $contestant_pin_temp; ?>"><span class="error"> <?php echo $contestant_pinErr; ?></span><span class="error"> <?php echo $errors; ?></span>
           </div>
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Manifesto:</label>
           <div class="col-md-8">
-            <input class="form-control" type="textbox">
+            <input class="form-control" type="number" id="no_of_points" name="manifesto_points" value="" oninput="myfunction2()" min="1" max="10" placeholder="No of manifesto_points" ><span class="error"> <?php echo $no_manifesto_pointsErr; ?></span>
+          </div>
+        </div>
+          <div class="form-group">
+              <div class="col-md-1 col-md-offset-2 " id="dem1">
+
+              </div>
+              <div class="col-md-8" id="dem">
+
+              </div>
           </div>
           <div class="form-group" style="margin-top:50px;margin-left:-3px">
             <label class="col-md-3 control-label">Picture: </label>
                 <div class="col-md-9">
-                    <input type="file" class="btn btn-default">
+                    <input type="file" name="image" class="btn btn-default">
                         <p class="help-block">
-                        Pls ensure the file being uploaded is clear picture of yourself.
+                        Pls ensure the file being uploaded is clear picture of yourself.<br><span class="error"> <?php echo $uploadErr; ?></span>
+                            <span class="error"> <?php echo $success; ?></span>
                         </p>
                 </div>
          </div>
           <div class="form-group" style="margin-top:30px;margin-left:-3px">
             <label class="col-md-3 control-label">Citation: </label>
                 <div class="col-md-9">
-                    <input type="file" class="btn btn-default">
+                    <input type="file" name="citation" class="btn btn-default">
                         <p class="help-block">
-                        Pls ensure the file being uploaded is a text file.
+                        Pls ensure the file being uploaded is a text file.<br>
+                            <span class="error"> <?php echo $uploadCitationErr; ?></span><span class="error"> <?php echo $successC; ?></span>
                         </p>
                 </div>
          </div>
@@ -189,7 +202,7 @@ if(isset($_SESSION['login_user'])){
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input class="btn btn-primary" value="Save" type="button">
+            <input class="btn btn-primary" value="Save" name="submit" type="submit">
             <span></span>
             <input class="btn btn-default" value="Cancel" type="reset">
           </div>
@@ -205,6 +218,9 @@ if(isset($_SESSION['login_user'])){
 
 <!-- Bootstrap Core JavaScript -->
 <script src="../js/bootstrap.min.js"></script>
+
+<!-- Custom JavaScript -->
+<script src="../js/contestant.js"></script>
 
 </body>
 

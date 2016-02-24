@@ -1,11 +1,13 @@
 <?php
-//include('session.php');
+include('../php/session.php');
 
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
+//session_start();
+//
+//if(isset($_SESSION['login_user'])){
+//    $myemail = $_SESSION['login_user'];
+//}else{
+//    header("Location:index.php");
+//}
 ?>
 
 <!DOCTYPE html>

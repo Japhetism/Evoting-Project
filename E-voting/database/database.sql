@@ -7,11 +7,13 @@ CREATE TABLE IF NOT EXISTS users(
   fname VARCHAR (100) NOT NULL ,
   lname VARCHAR (100) NOT NULL ,
   username VARCHAR (100) NOT NULL,
-  email VARCHAR (100) NOT NULL UNIQUE ,
+  email VARCHAR (100) NOT NULL UNIQUE,
   phone VARCHAR (20) NOT NULL,
   password VARCHAR (100) NOT NULL,
+  gender VARCHAR (10) NOT NULL,
   date_created TIMESTAMP NOT NULL ,
-  status BOOLEAN DEFAULT 0
+  status BOOLEAN DEFAULT 0,
+  picture_name VARCHAR (100)
 );
 
 DROP TABLE IF EXISTS election;
@@ -25,6 +27,7 @@ CREATE TABLE IF NOT EXISTS election(
   election_pin VARCHAR (20) NOT NULL ,
   date_created TIMESTAMP NOT NULL,
   user_id INT UNSIGNED ,
+  privacy VARCHAR (10) NOT NULL ,
   CONSTRAINT fk_election_election_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -33,6 +36,7 @@ CREATE TABLE IF NOT EXISTS joined(
   joined_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
   user_id INT UNSIGNED ,
   election_id INT UNSIGNED ,
+  has_voted BOOLEAN DEFAULT 0,
   CONSTRAINT fk_joined_user_id FOREIGN KEY (user_id) REFERENCES users(user_id),
   CONSTRAINT fk_joined_election_id FOREIGN KEY (election_id) REFERENCES election(election_id)
 
@@ -51,9 +55,10 @@ CREATE TABLE IF NOT EXISTS posts(
 DROP TABLE IF EXISTS contestants;
 CREATE TABLE IF NOT EXISTS contestants(
   contestant_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  picture_name VARCHAR (50),
+  picture_name VARCHAR (100),
   nickname VARCHAR (100),
   number_of_votes INT DEFAULT 0,
+  citation_name VARCHAR(100),
   post_id INT UNSIGNED ,
   election_id INT UNSIGNED ,
   user_id INT UNSIGNED ,
@@ -73,17 +78,29 @@ CREATE TABLE IF NOT EXISTS manifesto(
 DROP TABLE IF EXISTS request;
 CREATE TABLE IF NOT EXISTS request(
   request_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  request_date TIMESTAMP NOT NULL,
   user_id INT UNSIGNED ,
   election_id INT UNSIGNED ,
   CONSTRAINT fk_request_election_id FOREIGN KEY (election_id) REFERENCES election(election_id),
   CONSTRAINT fk_request_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
+DROP TABLE IF EXISTS invites;
+CREATE TABLE IF NOT EXISTS invites(
+  invite_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+  user_id INT UNSIGNED ,
+  election_id INT UNSIGNED ,
+  invite_date TIMESTAMP NOT NULL,
+  CONSTRAINT fk_invites_election_id FOREIGN KEY (election_id) REFERENCES election(election_id),
+  CONSTRAINT fk_invites_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
+);
+
 DROP TABLE IF EXISTS news;
 CREATE TABLE IF NOT EXISTS news(
   news_id INT UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-  news TEXT,	
+  news TEXT,
   election_id INT UNSIGNED ,
+  date_created TIMESTAMP ,
   CONSTRAINT fk_news_election_id FOREIGN KEY (election_id) REFERENCES election(election_id)
 );
 

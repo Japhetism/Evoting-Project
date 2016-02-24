@@ -1,17 +1,50 @@
 <?php
-//include('session.php');
+include('../php/session.php');
+include_once('../php/post_news.php');
+include_once('../php/session.php');
 
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
+    //open connection
+    include_once('../php/connection.php');
+    //get election key
+    $key=$_GET['key'];
+    $election_idd = substr($key,9,strlen($key)-17);
+    //check if key is valid
+    $election_id_check_query="SELECT * FROM election WHERE election_id='$election_idd'";
+    $election_id_check= mysqli_query($connection2,$election_id_check_query);
+    $election_details= mysqli_fetch_row($election_id_check);
+    //redirect if election is not present
+    if(count($election_details)===0){
+        header("Location:maindashboard.php");
+    }else{
+        $election_id=$election_details[0];
+        //check if the user is truly the admin of the election using the session email and the election id
+        //get user_id from email
+        $user_id_query="SELECT user_id FROM users WHERE email='$myemail'";
+        $user_id =mysqli_query($connection2,$user_id_query);
+        $user_id=mysqli_fetch_row($user_id);
+        //check if user is the admin
+        $is_user_admin_query="SELECT * FROM election WHERE user_id='$user_id[0]' AND election_id='$election_id'";
+        $is_user_admin= mysqli_query($connection2,$is_user_admin_query);
+        $is_user_admin=mysqli_fetch_row($is_user_admin);
+        if(count($is_user_admin)===0){
+            header("Location:maindashboard.php");
+        }else{
+            $date_diff=-strtotime(date("Y-m-d"))+strtotime(date($is_user_admin[2]));
+            $_SESSION['election_id'] = $key;
+        }
+        //user is now the admin of this election.
+    }
 ?>
 
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/html">
 
 <head>
+    <script type="text/javascript">
+        function news(id){
+            window.location = "editnews.php?under=" +id;
+        }
+    </script>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -124,61 +157,69 @@ if(isset($_SESSION['login_user'])){
                         <h3>Post News</h3>
                     </div>
            </div>
-               <div class="row">
-                   <div class="col-md-11">
-                       <textarea rows="4" style="max-width: 100%;min-width: 100%;max-height: 80px"></textarea>
-                   </div>
-                        <div class="col-md-11">
-                            <input type="submit" value="POST">
-                        </div>
-               </div>
-            <div class="row">
-                <div class="col-md-12 news" style="margin-top: 50px;font-size:20px;">
-                    <p>The Presidential and National Assembly elections in Nigeria were held on March 28-29, 2015. The INEC announced the official results in the early hours of April 1, 2015, Wednesday.</p>
-                </div>
-            </div>
+            <form method="post">
                 <div class="row">
-                    <div class="col-md-8">
-                        <input type="text" placeholder="write a comment" class="form-control">
-
+                    <div class="col-md-11">
+                        <textarea rows="4" name="post_news" style="max-width: 100%;min-width: 100%;max-height: 80px"></textarea>
+                    </div>
+                    <div class="col-md-11">
+                        <input type="submit" value="POST" name="post_submit">
                     </div>
                 </div>
-        </div>
-            <div class="col-md-4">
-            <h3 style="text-align: center">Invites</h3>
-                <ul style="display: inline-block;list-style:none;">
-                    <li >
-							<ul style="display: inline-block;list-style:none;"	>
-								<li>
-									dami_dare2009@yahoomail.com
-								</li>
-								<li>
-									<i class="fa fa-check"></i><i class="fa fa-close"></i>
-								</li>
-							</ul>
-					</li>
-                    <li >
-							<ul style="display: inline-block;list-style:none;"	>
-								<li>
-									taofeeqah.balogun@gmail.com
-								</li>
-								<li>
-									<i class="fa fa-check"></i><i class="fa fa-close"></i>
-								</li>
-							</ul>
-					</li>
-                    <li >
-							<ul style="display: inline-block;list-style:none;"	>
-								<li>
-									sofiebereshepherd@gmail.com
-								</li>
-								<li>
-									<i class="fa fa-check"></i><i class="fa fa-close"></i>
-								</li>
-							</ul>
-					</li>
-                 </ul>
+            </form>
+            <div class="row">
+                <div class="col-md-12 news" style="margin-top: 50px;font-size:20px;">
+                    <p><?php echo $posted_news;?></p>
+                </div>
             </div>
+
+        </div>
+
+                    <?php
+                    //lets get pending requests but we must check if election has not concluded
+                    $sender_id_query ="SELECT user_id FROM request WHERE election_id='$election_id'";
+                    $sender_highdee =mysqli_query($connection2,$sender_id_query);
+                    $sender_id =mysqli_fetch_row($sender_highdee)[0];
+                    if($sender_id!=''){
+                        $request_string='<div class="col-md-4">
+                                       <h3 style="text-align: center">Pending Requests<br>
+                                       <h5 style="margin-left: 20%">You can only accept or reject request before the start of the election.</h5></h3>
+                                        <ul style="display: inline-block;list-style:none;">';
+                        do{
+                            //get email of current sender and display it
+                            $sender_email_query="SELECT email FROM users WHERE user_id='$sender_id'";
+                            $sender_email= mysqli_query($connection2,$sender_email_query);
+                            $sender_email = mysqli_fetch_row($sender_email)[0];
+                            $specification=$sender_id.'_'.$election_id;
+                            $request_string.='<li>
+							                    <ul  style="display: inline-block;list-style:none;"	>
+								                    <li  style="display: inline-block;" class=';
+                            $request_string.=$specification;
+                            $request_string.='>';
+							$request_string.=           $sender_email;
+							$request_string.=       '</li>
+								                    <li id=';
+                            $request_string.=$date_diff;
+                            $request_string.=' style="display: inline-block;" class=';
+
+                            $request_string.=$specification;
+                            $request_string.='>
+                                                <span style="margin-left: 15px;" class="fa fa-check text-success acceptInvite"></span>
+                                                <span  style="margin-left: 15px;" class="fa fa-close text-danger rejectInvite"></span>
+
+								                    </li>
+							                    </ul>
+					                        </li>' ;
+
+
+                        }while($sender_id =mysqli_fetch_row($sender_highdee)[0]);
+                        $request_string.=' </ul>
+                                         </div>';
+                        print $request_string;
+                    }
+                    ?>
+
+
     </div>
  </div>
 </div>
@@ -187,6 +228,7 @@ if(isset($_SESSION['login_user'])){
 
 <!-- Bootstrap Core JavaScript -->
 <script src="../js/bootstrap.min.js"></script>
+<script src="../js/request.js"></script>
 
 </body>
 

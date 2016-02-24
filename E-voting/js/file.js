@@ -21,17 +21,17 @@ $(function() {
 			e.preventDefault();
 			$.ajax({
 				type: 'POST',
-				url: 'createelection3.php',
-				data: $("#thatForm").serialize(), 
+				url: '../php/join.php',
+				data: $("#thatForm").serialize(),
 				success: function(msg) {
-					var success=document.getElementById('success');
-					success.innerHTML="ELECTION CREATED SUCCESSFULLY <span class='fa fa-check' style='color:lawngreen;'> </span>";
-					success.style.fontSize= 30+"px";
-					success.style.fontWeight= "bolder";
-					document.getElementById("csvemails").style.display="block";
+					console.log(msg);
+					var success=document.getElementById('output');
+					
+					success.innerHTML=msg;
+                    success.style.color="red";
 				},
 				error:function(msg){
-					console.log(msg);
+					console.log(msg+"error");
 				}
 			});
 		});
@@ -43,7 +43,7 @@ $('.navbar-collapse ul li a').click(function() {
 });
 
 // swaps between the login and signup divs
-function showLogin(){
+/* function showLogin(){
     var login= document.getElementById('login');
     var signup= document.getElementById('signup');
 
@@ -57,6 +57,18 @@ function showSignup(){
 
     signup.style.display='block';
     login.style.display='none';
+} */
+
+
+//show or hide a div
+function showOrHideDiv(div_id){
+	var div=document.getElementById(div_id);
+	var div_visibility=div.style.display;
+	if (div_visibility=='none'){
+		div.style.display='block';
+	}else{
+		div.style.display='none';
+	}
 }
 
 //toggles password types from text and password 
@@ -79,6 +91,8 @@ function  joinSuccess(){
 	document.getElementById('input2').innerHTML=" "; 
 	document.getElementById('myModalLabel').innerHTML="";  
 }
+
+//show posts for editing
 function displayPosts(div_id){
 	var posts=document.getElementById(div_id);
 	var editPosts=posts.style.display;
@@ -87,7 +101,9 @@ function displayPosts(div_id){
 	}else{
 	posts.style.display="none";
 	}
-		}
+}
+		
+//show textboxes for posts input		
 function myfunction(){
 	var text = "";
 	var text2="";
@@ -110,3 +126,17 @@ function myfunction(){
 
 	}
 }
+
+
+//change list class to active
+function showBar(list_item,n){
+	var x=n;
+	for(var i=0;i<n;i++){
+		var listitem=document.getElementById(x);
+		listitem.setAttribute('class','active');
+		x--;
+	}
+	document.getElementById(list_item).setAttribute('class','active active1');
+}
+
+

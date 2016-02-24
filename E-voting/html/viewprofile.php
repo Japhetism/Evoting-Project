@@ -1,11 +1,5 @@
 <?php
-//include('session.php');
-
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
+include('../php/view_profile.php');
 ?>
 
 <!DOCTYPE html>
@@ -39,7 +33,7 @@ if(isset($_SESSION['login_user'])){
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head>
+   </head>
 <body>
 
 <div id="wrapper">
@@ -65,9 +59,6 @@ if(isset($_SESSION['login_user'])){
                         <a href="#"><i class="fa fa-fw fa-user"></i> Edit profile</a>
                     </li>
                     <li class="divider"></li>
-                    <li>
-                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
-                    </li>
                 </ul>
             </li>
         </ul>
@@ -86,7 +77,7 @@ if(isset($_SESSION['login_user'])){
                             <a  style="font-weight:bolder;" href="#"><i class="fa fa-edit"></i>Joined Election<i style="margin-left:5px;"class="fa fa-caret-down"></i></a>
                             <ul class="nav nav-third-level">
                                 <li>
-                                    <a class="active2"href="viewcontestant.php">View Contestants</a>
+                                    <a class="active2" href="viewcontestant.php">View Contestants</a>
                                 </li>
                                 <li>
                                     <a class="active2" href="registercandidate.php">Register As A Candidate</a>
@@ -95,7 +86,7 @@ if(isset($_SESSION['login_user'])){
                                     <a class="active active2"href="#">View Profile (Contestants only)</a>
                                 </li>
                                 <li>
-                                    <a class="active2"href="#">Vote</a>
+                                    <a class="active"href="#">Vote</a>
                                 </li>
                             </ul>
                              <!-- /.nav-third-level -->
@@ -131,49 +122,101 @@ if(isset($_SESSION['login_user'])){
     <!-- edit form column -->
     <div class="col-md-8 col-sm-6 col-xs-12 personal-info">
       
-      <h3 style="padding-left:55px;border-bottom:1px solid">Information</h3><br>
-      <form class="form-horizontal" role="form" id="706641944">
-        <div class="form-group">
-          <label class="col-lg-3 control-label">first name:</label>
+      <h3 style="padding-left:55px;border-bottom:1px solid">Contestant Personal Information</h3><br>
+      <form class="form-horizontal" enctype="multipart/form-data" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
+        <div class="form-group"><span class="error"><?php echo $update_election_message;?></span>
+          <label class="col-lg-3 control-label">first name:</label><?php echo $user_fname; ?>
         </div>
         <div class="form-group">
-          <label class="col-lg-3 control-label">last name:</label>
+          <label class="col-lg-3 control-label">last name:</label><?php echo $user_lname;  ?>
         </div>
         <div class="form-group">
           <label class="col-lg-3 control-label">Email:</label>
 		  <?php echo $myemail; ?>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Username:</label>
+          <label class="col-md-3 control-label">Username:</label><?php echo $username; ?>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Pin:</label>
+          <label class="col-md-3 control-label">Post:</label><?php echo $user_contestant_post; ?>
         </div>
         <div class="form-group">
-          <label class="col-md-3 control-label">Post:</label>
+          <label class="col-md-3 control-label">Nickname:</label>
+            <?php
+            echo '<div class="col-md-8">';
+
+            $edit_nickname_here="\"$user_nickname_here\"";
+            $id1="\"space\"";
+            $edit_nick_name_nameatt = "\"nick_name\"";
+            echo '<div  id="dem">';
+            echo $user_nickname_here;
+            echo "</div>";
+            echo "<a href='#' id='nick' onclick='edit(0)' >Edit</a>";
+            echo "</div>";
+
+            ?>
+
         </div>
         <div class="form-group">
           <label class="col-md-3 control-label">Manifesto:</label>
+            <?php
+            echo '<div class="col-md-8" id="replace"><ul>';
+                for($i=0;$i<$no_of_manifesto_point;$i++){
+                    $id="\"dem$i\"";
+                    $edit_manifestos="\"$manifestos[$i]\"";
+                    $edit_manifestos_nameatt="\"manifesto$i\"";
+                    print <<<HERE
+                        <li id=$id> $manifestos[$i] </li>
+HERE;
+
+                }
+            print <<<HERE
+                       <a href="#" id="manifesto" onclick='edit($no_of_manifesto_point)'>Edit</a>
+HERE;
+            echo "</ul></div>";
+            ?>
+
           </div>
-          <div class="form-group" style="margin-top:50px;margin-left:-3px">
+          <div class="form-group" style="margin-top:50px;margin-left:-3px;">
             <label class="col-md-3 control-label">Picture: </label>
                         <p class="help-block">
-                        Pls ensure the file being uploaded is clear picture of yourself.
+                            <?php
+                            echo "<img src='$user_picture_here' alt='$picture_name' width='40px' height='40px'>";
+                            echo $picture_name;
+                            ?><br>
+                            <a href="#" onclick='changePicture()'>Change picture</a>
+                            <div id="pictureClick">
+
+                            </div>
+                            Pls ensure the file being uploaded is clear picture of yourself.
+                            <br><span class="error"> <?php echo $uploadErr; ?></span>
+                            <span class="error"> <?php echo $success; ?></span>
+
                         </p>
-         </div>
+          </div>
           <div class="form-group" style="margin-top:30px;margin-left:-3px">
             <label class="col-md-3 control-label">Citation: </label>
                         <p class="help-block">
-                        Pls ensure the file being uploaded is a text file.
+                            <?php
+                            if(!empty($user_citation_here)) {
+                                echo $user_citation_here;
+                            }else{
+                                echo "None";
+                            }
+                            ?><br>
+                        Pls ensure the file being uploaded is a pdf file.
                         </p>
          </div>
     </div>
         <div class="form-group">
           <label class="col-md-3 control-label"></label>
           <div class="col-md-8">
-            <input class="btn btn-primary" value="Save" type="button">
+
+<input class="btn btn-default" value="Step Down" type="submit" name="delete">
+            <input class="btn btn-primary" value="Save" type="submit" name="submit">
             <span></span>
             <input class="btn btn-default" value="Cancel" type="reset">
+
           </div>
         </div>
       </form>
@@ -185,8 +228,13 @@ if(isset($_SESSION['login_user'])){
 <!-- jQuery -->
 <script src="../js/jquery.js"></script>
 
+
+<!-- jQuery -->
+<script src="../js/file.js"></script>
+
 <!-- Bootstrap Core JavaScript -->
 <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/contestant.js"></script>
 
 </body>
 

@@ -1,11 +1,5 @@
 <?php
-//include('session.php');
-
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
+include('../php/session.php');
 ?>
 
 <!DOCTYPE html>
