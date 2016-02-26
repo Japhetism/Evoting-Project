@@ -13,70 +13,53 @@ include_once("../php/vote.php");
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-       
+      
 <script type="text/javascript">
-
-var current="Election Has Closed!";   //-->enter what you want the script to display when the target date and time are reached, limit to 20 characters
-var year=<?php echo $end_year;?>;    //-->Enter the count down target date YEAR
-var month=<?php echo $end_month;?>;       //-->Enter the count down target date MONTH
-var day=<?php echo $end_day;?> ;       //-->Enter the count down target date DAY
-var hour=<?php echo $end_hour;?> ;      //-->Enter the count down target date HOUR (24 hour clock)
-var minute=<?php echo $end_minute;?> ;    //-->Enter the count down target date MINUTE
-var tz=+1;        //-->Offset for your timezone in hours from UTC (see http://wwp.greenwichmeantime.com/index.htm to find the timezone offset for your location)
-
+var current="Election Has Closed";   
+var current1 = "Election Starts in";
+var startyear=<?php echo $start_year;?>    
+var startmonth=<?php echo $start_month;?>       
+var startday=<?php echo $start_day;?> ;       
+var starthour=<?php echo $start_hour;?> ;      
+var startminute=<?php echo $start_minute;?> ;    
+var stz=+1;        
 
 //    DO NOT CHANGE THE CODE BELOW!
-var montharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
+var smontharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
 
-function countdown(yr,m,d,hr,min){
-    theyear=yr;themonth=m;theday=d;thehour=hr;theminute=min;
-    var today=new Date();
-    var todayy=today.getYear();
-    if (todayy < 1000) {todayy+=1900;}
-    var todaym=today.getMonth();
-    var todayd=today.getDate();
-    var todayh=today.getHours();
-    var todaymin=today.getMinutes();
-    var todaysec=today.getSeconds();
-    var todaystring1=montharray[todaym]+" "+todayd+", "+todayy+" "+todayh+":"+todaymin+":"+todaysec;
-    var todaystring=Date.parse(todaystring1)+(tz*1000*60*60);
-    var futurestring1=(montharray[m-1]+" "+d+", "+yr+" "+hr+":"+min);
-    var futurestring=Date.parse(futurestring1)-(today.getTimezoneOffset()*(1000*60));
-    var dd=futurestring-todaystring;
-    var dday=Math.floor(dd/(60*60*1000*24)*1);
-    var dhour=Math.floor((dd%(60*60*1000*24))/(60*60*1000)*1);
-    var dmin=Math.floor(((dd%(60*60*1000*24))%(60*60*1000))/(60*1000)*1);
-    var dsec=Math.floor((((dd%(60*60*1000*24))%(60*60*1000))%(60*1000))/1000*1);
-    if(dday<=0&&dhour<=0&&dmin<=0&&dsec<=0){
-        var page = document.getElementById('page');
-        var wee = document.getElementById('wee');
-        page.style.display = 'none';
-        wee.style.display = 'block';
-        document.getElementById('count2').innerHTML=current;
-        document.getElementById('count2').style.display="block";
-        document.getElementById('count2').style.width="390px";
-        document.getElementById('dday').style.display="none";
-        document.getElementById('dhour').style.display="none";
-        document.getElementById('dmin').style.display="none";
-        document.getElementById('dsec').style.display="none";
-        document.getElementById('days').style.display="none";
-        document.getElementById('hours').style.display="none";
-        document.getElementById('minutes').style.display="none";
-        document.getElementById('seconds').style.display="none";
-        document.getElementById('spacer1').style.display="none";
-        document.getElementById('spacer2').style.display="none";
-        return;
+function countdown(syr,sm,sd,shr,smin){
+    var election_end = new Date('<?php echo $election_end_date." ".$election_time_to;?>');
+    stheyear=syr;sthemonth=sm;stheday=sd;sthehour=shr;stheminute=smin;
+    var stoday=new Date();
+    var stodayy=stoday.getYear();
+    if (stodayy < 1000) {stodayy+=1900;}
+    var stodaym=stoday.getMonth();
+    var stodayd=stoday.getDate();
+    var stodayh=stoday.getHours();
+    var stodaymin=stoday.getMinutes();
+    var stodaysec=stoday.getSeconds();
+    var stodaystring1=smontharray[stodaym]+" "+stodayd+", "+stodayy+" "+stodayh+":"+stodaymin+":"+stodaysec;
+    var stodaystring=Date.parse(stodaystring1)+(stz*1000*60*60);
+    var sfuturestring1=(smontharray[sm-1]+" "+sd+", "+syr+" "+shr+":"+smin);
+    var sfuturestring=Date.parse(sfuturestring1)-(stoday.getTimezoneOffset()*(1000*60));
+    var sdd=sfuturestring-stodaystring;
+    var sdday=Math.floor(sdd/(60*60*1000*24)*1);
+    var sdhour=Math.floor((sdd%(60*60*1000*24))/(60*60*1000)*1);
+    var sdmin=Math.floor(((sdd%(60*60*1000*24))%(60*60*1000))/(60*1000)*1);
+    var sdsec=Math.floor((((sdd%(60*60*1000*24))%(60*60*1000))%(60*1000))/1000*1);
+    if(sdday<=0&&sdhour<=0&&sdmin<=0&&sdsec<=0){
+       window.location = "../html/voting.php";
     }
     else {
+        document.getElementById('write').innerHTML = current1;
         document.getElementById('count2').style.display="none";
-        document.getElementById('dday').innerHTML=dday;
-        document.getElementById('dhour').innerHTML=dhour;
-        document.getElementById('dmin').innerHTML=dmin;
-        document.getElementById('dsec').innerHTML=dsec;
-        setTimeout("countdown(theyear,themonth,theday,thehour,theminute)",1000);
+        document.getElementById('dday').innerHTML=sdday;
+        document.getElementById('dhour').innerHTML=sdhour;
+        document.getElementById('dmin').innerHTML=sdmin;
+        document.getElementById('dsec').innerHTML=sdsec;
+        setTimeout("countdown(stheyear,sthemonth,stheday,sthehour,stheminute)",1000);
     }
 }
-
 
 
 function check(){
@@ -87,7 +70,15 @@ function check(){
     var tables = document.getElementById('tables');
     var wee = document.getElementById('wee');
     if(start_date > today_date){
-        window.location = '../html/checkVoting.php';
+        page.style.display = 'none';
+        wee.style.display = 'none';
+        tables.style.display = 'block';
+    }else if(start_date < today_date && end_date < today_date){
+        page.style.display = 'none';
+        table.style.display = 'block';
+    }else{
+        tables.style.display = 'none';
+        window.location = '../html/voting.php';
     }
  }
 
@@ -115,7 +106,7 @@ function check(){
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 </head>
-<body onload="countdown(year,month,day,hour,minute); check()">
+<body onload="countdown(startyear,startmonth,startday,starthour,startminute); check()">
 
 <div id="wrapper">
 
@@ -141,7 +132,7 @@ function check(){
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="../php/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>
@@ -154,8 +145,8 @@ function check(){
                     <a href="maindashboard.php" style="font-weight:bolder;"><i class="fa fa-fw fa-th"></i>My Elections<i style="margin-left:50px;"class="fa fa-caret-down"></i></a>
                     <ul class="nav nav-second-level">
                            <li class="inactive">
-                            <a  style="font-weight:bolder;" href="#"><i class="fa fa-edit"></i>Created Election</a>
-                           </li>
+							<a  style="font-weight:bolder;" href="#"><i class="fa fa-edit"></i>Created Election</a>
+						   </li>
                            <li class="inactive">
                             <a  style="font-weight:bolder;" href="#"><i class="fa fa-edit"></i>Joined Election<i style="margin-left:5px;"class="fa fa-caret-down"></i></a>
                             <ul class="nav nav-third-level">
@@ -189,7 +180,7 @@ function check(){
     </nav>
 
 
-    <!-- <div id='tables' style="display: none;">
+    <div id='tables' style="display: none;">
 <table id="table" border="0" >
     <tr>
         <td align="center" colspan="6"><label><h2 id='write'></h2></label><div class="numbers" id="count2" style="padding: 10px; "></div></td>
@@ -212,12 +203,12 @@ function check(){
         <td align="center" ><div class="title" ></div></td>
     </tr>
 </table>
-</div> -->
+</div>
 
 <!--    <div class = "row">-->
 
 
-<div class="wee" id="wee" style="display: block">
+<div class="wee" id="wee" style="display: none">
 <label><h4>Election Time Left</h4></label>
 <table id="table1" border="0">
     <tr>
@@ -244,20 +235,12 @@ function check(){
 
 </div> 
 
-<div class='page' id="page" style="display:block">
-<form class="form-horizontal" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
-
-     <?php
-     echo $string_election;
-     echo $message. " ". $hasvoted;
-     echo $contestant_id;
-         for($efe=0;$efe<count($string_array);$efe++){
-            echo $string_array[$efe].'<br>';
-         }
-     ?>
-        <input class="btn btn-primary" value="Cast Vote" type="submit" name="submit">
-</form>
-
+<div class='page' id="page" style="display:none">
+     <?php echo $string_election;
+for($efe=0;$efe<count($string_array);$efe++){
+    echo $string_array[$efe].'<br>';
+}
+                ?>
 <!--            <div class = "col-xs-6 col-sm-4">-->
 <!--             <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width=80% height="">-->
 <!--            </div>-->

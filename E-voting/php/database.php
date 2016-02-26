@@ -62,3 +62,50 @@ function contestantName($user_id){
     $details=$badmus->fetchAll();
     return strtoupper($details[0]['fname'])." ".$details[0]['lname'];
 }
+//get Election details
+function getElectionDetails($election_id){
+    global $connection1;
+    $getElectionDetails=$connection1->prepare("SELECT * FROM election WHERE election_id='$election_id'");
+    $getElectionDetails->execute();
+    $getElectionDetails->setFetchMode(PDO::FETCH_ASSOC);
+    $election_details=$getElectionDetails->fetchAll();
+    return $election_details;
+}
+
+//checking if a user has voted
+function hasvoted($user_id, $election_id){
+    global $connection1;
+    $gabriel=$connection1->query("SELECT has_voted FROM joined WHERE user_id='$user_id' AND election_id='$election_id'");
+    $gabriel->execute();
+    $gabriel->setFetchMode(PDO::FETCH_ASSOC);
+    $details=$gabriel->fetchColumn();
+    return $details;
+}
+
+//getting the user_id
+function user_id($myemail){
+    global $connection1;
+    $kennedy=$connection1->prepare("SELECT user_id FROM users WHERE email='$myemail'");
+    $kennedy->execute();
+    $kennedy->setFetchMode(PDO::FETCH_ASSOC);
+    $details=$kennedy->fetchAll();
+    return $details[0]['user_id'];
+}
+
+function incrementContestantVote($contestant_id){
+    global $connection1;
+    $last_Id=0;
+    $efe="UPDATE contestants SET number_of_votes = number_of_votes + 1 WHERE contestant_id='$contestant_id'";
+    $connection1->exec($efe);
+    $last_Id= $connection1->lastInsertId();
+    return $last_Id;
+}
+
+function joined_id($user_id, $election_id){
+    global $connection1;
+    $gabriel=$connection1->query("SELECT joined_id FROM joined WHERE user_id='$user_id' AND election_id='$election_id'");
+    $gabriel->execute();
+    $gabriel->setFetchMode(PDO::FETCH_ASSOC);
+    $details=$gabriel->fetchColumn();
+    return $details;
+}

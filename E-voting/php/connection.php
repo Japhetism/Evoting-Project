@@ -31,5 +31,5 @@ function Connection($type, $host, $username='root', $password, $dbname) {
     }
 }
 
-$connection1 = Connection('PDO','localhost','root','eminence','eVoting');
-$connection2 =  Connection('mysqli','localhost','root','eminence','eVoting');
+$connection1 = Connection('PDO','localhost','root','','eVoting');
+$connection2 =  Connection('mysqli','localhost','root','','eVoting');

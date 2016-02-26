@@ -3,7 +3,8 @@ include_once('session.php');
 include_once('connection.php');
 include_once('database.php');
 
-$postString=$contestant_fname =$contestant_lname =$contestant_username= $user_id= $contestant_election_id =$result2=$election_start="";
+$contestant_fname =$contestant_lname =$contestant_username= $user_id= $contestant_election_id =
+$result2=$election_start=$election_time="";
 
 if(empty($_SESSION["election_id_view"])) {
     header("Location:maindashboard.php");
@@ -24,16 +25,16 @@ if (!empty($result1)) {
     $contestant_lname = $result1[0]["lname"];
     $contestant_username = $result1[0]["username"];
     $user_id= $result1[0]["user_id"];
-
 } else {
     $problem = "Your name cannot be found in our database";
 }
 
-$sql6 = $connection1->prepare("SELECT election_start_date FROM election WHERE election_id='$contestant_election_id'");
+$sql6 = $connection1->prepare("SELECT election_start_date, election_time_from FROM election WHERE election_id='$contestant_election_id'");
 $sql6->execute();
 $result5 = $sql6->setFetchMode(PDO::FETCH_ASSOC);
 $result5 = $sql6->fetchAll();
 $election_start = $result5[0]["election_start_date"];
+$election_time= $result5[0]["election_time_from"];
 
 $sql2 = $connection1->prepare("SELECT post_id, post, post_key FROM  posts WHERE election_id='$contestant_election_id'");
 $sql2->execute();
@@ -48,7 +49,12 @@ $last_contestant_id=0;
 $last_manifesto_id=0;
 $registration_message="";
 
-if(strtotime(date("Y-m-d"))< (strtotime($election_start)-(60*60*24))){
+if(strtotime(date("Y-m-d"))== strtotime($election_start) && (strtotime($election_time)-(60*60*2))<strtotime(date("H:i:s"))){
+    $registration_message = "Sorry registeration is closed for this election.";
+
+}elseif(strtotime(date("Y-m-d"))> strtotime($election_start)){
+    $registration_message = "This election has already been concluded therefore your request cannot be processed" ;
+}else{
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         //Nick name validation
@@ -103,55 +109,98 @@ if(strtotime(date("Y-m-d"))< (strtotime($election_start)-(60*60*24))){
         }
 
 
-        //picture upload validation
-        $name = "";
-        if (isset($_POST["submit"])) {
-            $target_dir = "../images/contestants/";
+        //validating photo file selected
+        $target_dir = "../images/contestants/";
+        $uploadOK = 0;
+        $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
+        $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
+        if (!empty($_FILES["image"]["name"])) {
             $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id . ".";
             $name = $currentTime;
-            $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
-            $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
             $target_file = $target_dir . $name . $imageFileType;
-            $uploadErr= picture($target_dir);
-            $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id . ".";
-            $name = $currentTime;
-             $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
-            $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
 
-            //citation file validation
-            $citation_target_dir = "../contestant_citation/";
-            $uploadCOK = 0;
-            if (!empty($_FILES["citation"]["name"])) {
-                $target_cfile_temp = $citation_target_dir . basename($_FILES["citation"]["name"]);
-                $citationFileType = pathinfo($target_cfile_temp, PATHINFO_EXTENSION);
-                $target_cfile = $citation_target_dir . $name . $citationFileType;
-                $folderIsWritable = is_writable($citation_target_dir);
-                if ($folderIsWritable) {
-                    if (($citationFileType != 'pdf')) {
-                        $uploadCitationErr = "Only pdf files are allowed";
-                        $uploadCOK = 0;
-                    } elseif (!($_FILES["citation"]["size"] > 0 && $_FILES["citation"]["size"] < 10485760)) {
-                        $uploadCitationErr = "Only files with less than 10MB are allowed";
+            $folderIsWritable = is_writable($target_dir);
+            if ($folderIsWritable) {
+                if($_FILES["image"]["error"]==1) {
+                    $uploadErr = " Size of photo must not exceed 2MB";
+                }elseif($_FILES["image"]["error"]==2) {
+                    $uploadErr = $_FILES["image"]["name"]. " is too big". "(max: 2MB)";
+                }elseif($_FILES["image"]["error"]==3) {
+                    $uploadErr = "The uploaded file was only partially uploaded";
+                }elseif($_FILES["image"]["error"]==4){
+                    $uploadErr ="No file was uploaded";
+                }else if($_FILES["image"]["error"]==6) {
+                    $uploadErr= " Sorry temporary folder is missing on our server ";
+                }else if($_FILES["image"]["error"]==7) {
+                    $uploadErr= " Failed to write file to disk.";
+                }else if($_FILES["image"]["error"]==8) {
+                    $uploadErr= " A PHP extension stopped the file upload.";
+                }else {
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if ($check !== false) {
+                        if (!($imageFileType != 'jpeg' || $imageFileType != "png" || $imageFileType != "jpg")) {
+                            $uploadErr = "Only images with jpeg, png or jpg is allowed";
+                        } elseif (($_FILES["image"]["size"] > 2097152 || $_FILES["image"]["size"] < 20480)) {
+                            $uploadErr = "Photo size should be between 20KB and 2MB";
+                        } else {
+                            $success = "";
+                        }
 
                     } else {
-                        $successC = "";
+                        $uploadErr = "File is not an image";
                     }
+                }
+            } else {
+                trigger_error("Sorry cannot currently write to folder images");
+
+                $success = "false";
+            }
+        } else {
+            $uploadErr = "No image file has been chosen yet please choose a valid picture.";
+        }
+
+        //picture upload validation
+        //$name = "";
+        //if (isset($_POST["submit"])) {
+//            $target_dir = "../images/contestants/";
+//            $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id . ".";
+//            $name = $currentTime;
+//            $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
+//            $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
+//            $target_file = $target_dir . $name . $imageFileType;
+//            $uploadErr= picture($target_dir);
+
+
+        //citation file validation
+        $citation_target_dir = "../contestant_citation/";
+        $uploadCOK = 0;
+        if (!empty($_FILES["citation"]["name"])) {
+            $target_cfile_temp = $citation_target_dir . basename($_FILES["citation"]["name"]);
+            $citationFileType = pathinfo($target_cfile_temp, PATHINFO_EXTENSION);
+            $target_cfile = $citation_target_dir . $name . $citationFileType;
+            $folderIsWritable = is_writable($citation_target_dir);
+            if ($folderIsWritable) {
+                if (($citationFileType != 'pdf')) {
+                    $uploadCitationErr = "Only pdf files are allowed";
+                    $uploadCOK = 0;
+                } elseif (!($_FILES["citation"]["size"] > 0 && $_FILES["citation"]["size"] < 10485760)) {
+                    $uploadCitationErr = "Only files with less than 10MB are allowed";
 
                 } else {
-                    trigger_error("Sorry cannot currently write to folder contestants citation");
-
+                    $successC = "";
                 }
+
+            } else {
+                trigger_error("Sorry cannot currently write to folder contestants citation");
 
             }
 
         }
 
+        //}
+
 
     }
-}elseif(strtotime(date("Y-m-d"))== (strtotime($election_start)-(60*60*24))){
-    $registration_message = "Sorry this election will commence in the next 24 hours therefore your request cannot be processed.";
-}else{
-    $registration_message = "This election has already been concluded therefore your request cannot be processed" ;
 }
 
 $stmt = $connection1->prepare("SELECT  user_id FROM users WHERE email='$myemail'");
@@ -211,7 +260,9 @@ if($nick_name != "" && $manifesto_point!="" && $contestant_pin!="" && $contestan
                 $last_manifesto_id = $connection1->lastInsertId();
 
                 if ($last_contestant_id > 0 && $last_manifesto_id > 0) {
-                    header("Location:viewcontestant.php") ;
+                    $key=  rand(1,9).rand(10,99).rand(10,99).rand(1000,9999).$_SESSION["election_id"].rand(10000,99999).rand(100,999);
+
+                    header("Location:election_detailsNews.php?key=".$key) ;
                 }
             }else{
                 echo "Sorry an error occur while inserting your details in the database please try again.";
@@ -224,11 +275,12 @@ if($nick_name != "" && $manifesto_point!="" && $contestant_pin!="" && $contestan
 
 }
 //get the available posts and print in a select button
+$postString="";
 $allPost=getAllPosts($contestant_election_id);
 $postString.="<select name='contestant_post'>";
 $postString.="<option value=''></option>";
 for($i=0;$i<count($allPost);$i++){
-    $postString.="<option value=".$allPost[$i]['post'].">".ucwords($allPost[$i]['post'])."</option>";
+    $postString.="<option value='".$allPost[$i]['post']."'>".ucwords($allPost[$i]['post'])."</option>";
 }
 $postString.="</select>";
 

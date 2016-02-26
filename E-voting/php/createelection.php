@@ -8,7 +8,7 @@ define('CSV_PATH', '../csv/');
 define('MAX_FILE_SIZE', 2097152);
 
 //checking if a user has a photo uploaded before creating election
-$upload_photo = $user_id=$success="";
+$upload_photo = $user_id="";
 $check_photo = $connection1->prepare("SELECT user_id,picture_name FROM  users WHERE email = '$myemail'");
 $check_photo->execute();
 $get_photo_name = $check_photo->setFetchMode(PDO::FETCH_ASSOC);
@@ -23,7 +23,7 @@ if(empty($photo_name)){
 }
 
 //Declaring variables
-$uploadErr=$picture_name=$imageFileType="";
+$uploadErr=$picture_name=$success=$imageFileType="";
 $name_of_electionErr = $start_date_of_electionErr = $end_date_of_electionErr = $time_of_election_fromErr =$dummy1=$dummy2=
 $election_pinErr = $time_of_election_toErr =$message=$message2= $privacy=$privacyErr="";
 $name_of_election = $name_of_election_temp = $start_date_of_election =$start_date_of_election1 = $end_date_of_election =
@@ -88,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
     }
-
+   // strtotime(date("Y-m-d"))== (strtotime($election_start) && (strtotime($election_time)-(60*60*3))<strtotime(date("H:i:s")))
     $dummy1=$_POST['start_date'];
     $dummy2=$_POST['end_date'];
 
@@ -160,7 +160,9 @@ if (($_POST["start_date"]==='') ) {
             $time_of_election_to1 = convert_date($time_of_election_to_temp);
             if ($time_of_election_from1 < $now_time) {
                 $time_of_election_fromErr = "Invalid time, election date is same, time is in the past ";
-            } else {
+            } elseif($time_of_election_from1<$now_time+(3*60*60)) {
+                $time_of_election_fromErr = "Invalid time, you can only create an election min of 3 hours into the election ";
+            }else{
                 $time_of_election_from = $time_of_election_from_temp;
                 if ($time_of_election_to1 < $now_time) {
                     $time_of_election_toErr = "Invalid time, election date is same, time is in the past ";
@@ -200,8 +202,6 @@ if (($_POST["start_date"]==='') ) {
     }
 
 
-
-
 }
 
 $election_pin = election_pins();
@@ -209,7 +209,6 @@ $posts = post_pin();
 if(count(array_unique(array_values($posts)))<count(array_values($posts))){
     $message="No two posts can have the same you";
 }
-
 
     if ($name_of_election && $start_date_of_election && $end_date_of_election && $time_of_election_from && $time_of_election_to && $privacy != "" && count($posts)!=0) {
 
@@ -231,8 +230,7 @@ if(count(array_unique(array_values($posts)))<count(array_values($posts))){
                 $csv_tmp = $_FILES['election_csv']['tmp_name'];
                 $csv_ext= strtolower(end(explode('.', $csv_name)));
                 $csv_valid_types = array('text/csv', 'application/csv', 'text/comma-separated-values',
-                    'application/excel', 'application/vnd.ms-excel', 'application/vnd.msexcel','application/octet-stream');
-
+                    'application/excel', 'application/vnd.ms-excel', 'application/vnd.msexcel', 'application/octet-stream');
 
                 $target = CSV_PATH . basename($csv_name);
 
@@ -309,7 +307,7 @@ if(count(array_unique(array_values($posts)))<count(array_values($posts))){
                     $start_date_of_election=explodeDatePicker($start_date_of_election);
                     $end_date_of_election=explodeDatePicker($end_date_of_election);
 
-                    $sql1 = "INSERT INTO election(election_name, election_start_date, election_end_date, election_time_from, election_time_to, election_pin, user_id, privacy)
+                    $sql1 = "INSERT INTO election(election_name, election_start_date, election_end_date, election_time_from, election_time_to, election_pin, user_id, Privacy)
                     VALUES('$name_of_election', '$start_date_of_election', '$end_date_of_election', '$time_of_election_from', '$time_of_election_to', '$election_pin', '$user_id', '$privacy')";
                     $connection1->exec($sql1);
                     $last_election_id = $connection1->lastInsertId();

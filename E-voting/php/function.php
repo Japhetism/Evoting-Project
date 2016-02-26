@@ -53,57 +53,59 @@ function explodeDatePicker($date){
 }
 
 function picture($dir){
-    $uploadErr="";
-    if (!empty($_FILES["image"]["name"])) {
-        $target_file_temp = $dir . basename($_FILES["image"]["name"]);
-        $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
-        $folderIsWritable = is_writable($dir);
-        if ($folderIsWritable) {
-            if($_FILES["image"]["error"]==1) {
-                $uploadErr = " Size of photo must not exceed 2MB";
-            }elseif($_FILES["image"]["error"]==2) {
-                $uploadErr = $_FILES["image"]["name"]. " is too big". "(max: 2MB)";
-            }elseif($_FILES["image"]["error"]==3) {
-                $uploadErr = "The uploaded file was only partially uploaded";
-            }elseif($_FILES["image"]["error"]==4){
-                $uploadErr ="No file was uploaded";
-            }else if($_FILES["image"]["error"]==6) {
-                $uploadErr= " Sorry temporary folder is missing on our server ";
-            }else if($_FILES["image"]["error"]==7) {
-                $uploadErr= " Failed to write file to disk.";
-            }else if($_FILES["image"]["error"]==8) {
-                $uploadErr= " A PHP extension stopped the file upload.";
-            }else{
-                $check = getimagesize($_FILES["image"]["tmp_name"]);
-                if ($check !== false) {
-                    //$uploadErr = "File is an image " . $check["mime"];
-                    if (!($imageFileType != 'jpeg' || $imageFileType != "png" || $imageFileType != "jpg")) {
-                        $uploadErr = "Only images with jpeg, png, or jpg is allowed";
+    $name =$uploadErr="";
+    if (isset($_POST["submit"])) {
+        $target_dir = $dir;
+        if (!empty($_FILES["image"]["name"])) {
+            $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
+            $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
+            $folderIsWritable = is_writable($target_dir);
+            if ($folderIsWritable) {
+                if($_FILES["image"]["error"]==1) {
+                    $uploadErr = " Size of photo must not exceed 2MB";
+                }elseif($_FILES["image"]["error"]==3) {
+                    $uploadErr = "The uploaded file was only partially uploaded";
+                }elseif($_FILES["image"]["error"]==4){
+                    $uploadErr ="No file was uploaded";
+                }else if($_FILES["image"]["error"]==6) {
+                    $uploadErr= " Sorry temporary folder is missing on our server ";
+                }else if($_FILES["image"]["error"]==7) {
+                    $uploadErr= " Failed to write file to disk.";
+                }else if($_FILES["image"]["error"]==8) {
+                    $uploadErr= " A PHP extension stopped the file upload.";
+                }else{
+                    $check = getimagesize($_FILES["image"]["tmp_name"]);
+                    if ($check !== false) {
+                        $uploadErr = "File is an image " . $check["mime"];
+                        if (!($imageFileType != 'jpeg' || $imageFileType != "png" || $imageFileType != "jpg")) {
+                            $uploadErr = "Only images with jpeg, png, or jpg is allowed";
 
-                    } elseif (( $_FILES["image"]["size"] < 20480)) {
-                        $uploadErr = "Size of photo must not be less than 20kb ";
+                        } elseif (( $_FILES["image"]["size"] =="")) {
+                            $uploadErr = "Size of photo must not be less than 20kb ";
+
+                        } else {
+                            $success = "";
+                        }
 
                     } else {
-                        $success = "";
+
+                        $uploadErr = "File is not an image";
                     }
-
-                } else {
-                    $uploadErr = "File is not an image";
                 }
-            }
-//            return $uploadErr;
+                return $uploadErr;
 
+            } else {
+                trigger_error("Sorry cannot currently write to folder images");
+
+                $success = "false";
+            }
         } else {
-            trigger_error("Sorry cannot currently write to folder images");
-            $uploadErr = "Sorry cannot currently write to folder images";
+            $uploadErr = "No image file has been chosen yet please choose a valid picture.";
+            return $uploadErr;
 
         }
-    } else {
-        $uploadErr = "No image file has been chosen yet please choose a valid picture.";
-//        return $uploadErr;
 
     }
-    return $uploadErr;
 }
 
 //lets check if a particular election is totally public for a user,put this in function.php
@@ -118,4 +120,17 @@ function publicDisplayable($user_id,$election_id){
         }
     }
     return $publicity;
+}
+
+//function to remove spaces between words
+function removeSpace($value){
+    $data="";
+    $dataarray= array();
+    $dataarray = explode(" ", ucwords($value));
+    for ($i = 0; $i < count($dataarray); $i++) {
+        if (!empty($dataarray[$i])) {
+            $data =$data.trim($dataarray[$i]);
+        }
+    }
+    return trim($data);
 }

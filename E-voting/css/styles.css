@@ -115,3 +115,72 @@ table tr:nth-child(odd) {
 .form-group{
 	text-align:left;
 }
+.numbers {
+    border-style: ridge;
+    border-width: 2px;
+    border-color: #666666;
+    background: #222222;
+    padding: 2px 0px;
+    width: 200px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 50px;
+    font-weight: bold;
+    font-style: normal;
+    color: #FFFFFF;
+}
+.title {
+    border: none;
+    padding: 0px;
+    width: 55px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 20px;
+    font-weight: normal;
+    color: darkgrey;
+    background: transparent;
+}
+#table {
+    width: 400px;
+    border: none;
+    margin: 250px 0px 0px 140px;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
+.numbers1 {
+    border-style: ridge;
+    border-width: 0.5px;
+    border-color: #666666;
+    background: #222222;
+    width: 70px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: bold;
+    font-style: normal;
+    color: #FFFFFF;
+}
+.title1 {
+    border: none;
+    padding: 0px;
+    text-align: center;
+    font-family: Arial;
+    font-size: 15px;
+    font-weight: normal;
+    color: darkgrey;
+    background: transparent;
+}
+#table1 {
+    width: 40px;
+    border: none;
+    margin: 0px 0px 0px 700px;
+    position: relative;
+}
+.wee label{
+    margin: 0px 0px 0px 870px ;
+}
+.page{
+    margin:0px 0px 0px 20px;
+    width: 400px;
+}
