@@ -77,8 +77,6 @@ function countdown(yr,m,d,hr,min){
     }
 }
 
-
-
 function check(){
     var start_date = new Date('<?php echo $election_start_date." ".$election_time_from;?>');
     var end_date = new Date('<?php echo $election_end_date." ".$election_time_to;?>');
@@ -90,7 +88,6 @@ function check(){
         window.location = '../html/checkVoting.php';
     }
  }
-
 
 </script>
 
@@ -258,12 +255,7 @@ function check(){
         <input class="btn btn-primary" value="Cast Vote" type="submit" name="submit">
 </form>
 
-<!--            <div class = "col-xs-6 col-sm-4">-->
-<!--             <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width=80% height="">-->
-<!--            </div>-->
-<!--            <div class = "col-xs-6 col-sm-4">-->
-<!--                <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width="80%" height="">-->
-<!--            </div>-->
+
 <!--            <div class = "col-xs-6 col-sm-4">-->
 <!--                <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width="80%" height="">-->
 <!--            </div>-->

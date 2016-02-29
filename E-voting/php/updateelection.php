@@ -42,7 +42,8 @@ $now_time = convert_date(date("H:i:s"));
 //check if election has not started
 if(convert_date($this_election['election_start_date'])<=$now_date-(60*60)){
     $message="Voting will start in less than an hour.Your update cannot be processed.";
-}if(convert_date($this_election['election_end_date'])<$now_date){
+}
+if(convert_date($this_election['election_end_date'])<$now_date){
     $message="This election has already been concluded.No changes will thus be processed.";
 }
 //php code for the update details

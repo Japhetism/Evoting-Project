@@ -1,6 +1,5 @@
 <?php
 include_once("../php/vote.php");
-
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +47,7 @@ function countdown(syr,sm,sd,shr,smin){
     var sdmin=Math.floor(((sdd%(60*60*1000*24))%(60*60*1000))/(60*1000)*1);
     var sdsec=Math.floor((((sdd%(60*60*1000*24))%(60*60*1000))%(60*1000))/1000*1);
     if(sdday<=0&&sdhour<=0&&sdmin<=0&&sdsec<=0){
-       window.location = "../html/voting.php";
+       window.location = "voting.php";
     }
     else {
         document.getElementById('write').innerHTML = current1;
@@ -78,7 +77,7 @@ function check(){
         table.style.display = 'block';
     }else{
         tables.style.display = 'none';
-        window.location = '../html/voting.php';
+        window.location = 'voting.php';
     }
  }
 
@@ -97,7 +96,7 @@ function check(){
     <link href="../css/styles.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
-    <link href="../fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -120,7 +119,7 @@ function check(){
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="maindashboard.php">&nbsp E-voting</a>
+            <a class="navbar-brand" href="../html/maindashboard.php">&nbsp E-voting</a>
         </div>
         <!-- Top Menu Items -->
         <ul class="nav navbar-right top-nav">
@@ -132,7 +131,7 @@ function check(){
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="../php/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>
@@ -236,17 +235,12 @@ function check(){
 </div> 
 
 <div class='page' id="page" style="display:none">
-     <?php echo $string_election;
-for($efe=0;$efe<count($string_array);$efe++){
-    echo $string_array[$efe].'<br>';
-}
+<!--     --><?php //echo $string_election;
+//for($efe=0;$efe<count($string_array);$efe++){
+//    echo $string_array[$efe].'<br>';
+//}
                 ?>
-<!--            <div class = "col-xs-6 col-sm-4">-->
-<!--             <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width=80% height="">-->
-<!--            </div>-->
-<!--            <div class = "col-xs-6 col-sm-4">-->
-<!--                <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width="80%" height="">-->
-<!--            </div>-->
+
 <!--            <div class = "col-xs-6 col-sm-4">-->
 <!--                <input type="radio" name="theActualPost" value="contestantId">   <img src="../images/pic1.png" width="80%" height="">-->
 <!--            </div>-->

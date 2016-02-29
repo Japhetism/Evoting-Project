@@ -61,7 +61,7 @@ include_once('../php/register_candidate.php');
                     </li>
                     <li class="divider"></li>
                     <li>
-                        <a href="#"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        <a href="../php/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
                     </li>
                 </ul>
             </li>
@@ -167,7 +167,7 @@ include_once('../php/register_candidate.php');
         <div class="form-group">
           <label class="col-md-3 control-label">Manifesto:</label>
           <div class="col-md-8">
-            <input class="form-control" type="number" id="no_of_points" name="manifesto_points" value="" oninput="myfunction2()" min="1" max="10" placeholder="No of manifesto_points" ><span class="error"> <?php echo $no_manifesto_pointsErr; ?></span>
+            <input class="form-control" type="number" id="no_of_points" name="manifesto_points" value="<?php echo $no_manifesto_points; ?>" oninput="myfunction2()" min="1" max="10" placeholder="No of manifesto_points" ><span class="error"> <?php echo $no_manifesto_pointsErr; ?></span>
           </div>
         </div>
           <div class="form-group">

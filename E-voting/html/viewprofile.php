@@ -33,7 +33,13 @@ include('../php/view_profile.php');
     <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
-   </head>
+    <script type="text/javascript">
+        function kunle1(){
+            var output=document.getElementById("pictureClick");
+            output.innerHTML =  '<input type="file" name="image" class="btn btn-default" ><br>';
+        }
+    </script>
+</head>
 <body>
 
 <div id="wrapper">
@@ -59,6 +65,9 @@ include('../php/view_profile.php');
                         <a href="#"><i class="fa fa-fw fa-user"></i> Edit profile</a>
                     </li>
                     <li class="divider"></li>
+                    <li>
+                        <a href="../php/logout.php"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                    </li>
                 </ul>
             </li>
         </ul>
@@ -184,7 +193,7 @@ HERE;
                             echo "<img src='$user_picture_here' alt='$picture_name' width='40px' height='40px'>";
                             echo $picture_name;
                             ?><br>
-                            <a href="#" onclick='changePicture()'>Change picture</a>
+                            <a href="#" onclick='kunle1()'>Change picture</a>
                             <div id="pictureClick">
 
                             </div>

@@ -252,6 +252,7 @@ if(count($fully_public)>0){
                     $public_elections_displayed.="<td style='padding: 0 20px 5px 2px;border: none'>".timeString($fully_public[$move][$public_index[$index]])."</td>";
                 }
             }
+
             else{
                 $public_elections_displayed.="<td style='padding: 0 20px 5px 2px;border: none'>".$fully_public[$move][$public_index[$index]]."</td>";
             }

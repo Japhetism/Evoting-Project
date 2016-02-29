@@ -45,7 +45,7 @@ $message=$hasvoted="";
 $hasvoted=hasvoted(user_id($myemail), $election_id);
 if($hasvoted==1){
     $message="You have already casted your vote for this election";
-    header("Location:viewcontestant.php");
+   // header("Location:viewcontestant.php");
 }
 
 $string="";

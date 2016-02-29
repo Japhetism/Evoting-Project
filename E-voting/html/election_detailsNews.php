@@ -94,7 +94,7 @@ include('../php/view_contestant.php');
                                     <a class="inactive"href="#">View Profile (Contestants only)</a>
                                 </li>
                                 <li>
-                                    <a class="active2" href="voting.php">Vote</a>
+                                    <a class="active2" href="checkVoting.php">Vote</a>
                                 </li>
                             </ul>
                             <!-- /.nav-third-level -->
@@ -158,9 +158,6 @@ include('../php/view_contestant.php');
                                     <div class="panel-heading">ADMIN DETAILS:<br><?php echo $election_admin_details.$election_admin_detail;?></div>
                                     <div class="panel-body">
                                         <p><?php echo $election_details;?></p>
-
-
-
                                     </div>
                                 </div>
 

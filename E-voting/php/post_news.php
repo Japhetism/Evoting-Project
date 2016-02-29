@@ -1,8 +1,8 @@
 <?php
 $election_id =$result1 ="";
-include_once('session.php');
+include('function.php');
 include_once('connection.php');
-include_once('function.php');
+include_once('session.php');
 
 //getting the election id from the key passed to the url
 	$election_id = "";
