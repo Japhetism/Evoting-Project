@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+<script>
+    
+</script>
+</head>
+<body>
+
+    <h3 class="header">5. CONTENT</h3>
+    <span class="button small pop2" data-bpopup="{&quot;contentContainer&quot;:&quot;.content&quot;,&quot;loadUrl&quot;:&quot;assets/test.html&quot;}">Pop it up</span>
+                <span class="example">
+                    <strong>Example 5a, content: </strong>
+                    <em>Simple jQuery popup that loads external html page with ajax. (Ajax popup)<br>
+                        <span class="code-string">Be aware that due to browser security restrictions, most "Ajax" requests are subject to the same origin policy; the request can't successfully retrieve data from a different domain, subdomain, or protocol.</span></em>
+                </span>
+                <pre>        $(<span class="code-string">'element_to_pop_up'</span>).bPopup({
+            contentContainer:<span class="code-string">'.content'</span>,
+            loadUrl: <span class="code-string">'test.html'</span><span class="code-comment"> //Uses jQuery.load()</span>
+        });
+                </pre>
+
+</body>
+</html>
