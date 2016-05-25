@@ -396,8 +396,8 @@ include_once('../php/photo.php');
                                                 </div>
                                             </div><br>
                                             <div class="row form-group">
-                                                    <div class="col-xs-6"><div id="dem" ></div></div>
-                                                    <div class="col-xs-5"><div id="dem1" ></div></div>
+                                                    <div class="col-xs-6"><div id="dem" style="display: none;"></div></div>
+                                                    <div class="col-xs-5"><div id="dem1" style="display: none;"></div></div>
                                             </div>
                                             <div class="row form-group" >
                                                 <div class="col-xs-12">

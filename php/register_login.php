@@ -139,7 +139,7 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                  You are welcome to Obafemi Awolowo University online voting system.<br>
                  This is to notify you that your email address has been used to create an
                  account with us. Kindly ignore this mail if your account was used without your consent.
-                 If not, click on <a href='http://localhost/E-votingOO/html/index.php?confirm_me=".$coded."'>Activate account.</a>
+                 If not, click on <a href='http://localhost/E-voting/html/index.php?confirm_me=".$coded."'>Activate account.</a>
                   to activate your account.Thank you.";
 
             $mail->AltBody = "This is the plain text version of the email content";
@@ -183,10 +183,12 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                     $mainError = "Account creation unsuccessful";
                     /*header("Location:../html/signup.php#register");*/
                 }
+
             }else{
                 //the mail was not sent due to some issues,probably network
                 $mainError="Your connection is lost. Ensure you have an active internet connection";
             }
+
 
         }
     }
@@ -231,7 +233,12 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
                 $_SESSION['adek_link']='';
                 $_SESSION['adek_status']='';
                 header('Location:maindashboard.php');
+
             }
+
+
+            /*}
+*/
 
 
         }else{
