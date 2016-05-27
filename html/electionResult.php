@@ -121,7 +121,7 @@ if(isset($_GET['key'])){
             transition: background 0.2s;
     }
     input[type='radio']:not(old):checked + label#option{
-        background: url('checks.jpg') center no-repeat;
+        background: url('../images/voting/checks.jpg') center no-repeat;
         top: 0;
     }
     .panel-default>.panel-body{
@@ -234,7 +234,7 @@ if(isset($_GET['key'])){
             if(result_display === "during"){
                 page.style.display = 'block';
                 if (hasVoted==0) {
-                    msg.innerHTML = 'Voting has commenced for this election, vote <small><a href="voting.php"> here </a></small>';            
+                    msg.innerHTML = 'Voting has commenced for this election';            
                     msg.setAttribute('class','alert alert-success');
                 }else{
                     msg.innerHTML = '<span><i class="fa fa-check-circle text-success"></i>you have already voted in this election</span>';
@@ -244,7 +244,7 @@ if(isset($_GET['key'])){
             }else if(result_display === "after"){
                 page.style.display = 'none';
                 if (hasVoted==0) {
-                    msg.innerHTML = 'Voting has commenced for this election, vote <small><a href="voting.php"> here </a></small><br>Election results will be available after the election has been concluded.';
+                    msg.innerHTML = 'Voting has commenced for this election<br>Election results will be available after the election has been concluded.';
                     msg.setAttribute('class','alert alert-success');
                 }else{
                     msg.setAttribute('class','alert alert-danger');
@@ -309,11 +309,12 @@ if(isset($_GET['key'])){
                      </div>
                     <div class='col-md-12' id="page" style="display:none">
                         <div class="row">
-                        <?php echo $string_election;
-                            for($k=0;$k<count($string_result_array);$k++){
-                                echo $string_result_array[$k].'<p>';
-                            }
-                        ?>
+                            <?php 
+                                echo $string_election;
+                                for($k=0;$k<count($string_result_array);$k++){
+                                    echo $string_result_array[$k].'<p>';
+                                }
+                            ?>
                         </div>
                     </div>
             </div>
@@ -323,12 +324,12 @@ if(isset($_GET['key'])){
 </div>
 
         <!-- jQuery -->
-        <script src="../js/jquery.js"></script>
+        <!-- <script src="../js/jquery.js"></script> -->
 
         <!-- Bootstrap Core JavaScript -->
-        <script src="../js/bootstrap.min.js"></script>
+        <!-- <script src="../js/bootstrap.min.js"></script> -->
 
         <!-- Custom JavaScript -->
-        <script src="../js/file.js"></script>
+        <!-- <script src="../js/file.js"></script> -->
 </body>
 </html>

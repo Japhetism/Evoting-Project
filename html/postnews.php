@@ -64,7 +64,7 @@ include_once('../php/view_contestant.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting</title>
+    <title>E-voting | Election Details</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -78,76 +78,6 @@ include_once('../php/view_contestant.php');
     <!-- Custom Fonts -->
     <link href="../fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-    <script type="text/javascript">
-        var current="Election Has Closed";   
-        var current1 = "Election Starts in";
-        var startyear='<?php// echo $start_year;?>';    
-        var startmonth='<?php// echo $start_month;?>';       
-        var startday='<?php //echo $start_day;?>' ;       
-        var starthour='<?php// echo $start_hour;?>';      
-        var startminute='<?php// echo $start_minute;?>' ;    
-        var stz=+1;        
-
-        //    DO NOT CHANGE THE CODE BELOW!
-        var smontharray=new Array("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec");
-
-        // function countdown(syr,sm,sd,shr,smin){
-        //     var election_end = new Date('<?php echo $election_end_date." ".$election_time_to;?>');
-        //     stheyear=syr;sthemonth=sm;stheday=sd;sthehour=shr;stheminute=smin;
-        //     var stoday=new Date();
-        //     var stodayy=stoday.getYear();
-        //     if (stodayy < 1000) {stodayy+=1900;}
-        //     var stodaym=stoday.getMonth();
-        //     var stodayd=stoday.getDate();
-        //     var stodayh=stoday.getHours();
-        //     var stodaymin=stoday.getMinutes();
-        //     var stodaysec=stoday.getSeconds();
-        //     var stodaystring1=smontharray[stodaym]+" "+stodayd+", "+stodayy+" "+stodayh+":"+stodaymin+":"+stodaysec;
-        //     var stodaystring=Date.parse(stodaystring1)+(stz*1000*60*60);
-        //     var sfuturestring1=(smontharray[sm-1]+" "+sd+", "+syr+" "+shr+":"+smin);
-        //     var sfuturestring=Date.parse(sfuturestring1)-(stoday.getTimezoneOffset()*(1000*60));
-        //     var sdd=sfuturestring-stodaystring;
-        //     var sdday=Math.floor(sdd/(60*60*1000*24)*1);
-        //     var sdhour=Math.floor((sdd%(60*60*1000*24))/(60*60*1000)*1);
-        //     var sdmin=Math.floor(((sdd%(60*60*1000*24))%(60*60*1000))/(60*1000)*1);
-        //     var sdsec=Math.floor((((sdd%(60*60*1000*24))%(60*60*1000))%(60*1000))/1000*1);
-        //     if(sdday<=0&&sdhour<=0&&sdmin<=0&&sdsec<=0){
-        //        window.location = "../html/voting.php";
-        //     }
-        //     else {
-        //         document.getElementById('write').innerHTML = current1;
-        //         document.getElementById('count2').style.display="none";
-        //         document.getElementById('dday').innerHTML=sdday;
-        //         document.getElementById('dhour').innerHTML=sdhour;
-        //         document.getElementById('dmin').innerHTML=sdmin;
-        //         document.getElementById('dsec').innerHTML=sdsec;
-        //         setTimeout("countdown(stheyear,sthemonth,stheday,sthehour,stheminute)",1000);
-        //     }
-        // }
-
-
-        // function check(){
-        //     var start_date = new Date('<?php echo $election_start_date." ".$election_time_from;?>');
-        //     var end_date = new Date('<?php echo $election_end_date." ".$election_time_to;?>');
-        //     var today_date = new Date();
-        //     var page = document.getElementById('page');
-        //     var tables = document.getElementById('tables');
-        //     var wee = document.getElementById('wee');
-        //     if(start_date > today_date){
-        //         page.style.display = 'none';
-        //         wee.style.display = 'none';
-        //         tables.style.display = 'block';
-        //     }else if(start_date < today_date && end_date < today_date){
-        //         page.style.display = 'none';
-        //         table.style.display = 'block';
-        //     }else{
-        //         tables.style.display = 'none';
-        //         window.location = '../html/voting.php';
-        //     }
-        //  }
-
-
-    </script>
         <style type="text/css"> 
         .panel-primary img{
             width: 50px;
@@ -317,15 +247,6 @@ include_once('../php/view_contestant.php');
             opacity: 1;
             box-shadow: none;
         }
-        .badge{
-            /*position: absolute;
-            top: 0px;
-            right: 30px;
-            box-shadow: 0px 2px 3px rgba(0,0,0,0.14);
-            opacity: 1;
-            background: #c10510;
-            padding: 5px;*/
-        }
         </style>
 
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
@@ -376,7 +297,7 @@ include_once('../php/view_contestant.php');
             <!-- container header-->
             <div class="row">
                 <div class="page-title col-md-12">
-                    <h3>Election Results</h3>
+                    <h3>Election Details</h3>
                     <div class="page-breadcrumb">
                         <ol class="breadcrumb">
                             <li><a href="maindashboard.php">Home</a></li>

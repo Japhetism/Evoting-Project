@@ -17,6 +17,7 @@ body {
 #page-wrapper {
     width: 100%;
     padding: 0;
+    display: none;
 }
 @media(min-width:768px) {
     #wrapper {
@@ -375,8 +376,8 @@ i.preview-img:before{
     color: transparent;
     position: absolute;
     bottom: 50%;
-    padding: 5px;
-    left: -5px;
+    padding: 3px;
+    left: -3px;
     background: #fff;
     -webkit-transform:rotate(45deg);
     opacity: 1;
@@ -430,6 +431,7 @@ i.badge:after{
     position: absolute;
     top: 0;
     left: 0;
+    opacity: 1;
 }
 .load_cover>i{
     position: absolute;

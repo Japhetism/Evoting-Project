@@ -15,7 +15,7 @@ include_once('../php/photo.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting</title>
+    <title>E-voting | Register as Contestant</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -54,13 +54,24 @@ include_once('../php/photo.php');
 
         <!-- /#page-wrapper -->
         <div class="container-fluid">
+            <!-- container header-->
+            <div class="row">
+                <div class="page-title col-md-12">
+                    <h3>Register as Contestant</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="maindashboard.php">Home</a></li>
+                            <li><a href="<?php echo($_SESSION['adek_link']) ?>"><?php echo $_SESSION['election_name'];?></a></li>
+                            <li class="active">Register as Contestant</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div><br>
+            <!-- container header ends-->
+            
             <!-- edit form column -->
             <div class="row">
-                <div class="col-xs-12" style="text-align: left">
-                    <span class="alert alert-info">
-                        <a href="election_detailsNews.php<?php echo $_SESSION['election_key'];?> " style="text-decoration: none">Home </a> > Joined ELection > <a href="postnews.php" style="text-decoration: none"><?php echo $_SESSION['election_name'];?> </a> > <b>Register candidate</b>
-                     </span>
-                </div><br>
                 <div class="col-xs-8 col-xs-offset-2">
                     <div class="electoralform">
                         <fieldset class="dash">

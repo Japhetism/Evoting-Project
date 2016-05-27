@@ -3,7 +3,7 @@ include_once('session.php');
 include_once('connection.php');
 include_once('database.php');
 include_once('function.php');
-include_once('adekprofile.php');
+// include_once('adekprofile.php');
 $fname = $lname = $photo = $username = $phone = $password1 = $password2 = $old_password = $sex = $hashed_old_password= $date_diff = "";
 $error = $error2 = $mainError = $error3 = "";
 $success = $uploadErr ="";
@@ -13,12 +13,15 @@ $photo = $user_photo = $dir = $dir1 = $dir2 = "";
 
 //fetching user details from the database for modification
 
-$useremail = $_SESSION['adekprofilevariable'];
-if (!empty($useremail)) {
-    $userDetails = "SELECT * FROM users WHERE email='$useremail'";
-}else{
+// $useremail = $_SESSION['adekprofilevariable'];
+// if (!empty($useremail)) {
+//     $userDetails = "SELECT * FROM users WHERE email='$useremail'";
+// }else{
+//     $userDetails = "SELECT * FROM users WHERE email='$myemail'";
+// }
+
+
     $userDetails = "SELECT * FROM users WHERE email='$myemail'";
-}
 
 if($result_user = mysqli_query($connection2,$userDetails)){
     while($row = mysqli_fetch_assoc($result_user)){

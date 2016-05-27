@@ -184,11 +184,13 @@ i{
 a.active{
     color:#ccc!important;
 }
-.userProfile{
+.userProfile,
+a.userProfile:hover{
     border-bottom:solid 1px #000;
     text-align:center;
     padding-bottom:20px;
     background: rgba(0,0,0,0.5);
+    cursor: pointer;
 }
 #demo3_1,
 #demo3_1>ul>li,
@@ -262,19 +264,27 @@ a.active{
     background-color: #eee;
 }
 
-#showActions>i>img{
-    width: 30px;
-    height: 30px;
-    border-radius: 100%;
-}
 div.userActions{
     padding: 20px 0 0 0px;
     text-overflow: ellipsis;
     color: #ccc; 
 }
-#userActions>p>img{
-    border-radius: 20%;
-    border: none;
-    width: 60px;
-    height: 60px;
+
+#userOptions:before,
+.dropdown.requests>ul:before{
+    position: absolute;
+    content: " ";
+    top: -4px;
+    padding: 4px;
+    left: 20px;
+    transform: rotate(45deg);
+    background-color: #fff;
+    /*box-shadow: -1px -1px 1px #ddd;*/
+    border-left: solid 1px #ddd;
+    border-top: solid 1px #ddd;
+}
+.dropdown.requests>ul.dropdown-menu{
+    left: 0%;
+    border-radius: 5px;
+    top: 110%;
 }

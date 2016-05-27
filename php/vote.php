@@ -45,7 +45,7 @@ for($j=0;$j<count($election_details1);$j++){
 }
 $string_election ="";
 $string_election.="<div class='col-md-6'><label>Election Start Date:</label> ".dateString($election_start_date)."</div> <div class='col-md-6'><label>Start time: </label> ".timeString($election_time_from)."</div><div class='col-md-6'> <label>Election End Date: </label>".
-dateString($election_end_date)."</div> <div class='col-md-6'><label>End time:</label> ".timeString($election_time_to).'</div>';
+dateString($election_end_date)."</div> <div class='col-md-6'><label>End time: </label> ".timeString($election_time_to).'</div>';
 
 
 
@@ -66,23 +66,6 @@ for($japhet=0;$japhet<count($postCon);$japhet++){
     $post_name=$superIndex[$japhet];
     if(!empty($postCon[$post_name])){
         $voted = ' vote(s)';
-        // $string='<div class = "row"><h3 class="col-md-12">'.$post_name.'<hr></h3>';
-        // $string_result = '<div class = "row"><hr><h3 class="col-md-12 primary" style="text-align:center;">Post - '.$post_name.'</h3></hr>';
-        // for($length=0;$length<count($postCon[$post_name]);$length++){
-        //     $display=$postCon[$post_name][$length];
-        //     //$display holds a contestant detail
-        //     $image=$image_dir.$display['picture_name'];
-        //     $post_name_value=removeSpace($post_name);
-        //     $string.="<div class='col-xs-12 col-sm-3'><div class='contestants'>".
-        //                 "<img src=".$image." width=100% height=200px><br><br>
-        //                 <input type='radio' name='".$post_name_value."' value='".$display["contestant_id"]."' required> ".contestantName($display['user_id'])."</div>";
-        //     $string_result.="<div class='col-xs-12 col-sm-3'><div class='contestants'>". "<img src=".$image." width=100% height=200px><br><br>"."<label>".contestantName($display['user_id'])."</label> - "."<label>".$display["number_of_votes"].$voted."</label></div>";
-
-        //     $string.="</div>";
-        //     $string_result.="</div>";
-        // }
-        // $string.='</div>';
-        // $string_result.='</div>';
 
         $string='<div class="col-xs-12 col-md-4">                                            
                     <div class="panel panel-default">
@@ -138,28 +121,11 @@ for($japhet=0;$japhet<count($postCon);$japhet++){
         $string.='</div></div></div>';
         $string_result.='</div></div></div>';
 
-
-        // $string='<div class = "row"><h3 class="col-md-12">'.$post_name.'<hr></h3>';
-        // $string_result = '<div class = "row"><hr><h3 class="col-md-12 primary" style="text-align:center;">Post - '.$post_name.'</h3></hr>';
-        // for($length=0;$length<count($postCon[$post_name]);$length++){
-        //     $display=$postCon[$post_name][$length];
-        //     //$display holds a contestant detail
-        //     $image=$image_dir.$display['picture_name'];
-        //     $post_name_value=removeSpace($post_name);
-        //     $string.="<div class='col-xs-12 col-sm-3'><div class='contestants'>".
-        //                 "<img src=".$image." width=100% height=200px><br><br>
-        //                 <input type='radio' name='".$post_name_value."' value='".$display["contestant_id"]."' required> ".contestantName($display['user_id'])."</div>";
-        //     $string_result.="<div class='col-xs-12 col-sm-3'><div class='contestants'>". "<img src=".$image." width=100% height=200px><br><br>"."<label>".contestantName($display['user_id'])."</label> - "."<label>".$display["number_of_votes"].$voted."</label></div>";
-
-        //     $string.="</div>";
-        //     $string_result.="</div>";
-        // }
-        // $string.='</div>';
-        // $string_result.='</div>';
         array_push($string_array,$string);
         array_push($string_result_array,$string_result);
     }else{
-        $string = $string_result_array =  '<div class="col-xs-12 col-md-4">                                            
+
+        $string = $string_result = '<div class="col-xs-12 col-md-4">                                            
                         <div class="panel panel-default">
                             <div class="panel-heading">
                                 '.$post_name.'
@@ -173,6 +139,8 @@ for($japhet=0;$japhet<count($postCon);$japhet++){
                             </div>
                         </div>
                     </div>';
+        array_push($string_array,$string);
+        array_push($string_result_array,$string_result); 
     }
 }
 $contestant_id="";$last_id=$joined_id="";

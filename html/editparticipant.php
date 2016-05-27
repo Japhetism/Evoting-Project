@@ -33,7 +33,7 @@ require_once '../php/photo.php';
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting </title>
+    <title>E-voting | Edit Participants</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -47,8 +47,6 @@ require_once '../php/photo.php';
     <!-- Custom CSS for body-->
     <link href="../css/styles.css" rel="stylesheet">
 
-
-    <link href="../css/editpart.css" rel="stylesheet">
 
     <!-- Custom Fonts -->
     <link href="../fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
@@ -134,6 +132,10 @@ require_once '../php/photo.php';
             opacity: 1;
             background: #c10510;
             padding: 5px;
+        }
+        table i.preview-img{
+            left: 50px; 
+            top: -35px;
         }
 
     </style>
@@ -255,7 +257,7 @@ require_once '../php/photo.php';
                             $style = ($status) ? 'label-primary' : 'label-default';
                             echo <<<EOT
                            <tr id="$get_id">
-                                <td><img src="{$user['picture_name']}" height="50" width="50" style="border-radius: 10px;" ><span style="padding-left:10px; color:#337ab7;" id="userName">$user_name</span> </td>
+                                <td style="position:relative;"><img src="{$user['picture_name']}" class="img-circle preview" height="50" width="50" ><span style="padding-left:10px; color:#337ab7;" id="userName">$user_name</span> </td>
                                 <td style="padding-top: 20px">$joined_date</td>
                                 <td style="padding-top: 20px; text-align:center" class="text-capitalize"><span class="label $style" style="font-size: 15px;" id="status">{$user['status']}</span></td>
                                 <td style="padding-top: 20px">{$user['email']}</td>
@@ -332,6 +334,25 @@ EOD;
                 $('.addButtons').fadeIn();
             });
         });
+        $('#table_1').dataTable();
+        // image preview function     
+            $('img.preview').hover(function(){
+                    var image = $(this);
+                    image.parent().append('<i class="preview-img" style="display:none"><img src='+image.attr('src')+' width="80px" height="100px" </i>');
+                    $('i.preview-img').fadeIn();
+                },function(){
+                    $(this).siblings().remove('i.preview-img');
+                }
+            );
+
+
+            $('img.preview').bind('click', function(){
+                var imagesrc = '<img src="'+$(this).attr('src')+'" width="98%" height="480px" style="">';
+                $('.content').html(imagesrc);
+                $('.blanket').fadeIn(400,function(){
+                    $('.content').animate({'top':'5%'});
+                });
+            });
     </script>
 </body>
 

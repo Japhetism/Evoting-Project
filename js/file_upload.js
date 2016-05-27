@@ -2,7 +2,6 @@
  * Created by oyindamola on 3/9/16.
  */
 
-$('input[type="submit"]').prop("disabled", true);
 var a=0;
 var b=0;
 //binds to onchange event of your input field

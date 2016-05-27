@@ -261,12 +261,25 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if(is_array($emails) && !empty($emails)) {
             $success_message .= '<p class="primary" style="color: #fff; padding: 10px;">The first five (or less) email addresses in the uploaded csv file are as follows:<p>';
-            $success_message .= '<div class="table-responsive"><table class="table table-bordered" style="background:white"><thead><tr><th>Index</th><th>Email Address</th></tr></thead><tbody>';
+            $success_message .= '<div class="table-responsive">
+                                    <table class="table table-bordered" style="background:white">
+                                        <thead>
+                                            <tr>
+                                                <th>Index</th>
+                                                <th style="text-align:left;">Email Address</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>';
             for($i=0; $i < $count; $i++) {
                 $j = $i + 1;
-                $success_message .= '<tr><td>' . $j . '</td><td style="text-align:left;">' . $emails[$i] . '</td></tr>';
+                    $success_message .= '<tr>
+                                            <td>' . $j . '</td>
+                                            <td style="text-align:left;">' . $emails[$i] . '</td>
+                                        </tr>';
             }
-            $success_message .= '</tbody></table></div>';
+            $success_message .= '       </tbody>
+                                    </table>
+                                </div>';
         }
         else {
             $success_message .=  '<p>There was a problem displaying the emails in the uploaded csv file. Please proceed to be sure of the final outcome</p>';
@@ -326,15 +339,15 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                 }
             }
         }
-        $success_message .= "<p>The user with the email address - {$email} ";
+        $success_message .= "<p>The user with email address <a>{$email}</a> ";
         if($request_count > 0) {
-            $success_message .= "had already sent you a request to join this election. Please acknowledge the request";
+            $success_message .= "has already sent you a request to join this election. Please acknowledge the request";
         }
         elseif($invite_count > 0) {
             $success_message .= "had already been sent an invitation to join this election";
         }
         elseif($joined_count > 0) {
-            $success_message .= "had already joined this election";
+            $success_message .= "has already joined this election";
         }
         elseif($ignored_count > 0) {
             $success_message .= "does not have an account on this platform. Please advise him or her to create one";

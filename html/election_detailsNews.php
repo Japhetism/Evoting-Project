@@ -83,7 +83,7 @@ $_SESSION['adek_status'] = $adekagun;
 
 
     <script type="text/javascript">
-        var vote_link = "";
+        // var vote_link = "";
         var current="Election Has Closed";
         var current1 = "";
         var current2 = "<span class='text-success'>Election Has Started</span>";
@@ -237,12 +237,20 @@ $_SESSION['adek_status'] = $adekagun;
 
 
         <div class="container-fluid">
+            <!-- container header-->
             <div class="row">
-                <div class="col-xs-12 col-md-12 header">
-                    <h1 style="text-align: left">Dashboard</h1>
-                    <a href="maindashboard.php">Home</a> ><b><?php echo $election_name;?></b>
+                <div class="page-title col-md-12">
+                    <h3>Election Details</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="maindashboard.php">Home</a></li>
+                            <li class="active"><?php echo $_SESSION['election_name'];?></li>
+                        </ol>
+                    </div>
                 </div>
-            </div>
+
+            </div><br>
+            <!-- container header ends-->
 
             <div class="row">
                 <div class="col-md-8">
@@ -268,7 +276,7 @@ $_SESSION['adek_status'] = $adekagun;
                                         <h4 id="written" style="margin-top: 5px;display: none"></h4>
                                         <table id="table">
                                             <tr>
-                                                <td colspan="12"><label>Election Start in:</label><i id="write"></i>  <div class="numbers" id="count2" style="padding: 1px; "></div></td>
+                                                <td colspan="12"><label>Election Starts in:</label><i id="write"></i>  <div class="numbers" id="count2" style="padding: 1px; "></div></td>
 
                                             </tr>
                                             <tr id="spacer1">
@@ -422,14 +430,5 @@ $_SESSION['adek_status'] = $adekagun;
 </div>
         <!-- wrapper-->
 
-
-        <!-- jQuery -->
-        <script src="../js/jquery.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../js/bootstrap.min.js"></script>
-
-        <!-- Custom JavaScript -->
-        <script src="../js/file.js"></script>
 </body>
 </html>

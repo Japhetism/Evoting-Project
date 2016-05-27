@@ -46,14 +46,17 @@ if($created_count>0){
         $created_displayed.="</tr>";
     }
     $created_displayed.=   "</tbody></table>";
+    $created_adek = true;
 }else{
     $created_displayed = "<table  id='table_2' class='table table-responsive table-striped table-bordered' cellspacing='0'>
                                 you have not created any election yet.
                             </table>";
+                            $created_adek = false;
 }
 
 //get table for joined election
 $joined_displayed='You have not joined any election.';
+$joined_adek = false;
 $joined_elections=$connection1->query("SELECT election_id FROM joined WHERE user_id='$user_id'");
 $joined_elections->setFetchMode(PDO::FETCH_ASSOC);
 $joined_elections=$joined_elections->fetchAll();
@@ -79,11 +82,13 @@ if($joined_count>0){
         $joined_displayed.="</tr>";
     }
     $joined_displayed.="</tbody></table>";
+    $joined_adek = true;
 }
 
 //get table for available invites
 $invite_string="You currently have no pending invite from any administrator.";
 $invites_count=0;
+$invites_adek = false;
 $all_invites=$connection1->query("SELECT election_id,invite_date FROM invites WHERE user_id='$user_id'");
 $all_invites->setFetchMode(PDO::FETCH_ASSOC);
 $all_invites=$all_invites->fetchAll();
@@ -125,11 +130,12 @@ if(count($all_invites)>0){
             $invite_string.= "<td>".$available_invites[$j]["election_name"]."</td>
                               <td>".$available_invites[$j]["admin_email"]."</td>
                               <td>".$dateStringTimeString."</td>" ;
-            $invite_string.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"accept_invite.php?key=".wrap($available_invites[$j]["election_id"])."\"}'>View</span></td>";
+            $invite_string.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"http://localhost/adek/mysite/E-votingOO/html/accept_invite.php?key=".wrap($available_invites[$j]["election_id"])."\"}'>View</span></td>";
 
             $invite_string.="</tr>";
         }
         $invite_string.="</tbody></table>";
+        $invites_adek = true;
     }
 }
 
@@ -140,6 +146,7 @@ $all_requests->setFetchMode(PDO::FETCH_ASSOC);
 $all_requests=$all_requests->fetchAll();
 $has_request=array();
 $requests_count=0;
+$requests_adek= false;
 //for each request,check if the election is yet to start
 if(count($all_requests)>0){
     for($i=0;$i<count($all_requests);$i++){
@@ -178,6 +185,7 @@ if(count($all_requests)>0){
             $request_displayed.="</tr>";
         }
         $request_displayed.="</tbody></table>";
+        $requests_adek = true;
     }
 }
 
@@ -234,17 +242,19 @@ if(count($fully_public)>0){
             }
         }
         $key=  wrap($fully_public[$move]['election_id']);
-        $public_elections_displayed.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"publicElections.php?key=".$key."\"}'>View</span></td>";
+        $public_elections_displayed.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"http://localhost/adek/mysite/E-votingOO/html/publicElections.php?key=".$key."\"}'>View</span></td>";
 
         // $public_elections_displayed.="<td><a href='#' onclick='Public($key)'>See </a></td>";
         $public_elections_displayed.="</tr>";
     }
     $public_elections_displayed.=   "</tbody></table>";
+    $public_adek = true;
 
 }else{
     $public_elections_displayed = "<table  id='table_1' class='table table-responsive table-striped table-bordered' cellspacing='0'>
-                                no public elections yet.
+                                no public elections yet.<tbody></tbody>
                             </table>";
+                            $public_adek = false;
 }
 
 

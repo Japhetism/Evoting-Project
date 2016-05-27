@@ -47,12 +47,28 @@ include_once('../php/photo.php');
 
         <!-- /#page-wrapper -->
         <div class="container-fluid">
+            <!-- container header-->
+            <div class="row">
+                <div class="page-title col-md-12">
+                    <h3>Contestant Profile</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="maindashboard.php">Home</a></li>
+                            <li><a href="<?php echo($_SESSION['adek_link']) ?>"><?php echo $_SESSION['election_name'];?></a></li>
+                            <li class="active">Contestant Profile</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div>
+            <!-- container header ends-->
             <!-- begin page-header -->
-            <h1 class="page-header"><?php echo $contestant_fullname. " - Profile";?>
-            <!-- <button class="btn btn-danger btn-sm pull-right" onclick="window.history.back();">Back</button></h1> -->
+            <h3 class="page-header" style="text-align: center;"><?php echo $contestant_fullname. " - Profile";?></h3>
             <!-- end page-header -->
             <div class="row profile">
-                <div class="col-md-4"><?php echo "<img src='$contestant_picture' alt='' width='100%' height='300px'>"; ?></div>
+                <div class="col-md-4">
+                    <?php echo "<img class='img-circle' src='".$contestant_picture."' alt='' width='100%' height='300px'>"; ?>
+                </div>
                 <div class="col-md-8">
                     <div class="row">
                         <div class="col-md-12">

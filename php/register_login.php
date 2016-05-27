@@ -4,7 +4,8 @@
 require_once("database.php");
 include_once('connection.php');
 include_once('function.php');
-require_once "../PHPMailer/vendor/autoload.php";
+include_once('../vendor/mandrill/mandrill/src/Mandrill.php');
+
 
 //Check connection
 if(!$connection2){
@@ -104,47 +105,22 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
             $mainError = "Username already exist";
 
         } else {
-            //get datas to be encoded in mail
+            //send confirmation mail
+            $mandrill= new Mandrill('3ZeSXbCg9LF7X1yXEmWY-A');
+            $message = new stdClass();
             $last_id=mysqli_fetch_array(mysqli_query($connection2,"SELECT MAX(user_id) FROM users"))[0]+1;
             $coded=base64_encode(($last_id))."_".base64_encode($email);
-            //send confirmation mail
-            $mail = new PHPMailer;
-
-            //Enable SMTP debugging.
-            $mail->SMTPDebug = 3;
-            //Set PHPMailer to use SMTP.
-            $mail->isSMTP();
-            //Set SMTP host name
-            $mail->Host = "smtp.gmail.com";
-            //Set this to true if SMTP host requires authentication to send email
-            $mail->SMTPAuth = true;
-            //Provide username and password
-            $mail->Username = "oauevoting@gmail.com";
-            $mail->Password = "webo2016";
-            //If SMTP requires TLS encryption then set it
-            $mail->SMTPSecure = "tls";
-            //Set TCP port to connect to
-            $mail->Port = 587;
-
-            $mail->From = "noreply@oauevoting.com";
-            $mail->FromName = "OAU E-voting system.";
-            $mail->addReplyTo("noreply@oauevoting.com");
-
-            $mail->addAddress($email, strtoupper($fname)." ".$lname);
-
-            $mail->isHTML(true);
-
-            $mail->Subject = "Activate your online voting account.";
-            $mail->Body = "Hello ".$username.".<br>
-                 You are welcome to Obafemi Awolowo University online voting system.<br>
-                 This is to notify you that your email address has been used to create an
+            $message->html="Hello ".$username.".<br>This is to notify you that your email address has been used to create an
                  account with us. Kindly ignore this mail if your account was used without your consent.
-                 If not, click on <a href='http://localhost/E-voting/html/index.php?confirm_me=".$coded."'>Activate account.</a>
-                  to activate your account.Thank you.";
-
-            $mail->AltBody = "This is the plain text version of the email content";
-
-            if($mail->send()){
+                 If not, click this link to activate your eVoting account.
+                 <a href='http://localhost/E-voting/html/index.php?confirm_me=".$coded."'>Activate account.</a>";
+            $message->text="text body";
+            $message->subject="Activate your E-Voting account.";
+            $message->from_email="gabrieloyetunde@gmail.com";
+            $message->from_name="OAU E-Voting";
+            $message->to=array(array("email"=>$email));
+            $message->track_open=true;
+//            if($mandrill->messages->send($message)){
                 $sql = "INSERT INTO users(fname, lname, username, email, phone, password, gender)
                             VALUES('" . ucwords($fname) . "', '" . ucwords($lname) . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword ."','" . $sex . "')";
 
@@ -183,12 +159,10 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                     $mainError = "Account creation unsuccessful";
                     /*header("Location:../html/signup.php#register");*/
                 }
-
-            }else{
-                //the mail was not sent due to some issues,probably network
-                $mainError="Your connection is lost. Ensure you have an active internet connection";
-            }
-
+//            }else{
+//                //the mail was not sent due to some issues,probably network
+//                $mainError="Your connection is lost. Ensure you have an active internet connection";
+//            }
 
         }
     }
@@ -223,23 +197,18 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
 
         if(mysqli_num_rows($result2) !=0){
             //check status
-            $result2=mysqli_fetch_row($result2);
+           /* $result2=mysqli_fetch_row($result2);
             if($result2[2]==0){
                 $lmainError="Sorry, you are yet to confirm your email. A confirmation<br> mail has already
                                 been sent to your mailbox.";
-            }else{
+            }else{*/
                 session_start();
                 $_SESSION['login_user']=$lemail;
                 $_SESSION['adek_link']='';
                 $_SESSION['adek_status']='';
                 header('Location:maindashboard.php');
-
-            }
-
-
             /*}
 */
-
 
         }else{
             $lmainError = "Invalid username or password";
@@ -250,3 +219,4 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
 }
 
 
+?>

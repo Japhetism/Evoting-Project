@@ -36,7 +36,7 @@ include_once('../php/photo.php');
         }
         label {
             display: inline-block;
-            width: 140px;
+            /*width: 140px;*/
             /*text-align: right;*/
         }    </style>
 
@@ -91,6 +91,9 @@ include_once('../php/photo.php');
 
 
     <div id="wrapper">
+        <div class="load_cover">
+            <i class="fa fa-spin fa-spinner"></i>
+        </div>
 
         <!-- Navigation -->
         <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
@@ -113,18 +116,18 @@ include_once('../php/photo.php');
                 <li class="dropdown userActions">
                     <a href="#" class="dropdown-toggle showActions" id="showActions" data-toggle="dropdown">
                         <i>
-                            <img src="<?php echo $photo_fetched;?>" width="30px" height="30px" >
+                            <img class="img-circle" src="<?php echo $photo_fetched;?>" width="30px" height="30px" >
                         </i>
                             <?php echo $myemail;?>
                         <i class="fa fa-angle-down"></i>
                     </a>
                     <ul class="dropdown-menu userOptions" id="userOptions">
                         <li>
-                            <a href="viewuserprofile.php"><i class="fa fa-user"></i> Edit profile</a>
+                            <a href="viewuserprofile.php"><i class="fa fa-user"></i> profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="../php/logout.php"><i class="fa fa-power-off"></i> Log Out</a>
+                            <a href="../php/logout.php"><i class="fa fa-sign-out"></i> Log Out</a>
                         </li>
                     </ul>
                 </li>
@@ -134,7 +137,7 @@ include_once('../php/photo.php');
             <div class="sidebar collapse navbar-collapse navbar-right navbar-main-collapse" id="sidebar">
                 <ul class="nav navbar-nav side-nav sidebar" id="MainMenu">
                     <li class="col-md-12 ">
-                        <div class="row userProfile" id="userActions">
+                        <div class="row userProfile" id="userActions" onclick="window.location = 'viewuserprofile.php?email=' + '<?php echo $myemail?>';">
                             <div class="col-md-12 userActions">
                                 <img src="<?php echo $photo_fetched;?>" alt="???" width="100px" height="100px" style="border-radius:100%;"><br><br>
                                 <b><?php echo $fullname;?></b><br>
@@ -150,57 +153,6 @@ include_once('../php/photo.php');
                     <li class="active">
                         <a data-target="#demo3" class="active" data-toggle="collapse" data-parent="#MainMenu">
                         <i class="fa fa-pencil-square-o"></i>Manage Elections<i class="fa fa-angle-left pull-right" style="width:10px;"></i></a>
-                        <ul class="collapse tableLinks" id="demo3">   
-                            <li target="table_1" id="demo3_1" >    
-                                <a href="#" class="active" > Public Elections<i class="btn pull-right success" ><?php echo count($fully_public); ?> </i></a>
-                            </li>
-                            <li id="demo3_2" target="table_2" >
-                                <a class="active" data-toggle="collapse" data-target="#">
-                                    Created Elections<i class="btn pull-right primary" ><?php echo $created_count; ?></i>
-                                </a>
-                                <ul class="nav collapse" id="SubMenu">
-                                    <li>
-                                        <a href="#" class="inactive" data-parent="#SubMenu1">
-                                        Post News
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="inactive" data-parent="#SubMenu1">Update Election</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="inactive">Edit Participants</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="inactive" data-parent="#SubMenu1">View Results</a>
-                                    </li>
-                                </ul>
-                            </li>   
-                            <li target="table_3" id="demo3_3" >    
-                                <a href="#" data-target="#" data-toggle="collapse" class="active" > Joined Elections<i class="btn pull-right warning" ><?php echo $joined_count; ?></i></a>
-                                <ul class="nav collapse" id="SubMenu1">
-                                    <li>
-                                        <a href="#" class="inactive" data-parent="#SubMenu1">
-                                        Post News
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="inactive" data-parent="#SubMenu1">Register as Contestant</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="inactive">View Profile(Contestants Only)</a>
-                                    </li>
-                                    <li>
-                                        <a href="#" class="inactive" data-parent="#SubMenu1">Vote</a>
-                                    </li>
-                                </ul>
-                            </li>   
-                            <li target="table_4" id="demo3_4" >    
-                                <a href="#" class="active" > Pending Invites<i class="btn pull-right danger" ><?php echo $invites_count; ?></i></a>
-                            </li>   
-                            <li target="table_5" id="demo3_5" >    
-                                <a href="#" class="active" > Pending Requests<i class="btn pull-right default" ><?php echo $requests_count; ?></i></a>
-                            </li>
-                        </ul>
                     </li>
                     
                     <li class="active" >
@@ -340,14 +292,10 @@ include_once('../php/photo.php');
 <!--    wrapper-->
 
 
-    <!-- jQuery -->
-    <script src="../js/jquery.js"></script>
 
     <!-- Bootstrap Core JavaScript -->
     <script src="../js/bootstrap.min.js"></script>
 
-    <!-- Table JavaScript -->
-    <script src="../js/jQuery.dataTables.js"></script>
 
     <!-- Custom JavaScript -->
     <script src="../js/file.js"></script>
@@ -357,6 +305,10 @@ include_once('../php/photo.php');
     <script src="../assets/jquery.bpopup-0.11.0.min.js"></script>
     <script src="../assets/jquery.easing.1.3.js"></script>
     <script src="../assets/scripting.min.js"></script>
+    <!-- jQuery -->
+    <script src="../js/jquery.js"></script>
+    <!-- Table JavaScript -->
+    <script src="../js/jQuery.dataTables.js"></script>
     <script type="text/javascript">
         
         $("#formSubmit").click(function(e){ 
@@ -366,6 +318,28 @@ include_once('../php/photo.php');
             var data = '#thatForm';
             ajax_submit(type,php_file,data);
         });
+        
+        var table = '<?php echo $created_adek;?>';
+        if (table) {
+            $('table#table_2').dataTable();
+        }
+        var table = '<?php echo $public_adek;?>';
+        if (table) {
+            $('table#table_1').dataTable();
+        }
+        var table = '<?php echo $joined_adek;?>';
+        if (table) {
+            $('table#table_3').dataTable();
+        }
+        var table = '<?php echo $invites_adek;?>';
+        if (table) {
+            $('table#table_4').dataTable();
+        }
+        var table = '<?php echo $requests_adek;?>';
+        if (table) {
+            $('table#table_5').dataTable();
+        }
+
 
     </script>
 </body>

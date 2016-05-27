@@ -46,6 +46,9 @@ include_once('../php/photo.php');
                  padding-left: 200px;
                 }
             }
+            .img-thumbnail{
+                border:none;
+            }
     </style>
     <script>
         function check(){
@@ -75,9 +78,25 @@ include_once('../php/photo.php');
 
         <!-- /#page-wrapper -->
         <div class="container-fluid">
+            <!-- container header-->
+            <div class="row">
+                <div class="page-title col-md-12">
+                    <h3>Contestant Profile</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="maindashboard.php">Home</a></li>
+                            <li><a href="<?php echo($_SESSION['adek_link']) ?>"><?php echo $_SESSION['election_name'];?></a></li>
+                            <li class="active">Contestant Profile</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div><br>
+            <!-- container header ends-->
+            
             <!-- Page Heading -->
             <div class="row">
-                    <h3 class="page-header"  style="text-align: center;">
+                    <h3 style="text-align: center;" class="page-header">
                         <?php echo $user_nickname_here;?>
                         - Details
             <!-- <button class="btn btn-danger btn-sm pull-right" onclick="window.history.back();">Back</button> -->
@@ -87,24 +106,25 @@ include_once('../php/photo.php');
             <div class="row" id="updateProfile">
                 <form class="form-horizontal" enctype="multipart/form-data" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                     <div class="row profile">
-                        <div class="col-xs-12 col-md-4" id="pictureClick">
+                        <div class="col-xs-12 col-md-4 img-thumbnail" id="pictureClick">
+                                <p class="alert alert-warning editField hide">Please click image to change</p>
                             <?php 
-                                echo "<img id='image' class='image-responsive' src='$user_picture_here' alt='$picture_name' width='100%' height='300px'><br>";
+                                echo "<img id='image' class='img-responsive' src='$user_picture_here' alt='$picture_name' width='100%' height='auto'><br>";
                             ?>
-                            <input type="file" style="width: 100%" name="image" class="editField hide btn btn-default hide pictureChange" id="pictureChange" onchange="showPhoto(this)">
+                            <input type="file" style="width: 100%;height: 100%;top:0;position: absolute;opacity:0;" name="image" class="editField hide btn btn-default hide pictureChange" id="pictureChange" onchange="showPhoto(this)">
                         </div>
                         <div class="col-xs-12 col-md-8">
                             <div class="row">
                                 <div class="col-xs-12 ">
                                     <span class=" error"><?php echo $update_election_message;?></span>
-                                <div class="row">
-                                    <div class="col-xs-3 col-md-3">
-                                        <strong>Firstname: </strong>
+                                    <div class="row">
+                                        <div class="col-xs-3 col-md-3">
+                                            <strong>Firstname: </strong>
+                                        </div>
+                                        <div class="col-xs-9 col-md-9">
+                                            <small><?php echo $user_fname; ?></small>
+                                        </div>
                                     </div>
-                                    <div class="col-xs-9 col-md-9">
-                                        <small><?php echo $user_fname; ?></small>
-                                    </div>
-                                </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-md-3">
                                         <strong>Lastname: </strong>
@@ -190,14 +210,15 @@ include_once('../php/photo.php');
                                 </div>
 
                             </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 col-md-offset-4" style="text-align: center;">
-                            <input class="btn btn-danger" value="Step Down" type="submit" name="delete">
-                            <button type="button" class="toggleEdit editField btn btn-primary">Edit</button>
-                            <input class="editField btn btn-primary hide" value="Save" type="submit" name="submit">
-                            <input class="toggleEdit editField btn btn-default hide" value="Cancel" type="reset">
+
+                            <div class="row">
+                                <div class="col-md-8" style="text-align: center;">
+                                    <input class="btn btn-danger" value="Step Down" type="submit" name="delete">
+                                    <button type="button" class="toggleEdit editField btn btn-primary">Edit</button>
+                                    <input class="editField btn btn-primary hide" value="Save" type="submit" name="submit">
+                                    <input class="toggleEdit editField btn btn-default hide" onclick="window.location = location.href;" value="Cancel" type="reset">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </form>

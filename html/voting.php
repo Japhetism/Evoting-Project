@@ -238,7 +238,7 @@ include_once('../php/photo.php');
     }
     input[type='radio']:not(old):checked + label#option,
     input[type='radio']:not(old):checked + label#chosen{
-        background: url('checks.jpg') center no-repeat;
+        background: url('../images/voting/checks.jpg') center no-repeat;
         top: 0;
     }
     .panel-default>.panel-body{
@@ -362,13 +362,7 @@ include_once('../php/photo.php');
 </head>
 <body onload="countdown(year,month,day,hour,minute); check()">
 
-<div class="blanket">
-    <i class="btn btn-default fa fa-close" onclick="$('.blanket').fadeOut();"></i>
-    <div class="content">
 
-    </div>
-    
-</div>
 
 <div id="wrapper">
     
@@ -376,17 +370,24 @@ include_once('../php/photo.php');
 
 
     <div id="page-wrapper">
+            <!-- container header-->
+            <div class="row">
+                <div class="page-title col-xs-12">
+                    <h3>Edit Participants</h3>
+                    <div class="page-breadcrumb">
+                        <ol class="breadcrumb">
+                            <li><a href="maindashboard.php">Home</a></li>
+                            <li><a href="<?php echo $_SESSION['adek_link'];?> "><?php echo $_SESSION['election_name'];?> </a></li>
+                            <li class="active">Edit Participants</li>
+                        </ol>
+                    </div>
+                </div>
+
+            </div><br>
+            <!-- container header ends-->
     <!-- /#page-wrapper -->
         <div class="container-fluid">
             <div class="row">
-                    <!-- <div class="col-md-12 " id="election_time_left" style="display: block">
-                        <div class="panel panel-warning">
-                            <div class="panel-heading">
-                                Election Time Left
-                            </div>
-                        </div>
-
-                    </div> --> 
 
                     <div class='col-md-12' id="page" style="display:block">
                         <form class="form-horizontal" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
@@ -810,15 +811,6 @@ include_once('../php/photo.php');
     
 
 </div>
-
-        <!-- jQuery -->
-        <script src="../js/jquery.js"></script>
-
-        <!-- Bootstrap Core JavaScript -->
-        <script src="../js/bootstrap.min.js"></script>
-
-        <!-- Custom JavaScript -->
-        <script src="../js/file.js"></script>
 
         <script type="text/javascript">
             $('input#option').click(function(){

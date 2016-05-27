@@ -47,6 +47,6 @@ function changePicture(){
 }
 
 $('.toggleEdit').click(function(){
-    $('.editField').toggleClass('hide','show');
+    $('.editField').toggleClass('hide');
 });
 

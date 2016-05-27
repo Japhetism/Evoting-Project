@@ -50,21 +50,14 @@ include_once('../php/photo.php');
     </style>
 
     <link rel="stylesheet" href="../css/jquery-ui.css">
-    <script src="../js/jquery.js"></script>
-    <script src="../js/jquery-ui.js"></script>
-    <script>
-        $(function() {
-            $( ".datePicker" ).datepicker();
-        });
-    </script>
-
+    <!-- <script src="../js/jquery.js"></script> -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting</title>
+    <title>E-voting | Update Election Details</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -124,11 +117,11 @@ include_once('../php/photo.php');
                                         Please fill in appropriately, details of the election you want to edit in the fields provided below.
                                     </label>
                                 </p>
-                                <em style="font-size: 15px;">
-                                    <strong>Note</strong>: None of the date and time should be left unfilled once at least one of  them is changed.<br> 
-                                      Previous values are automatically discarded once this form is submitted.<br><br>
+                                <p class="text-danger" style="font-size: 15px;">
+                                    <strong>Note </strong>: None of the date and time should be left unfilled once at least one of  them is changed.<br> 
+                                      Previous values are automatically discarded once this form is submitted.<br>
                                     <span class="error"><?php echo $message; ?></span>
-                                </em>
+                                </p>
                             </div>
                             <div class="col-xs-10 col-xs-offset-1 form">
                                 <fieldset>
@@ -276,8 +269,8 @@ include_once('../php/photo.php');
 												<input type="number"  id="number_of_posts"  value="" name="number_of_new_posts" class="form-control" oninput="myfunction();" min="1" max="20" placeholder="No of Posts" >
 											</div>
 											<div class="col-xs-12">
-												<div class="col-md-6"><div id="dem"></div></div>
-											    <div class="col-md-6"><div id="dem1"></div></div>
+												<div class="col-md-6"><div id="dem" style="display: none"></div></div>
+											    <div class="col-md-6"><div id="dem1" style="display: none"></div></div>
 											</div>
                                         </div>
                                         <?php echo($status_string);?>
@@ -298,6 +291,10 @@ include_once('../php/photo.php');
     $('#timepicker1').timepicki();
     $('#timepicker2').timepicki();
 </script>
+    <script src="../js/jquery-ui.js"></script>
+    <script type="text/javascript">
+        $( ".datePicker" ).datepicker();
+    </script>
 <!--    wrapper-->
 
 

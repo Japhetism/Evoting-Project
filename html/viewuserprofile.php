@@ -146,7 +146,6 @@ include_once('../php/photo.php');
                                         <small class="editField"><?php echo $username; ?></small>
                                         <input type="text" class="editField hide" value="<?php echo $username;?>" name="username" required/>
                                     </div>
-                                    <?php print_r($_SESSION); ?>
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-md-3">

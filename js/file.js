@@ -9,7 +9,6 @@ $(window).scroll(function() {
 
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
-        $( ".datePicker" ).datepicker();
             
 		$('a.page-scroll').bind('click', function(event) {
 			var $anchor = $(this);
@@ -18,6 +17,7 @@ $(function() {
 			}, 1500, 'easeInOutExpo');
 			event.preventDefault();
 		});
+        $('#page-wrapper').fadeIn(600);
 });
 $("#formSubmit").click(function(e){
     alert('button clicked');
@@ -49,15 +49,15 @@ $("#formSubmit").click(function(e){
 		// });
 
 		// clear input button
-		$('.clear-input').parent().click(function(){
+		$('.clear-input').click(function(){
 				var disabled = $('input:submit').attr('disabled');
-				var input_field = $($(this).children('.clear-input').attr('target'));
+				var input_field = $($(this).attr('target'));
 				var required = input_field.prop('required');
 				input_field.val('');
 				if (required) {
 					$('input:submit').attr('disabled',true);
 				}else{
-					$('input:submit').attr('disabled',true);
+					$('input:submit').attr('disabled',false);
 				}
 				$('#sig_error1, #sig_error2, #pic_error1, #pic_error2').slideUp();
 		});
@@ -76,36 +76,10 @@ $("#formSubmit").click(function(e){
 			}
 		});
 
-		// image preview function		
-            $('img').hover(function(){
-                    var image = $(this);
-                    image.parent().append('<i class="preview-img" style="display:none"><img src='+image.attr('src')+' width="80px" height="100px" </i>');
-                    $('i.preview-img').fadeIn();
-                },function(){
-                    $(this).siblings().remove('i.preview-img');
-                }
-            );
-
-
-            $('img').click(function(){
-                var imagesrc = '<img src="'+$(this).attr('src')+'" width="98%" height="480px" style="">';
-                $('.content').html(imagesrc);
-                $('.blanket').fadeIn(400,function(){
-                    $('.content').animate({'top':'5%'});
-                });
-            });
+			
 
 
 
-
-//tables initialization
-	$(document).ready(function() {
-		$('#table_1').DataTable();
-		$('#table_2').DataTable();
-		$('#table_3').DataTable();
-		$('#table_4').DataTable();
-		$('#table_5').DataTable();
-	});
 
 
 //jQuery for hiding tables
@@ -184,13 +158,16 @@ function displayPosts(div_id){
 		
 //show textboxes for posts input		
 function myfunction(){
-	var	text = document.getElementById('number_of_posts').value;
+	var text = "";
+	var text2="";
+	text = document.getElementById('number_of_posts').value;
 	if(text>20|| text<1){
 		document.getElementById('dem').innerHTML = '<span style="color:red;float:left;">Enter a value between 1 and 20</span>';
 		document.getElementById('dem1').innerHTML = '';
 	}else{
 		document.getElementById('dem').innerHTML = 'Post(s)<br>';
 		document.getElementById('dem1').innerHTML = 'Pin(s)<br>';
+
 
 		for(var i=0; i<text; i++) {
 			var currentPost='post'+i;
@@ -205,10 +182,11 @@ function myfunction(){
 	//display dropdown menu
 	
 	$('.userActions').click(function(){
-		$(this).children('#userOptions').slideToggle('200');
+		var dropdown = $(this).children('#userOptions');
+		dropdown.slideToggle();
 	});
 	$(document).click(function(){
-		$('#userOptions').slideUp('200');
+		$('#userOptions').slideUp();
 	});
 
 
@@ -352,30 +330,25 @@ function ajax_submit(type,php_file,data){
             });
 }
 
-function genFields(input){
-    //get number of posts
-    var num = document.getElementById("number_of_posts").value;
-    if(num !==null && num >0){
-        //extract the keys of the JSON object
-        var pins = Object.keys(input);
-        //prepare your display
-        document.getElementById('dem').innerHTML = 'Post(s)<br>';
-        document.getElementById('dem1').innerHTML = 'Pin(s)<br>';
-        for(var index=0;index<num;index++){
-            var currentPost='post'+index;
-            var currentPin='pin'+index;
-            document.getElementById('dem').innerHTML  += "<input class='form-control' type='text' value="+input[pins[index]]+" name="+currentPost+"  required><br>";
-            document.getElementById('dem1').innerHTML  += "<input class='form-control' type='text' value="+pins[index]+" name="+currentPin+"  required><br>";
-        }
-    }
-    //make display visible
-    $('#dem, #dem1').slideDown(200);
-}
-
-
-
         $('.load_cover, #load_cover').fadeOut();
         $('.load_cover, #load_cover').children('i').fadeOut();
 
 
+			// image preview function		
+            $('img.preview').hover(function(){
+                    var image = $(this);
+                    image.parent().append('<i class="preview-img" style="display:none"><img src='+image.attr('src')+' width="80px" height="100px" </i>');
+                    $('i.preview-img').fadeIn();
+                },function(){
+                    $(this).siblings().remove('i.preview-img');
+                }
+            );
 
+
+            $('img.preview').bind('click', function(){
+                var imagesrc = '<img src="'+$(this).attr('src')+'" width="98%" height="480px" style="">';
+                $('.content').html(imagesrc);
+                $('.blanket').fadeIn(400,function(){
+                    $('.content').animate({'top':'5%'});
+                });
+            });
