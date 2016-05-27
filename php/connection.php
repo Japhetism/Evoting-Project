@@ -31,7 +31,7 @@ function Connection($type, $host, $username='root', $password, $dbname) {
     }
 }
 $password="eminence";
-$dbname="try7";
+$dbname="try1";
 
 $connection1 = Connection('PDO','localhost','root',$password,$dbname);
 $connection2 =  Connection('mysqli','localhost','root',$password,$dbname);
