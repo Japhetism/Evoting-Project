@@ -277,8 +277,6 @@ include_once('../php/photo.php');
                     </div>
                 </div>
 
-            
-
             </div>
 
         </div>
@@ -303,21 +301,14 @@ include_once('../php/photo.php');
     <script src="../assets/jquery.min.js"></script>
     <!--    <script>window.jQuery || document.write('<script src="assets/jquery-1.9.1.min.js"><\/script>')</script>-->
     <script src="../assets/jquery.bpopup-0.11.0.min.js"></script>
-    <script src="../assets/jquery.easing.1.3.js"></script>
+<!--    <script src="../assets/jquery.easing.1.3.js"></script>-->
     <script src="../assets/scripting.min.js"></script>
     <!-- jQuery -->
     <script src="../js/jquery.js"></script>
     <!-- Table JavaScript -->
     <script src="../js/jQuery.dataTables.js"></script>
     <script type="text/javascript">
-        
-        $("#formSubmit").click(function(e){ 
-            e.preventDefault();
-            var type = 'POST';
-            var php_file = '../php/join.php';
-            var data = '#thatForm';
-            ajax_submit(type,php_file,data);
-        });
+
         
         var table = '<?php echo $created_adek;?>';
         if (table) {

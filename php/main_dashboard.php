@@ -15,7 +15,10 @@ $created_count=$joined_count=$invites_count=$requests_count=0;
 //get user_id
 $user_id=user_id($myemail);
 //get table for created elections
-$created_displayed="You are yet to create an election.";
+$created_displayed = "<table  id='table_2' class='table table-responsive table-striped table-bordered' cellspacing='0'>
+                                You are yet to create an election.
+                            </table>";
+$created_adek = false;
 $created_elections=$connection1->query("SELECT * FROM election WHERE user_id='$user_id'");
 $created_elections->setFetchMode(PDO::FETCH_ASSOC);
 $created_elections=$created_elections->fetchAll();
@@ -47,11 +50,6 @@ if($created_count>0){
     }
     $created_displayed.=   "</tbody></table>";
     $created_adek = true;
-}else{
-    $created_displayed = "<table  id='table_2' class='table table-responsive table-striped table-bordered' cellspacing='0'>
-                                you have not created any election yet.
-                            </table>";
-                            $created_adek = false;
 }
 
 //get table for joined election
@@ -190,7 +188,10 @@ if(count($all_requests)>0){
 }
 
 //get all public elections
-$public_elections_displayed="No public election is currently available.";
+$public_elections_displayed = "<table  id='table_1' class='table table-responsive table-striped table-bordered' cellspacing='0'>
+                                No public election is currently available.<tbody></tbody>
+                            </table>";
+$public_adek = false;
 $ref="";
 $all_public=$connection1->prepare("SELECT * FROM election WHERE privacy='12' OR privacy='11' ORDER BY date_created DESC");
 $all_public->execute();
@@ -242,7 +243,7 @@ if(count($fully_public)>0){
             }
         }
         $key=  wrap($fully_public[$move]['election_id']);
-        $public_elections_displayed.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"http://localhost/push/html/publicElections.php?key=".$key."\"}'>View</span></td>";
+        $public_elections_displayed.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"publicElections.php?key=".$key."\"}'>View</span></td>";
 
         // $public_elections_displayed.="<td><a href='#' onclick='Public($key)'>See </a></td>";
         $public_elections_displayed.="</tr>";
@@ -250,11 +251,6 @@ if(count($fully_public)>0){
     $public_elections_displayed.=   "</tbody></table>";
     $public_adek = true;
 
-}else{
-    $public_elections_displayed = "<table  id='table_1' class='table table-responsive table-striped table-bordered' cellspacing='0'>
-                                no public elections yet.<tbody></tbody>
-                            </table>";
-                            $public_adek = false;
 }
 
 
