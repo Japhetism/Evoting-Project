@@ -20,7 +20,6 @@ $(function() {
         $('#page-wrapper').fadeIn(600);
 });
 $("#formSubmit").click(function(e){
-    alert('button clicked');
     e.preventDefault();
     var type = 'POST';
     var php_file = '../php/join.php';
@@ -328,6 +327,26 @@ function ajax_submit(type,php_file,data){
                     console.log(msg+"error");
                 }
             });
+}
+
+function genFields(input){
+    //get number of posts
+    var num = document.getElementById("number_of_posts").value;
+    if(num !==null && num >0){
+        //extract the keys of the JSON object
+        var pins = Object.keys(input);
+        //prepare your display
+        document.getElementById('dem').innerHTML = 'Post(s)<br>';
+        document.getElementById('dem1').innerHTML = 'Pin(s)<br>';
+        for(var index=0;index<num;index++){
+            var currentPost='post'+index;
+            var currentPin='pin'+index;
+            document.getElementById('dem').innerHTML  += "<input class='form-control' type='text' value="+input[pins[index]]+" name="+currentPost+"  required><br>";
+            document.getElementById('dem1').innerHTML  += "<input class='form-control' type='text' value="+pins[index]+" name="+currentPin+"  required><br>";
+        }
+    }
+    //make display visible
+    $('#dem, #dem1').slideDown(200);
 }
 
         $('.load_cover, #load_cover').fadeOut();

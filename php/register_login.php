@@ -4,7 +4,7 @@
 require_once("database.php");
 include_once('connection.php');
 include_once('function.php');
-include_once('../vendor/mandrill/mandrill/src/Mandrill.php');
+require_once "../PHPMailer/vendor/autoload.php";
 
 
 //Check connection
@@ -18,6 +18,7 @@ $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassw
         $this_user_coded=$_GET["confirm_me"];
         $this_user_id=base64_decode((explode("_",$this_user_coded)[0]));
         $this_user_email=base64_decode(explode("_",$this_user_coded)[1]);
+        $lemail=$this_user_email;
         //get the status of this user
         $status_query="SELECT status FROM users WHERE user_id='$this_user_id' AND email='$this_user_email'";
         $get_status=mysqli_fetch_row(mysqli_query($connection2,$status_query));
@@ -105,28 +106,52 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
             $mainError = "Username already exist";
 
         } else {
-            //send confirmation mail
-            $mandrill= new Mandrill('3ZeSXbCg9LF7X1yXEmWY-A');
-            $message = new stdClass();
+            //get datas to be encoded in mail
             $last_id=mysqli_fetch_array(mysqli_query($connection2,"SELECT MAX(user_id) FROM users"))[0]+1;
             $coded=base64_encode(($last_id))."_".base64_encode($email);
-            $message->html="Hello ".$username.".<br>This is to notify you that your email address has been used to create an
+            //send confirmation mail
+            $mail = new PHPMailer;
+
+            //Enable SMTP debugging.
+            $mail->SMTPDebug = 3;
+            //Set PHPMailer to use SMTP.
+            $mail->isSMTP();
+            //Set SMTP host name
+            $mail->Host = "smtp.gmail.com";
+            //Set this to true if SMTP host requires authentication to send email
+            $mail->SMTPAuth = true;
+            //Provide username and password
+            $mail->Username = "oauevoting@gmail.com";
+            $mail->Password = "webo2016";
+            //If SMTP requires TLS encryption then set it
+            $mail->SMTPSecure = "tls";
+            //Set TCP port to connect to
+            $mail->Port = 587;
+
+            $mail->From = "noreply@oauevoting.com";
+            $mail->FromName = "OAU E-voting system.";
+            $mail->addReplyTo("noreply@oauevoting.com");
+
+            $mail->addAddress($email, strtoupper($fname)." ".$lname);
+
+            $mail->isHTML(true);
+
+            $mail->Subject = "Activate your online voting account.";
+            $mail->Body = "Hello ".$username.".<br>
+                 You are welcome to Obafemi Awolowo University online voting system.<br>
+                 This is to notify you that your email address has been used to create an
                  account with us. Kindly ignore this mail if your account was used without your consent.
-                 If not, click this link to activate your eVoting account.
-                 <a href='http://localhost/E-voting/html/index.php?confirm_me=".$coded."'>Activate account.</a>";
-            $message->text="text body";
-            $message->subject="Activate your E-Voting account.";
-            $message->from_email="gabrieloyetunde@gmail.com";
-            $message->from_name="OAU E-Voting";
-            $message->to=array(array("email"=>$email));
-            $message->track_open=true;
-//            if($mandrill->messages->send($message)){
+                 If not, click on <a href='http://localhost/push/html/index.php?confirm_me=".$coded."'>Activate account.</a>
+                  to activate your account.Thank you.";
+
+            $mail->AltBody = "";
+            if(true==true){
                 $sql = "INSERT INTO users(fname, lname, username, email, phone, password, gender)
                             VALUES('" . ucwords($fname) . "', '" . ucwords($lname) . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword ."','" . $sex . "')";
 
                 if (mysqli_query($connection2, $sql)) {
                     //Invite the signed up user for an election he has been invited
-                    $output = "Account Created Successfully, Check Your Email For confirmation.";
+                    $output = "<span style='color: #008000'>Account created successfully. Check Your email For verification.</span>";
                     $electionId=$election_start=$election_time=$invite_message="";
                     $invite_query= $connection1->prepare("SELECT * FROM ignored WHERE email='$email'");
                     $invite_query->execute();
@@ -139,30 +164,30 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                             $electionDetails = getElectionDetails($electionId);
                             $election_start = $electionDetails[0]['election_start_date'];
                             $election_time = $electionDetails[0]['election_time_from'];
-                            $invite_date = $electionDetails[0]['date_created'];
+                            $invite_date = $invite_result[$i]["ignored_date"];
                             if (!concluded($election_start,$election_time,7200)) {
                                 $insertQuery = "INSERT INTO invites (user_id, election_id, invite_date) VALUES ('$last_id', '$electionId', '$invite_date')";
                                 if (mysqli_query($connection2, $insertQuery)) {
                                     $deleteQuery = "DELETE FROM ignored WHERE email='$email' AND election_id='$electionId'";
                                     if (mysqli_query($connection2, $deleteQuery)) {
                                         $invite_message = "You have been invited to participate in an election";
-                                        //header("Location:index.php#login");
                                     }
                                 }
                             }
                         }
                     }
-                    
-                    header("Location:../html/index.php?key=".$output);
+
+//                    header("Location:../html/index.php?key=".$output);
+                    $fname=$lname=$email=$username=$phone=$password1=$password2=$sex="";
 
                 } else {
                     $mainError = "Account creation unsuccessful";
                     /*header("Location:../html/signup.php#register");*/
                 }
-//            }else{
-//                //the mail was not sent due to some issues,probably network
-//                $mainError="Your connection is lost. Ensure you have an active internet connection";
-//            }
+            }else{
+                //the mail was not sent due to some issues,probably network
+                $mainError="Your connection is lost. Ensure you have an active internet connection";
+            }
 
         }
     }
@@ -197,18 +222,18 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
 
         if(mysqli_num_rows($result2) !=0){
             //check status
-           /* $result2=mysqli_fetch_row($result2);
+            $result2=mysqli_fetch_row($result2);
             if($result2[2]==0){
                 $lmainError="Sorry, you are yet to confirm your email. A confirmation<br> mail has already
                                 been sent to your mailbox.";
-            }else{*/
+            }else{
                 session_start();
                 $_SESSION['login_user']=$lemail;
                 $_SESSION['adek_link']='';
                 $_SESSION['adek_status']='';
                 header('Location:maindashboard.php');
-            /*}
-*/
+            }
+
 
         }else{
             $lmainError = "Invalid username or password";

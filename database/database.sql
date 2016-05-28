@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS election(
   user_id INT UNSIGNED ,
   privacy INT UNSIGNED NOT NULL ,
   result_display VARCHAR (20) NOT NULL DEFAULT "after",
+  result_mail_sent BOOLEAN NOT NULL DEFAULT FALSE ,
   CONSTRAINT fk_election_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
 
@@ -118,6 +119,7 @@ CREATE TABLE IF NOT EXISTS ignored (
   ignored_id INT UNSIGNED NOT NULL AUTO_INCREMENT ,
   email VARCHAR(100) NOT NULL ,
   election_id INT UNSIGNED NOT NULL ,
+  ignored_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (ignored_id) ,
   CONSTRAINT fk_ignored_election_id FOREIGN KEY (election_id) REFERENCES election(election_id) ON DELETE CASCADE
 );

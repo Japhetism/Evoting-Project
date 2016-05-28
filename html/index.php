@@ -1,5 +1,15 @@
 <?php
 include('../php/register_login.php'); // Includes register and login script
+
+if(isset($_SESSION['login_user'])){
+    header('Location:maindashboard.php');
+}
+$output2="";
+$output3 = "Account Created Successfully, Check Your Email For confirmation";
+if(isset($_GET['key'])){
+    $output2=$_GET['key'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -195,7 +205,9 @@ include('../php/register_login.php'); // Includes register and login script
                                     <input type="submit" class="btn btn-success" name="login" value="LOGIN">
                                 </div>
                             </div>
+                            <?php echo $output2;?>
                             <br>
+                            <span><?php if($confirmationMessage !="") echo($confirmationMessage);?></span>
                             <span class="error" ><?php echo $lmainError;?></span>
                     </fieldset>
                 </form>

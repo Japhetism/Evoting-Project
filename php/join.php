@@ -29,9 +29,9 @@ if(isset($_POST["pin"]) && !empty($_POST["pin"])){
             }elseif($openness==1 && concluded($election["election_start_date"],$election["election_time_from"],3600)){
                 echo 'Voting for this election will commence in less an hour.Therefore your request cannot be processed.';
             }elseif(attached("request",$user_id,$election["election_id"])==="request"){
-                echo 'You have already send a request to the admin of this election.Just hold on till your request is granted.Thank you.';
+                echo 'You have already sent a request to the admin of this election.Just hold on till your request is granted.Thank you.';
             }elseif(attached("election",$user_id,$election["election_id"])=="election"){
-                echo 'You are the admin of this election.You can send a request to yourself.';
+                echo 'You are the admin of this election.You cannot send a request to yourself.';
             }elseif(attached("invites",$user_id,$election["election_id"])==="invites"){
                 echo 'You are already invited for this election.';
             }elseif(attached("joined",$user_id,$election["election_id"])==="joined"){
@@ -39,10 +39,10 @@ if(isset($_POST["pin"]) && !empty($_POST["pin"])){
             }else{ #if open,add to joined. if closed,add to request
                 $election_id=$election["election_id"];
                 if($openness==1){
-                    $query=("INSERT INTO request (user_id,election_id) VALUES ('$user_id','$election_id')");
+                    $query="INSERT INTO request (user_id,election_id) VALUES ('$user_id','$election_id')";
                     $success_message='<p style="color: #008000">Request has been passed  to the admin successfully.</p>';
                 }elseif($openness==2){
-                    $query=("INSERT INTO joined (user_id,election_id) VALUES ('$user_id','$election_id')");
+                    $query="INSERT INTO joined (user_id,election_id) VALUES ('$user_id','$election_id')";
                     $success_message='<p style="color: #008000">You have successfully joined this open election.</p>';
                 }
                 if($connection1->query($query)){

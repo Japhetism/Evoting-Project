@@ -74,7 +74,11 @@ include_once('../php/photo.php');
 
     <![endif]-->
 </head>
-<body>
+<body
+    <?php if(isset($_POST["submit"])){
+        echo ('onload=genFields('.json_encode(post_pin()).')') ;
+    }?>
+    >
     <div id="wrapper" style="overflow-x: hidden;">
 
         <!-- Navigation -->
@@ -274,7 +278,7 @@ include_once('../php/photo.php');
                                                                echo($name_of_election);
                                                            else echo($dummy3);
                                                            ?>"
-                                                           placeholder="Name of Election" >
+                                                           placeholder="Name of Election" required="">
                                                     <span class="error"><?php echo $name_of_electionErr; ?></span>
                                                 </div>
                                             </div><br>
@@ -285,7 +289,7 @@ include_once('../php/photo.php');
                                                             <label>
                                                                 Start Date of Election
                                                             </label>
-                                                            <input type="text" class="form-control datePicker" name="start_date"  value="<?php echo $dummy1;?>">
+                                                            <input type="text" class="form-control datePicker" name="start_date"  value="<?php echo $dummy1;?>" required="">
                                                            <span class="error"><?php echo $start_date_of_electionErr; ?></span>
                                                         </div>
                                                     </div><br>
@@ -294,7 +298,7 @@ include_once('../php/photo.php');
                                                             <label>
                                                                 End Date of Election
                                                             </label>
-                                                                <input type="text" class="form-control datePicker" name="end_date"  value="<?php echo $dummy2;?>">
+                                                                <input type="text" class="form-control datePicker" name="end_date"  value="<?php echo $dummy2;?>" required="">
                                                             <span class="error">
                                                                 <?php echo $end_date_of_electionErr; ?>
                                                             </span>
@@ -309,7 +313,7 @@ include_once('../php/photo.php');
                                                         <div class="col-xs-12 col-md-12" id="elect_time">
                                                             <!-- startime -->
                                                             <div class="inner cover indexpicker">
-                                                                <div class="time_pick"><input id="timepicker1" class="form-control" type="text" name="start_time" value="<?php echo $dummy4;?>">
+                                                                <div class="time_pick"><input id="timepicker1" class="form-control" type="text" name="start_time" value="<?php echo $dummy4;?>" required="">
                                                                     <div class="timepicker_wrap " style="display: none;">
 
                                                                         <div class="time">
@@ -348,7 +352,7 @@ include_once('../php/photo.php');
                                                         <div class="col-xs-12 col-md-12" id="elect_time">
                                                             <!-- enditime -->
                                                             <div class="inner cover indexpicker">
-                                                                <div class="time_pick"><input id="timepicker2" class="form-control" type="text" name="end_time" value="<?php echo $dummy5;?>">
+                                                                <div class="time_pick"><input id="timepicker2" class="form-control" type="text" name="end_time" value="<?php echo $dummy5;?>" required="">
                                                                     <div class="timepicker_wrap " style="display: none;">
 
                                                                         <div class="time">
@@ -387,7 +391,7 @@ include_once('../php/photo.php');
                                             <div class="row form-group">
                                                 <div class="col-xs-12">
                                                     <label>Number of Posts</label>
-                                                    <input  class=" form-control" value="<?php echo $number_of_posts ?>" type="number"  id="number_of_posts" name="number_of_posts" oninput="myfunction();" min="1" max="20" placeholder="No of Posts" >
+                                                    <input  class=" form-control" value="<?php echo $number_of_posts ?>" type="number"  id="number_of_posts" name="number_of_posts" oninput="myfunction();" min="1" max="20" placeholder="No of Posts" required="">
                                                     <span class="error"><?php echo $number_of_postsErr?></span>
                                                 </div>
                                             </div><br>
@@ -407,8 +411,8 @@ include_once('../php/photo.php');
                                                     <input type="radio" name="openness" value="2" required>No<br><br>
                                                     <label>When do you want election result to be display?</label><br>
                                                      <!-- &nbsp; &nbsp; -->
-                                                    <input type="radio" name="result_display" value="after">After Election
-                                                    <input type="radio" name="result_display" value="during">During Election
+                                                    <input type="radio" name="result_display" value="after" required="">After Election
+                                                    <input type="radio" name="result_display" value="during" required="">During Election
                                                     <span class="error"></span>
                                                 </div>
                                             </div><br>

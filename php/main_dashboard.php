@@ -130,7 +130,7 @@ if(count($all_invites)>0){
             $invite_string.= "<td>".$available_invites[$j]["election_name"]."</td>
                               <td>".$available_invites[$j]["admin_email"]."</td>
                               <td>".$dateStringTimeString."</td>" ;
-            $invite_string.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"http://localhost/adek/mysite/E-votingOO/html/accept_invite.php?key=".wrap($available_invites[$j]["election_id"])."\"}'>View</span></td>";
+            $invite_string.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"accept_invite.php?key=".wrap($available_invites[$j]["election_id"])."\"}'>View</span></td>";
 
             $invite_string.="</tr>";
         }
@@ -242,7 +242,7 @@ if(count($fully_public)>0){
             }
         }
         $key=  wrap($fully_public[$move]['election_id']);
-        $public_elections_displayed.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"http://localhost/adek/mysite/E-votingOO/html/publicElections.php?key=".$key."\"}'>View</span></td>";
+        $public_elections_displayed.="<td><span class='button btn-default btn-sm pop2' data-bpopup='{\"content\":\"iframe\",\"contentContainer\":\".content\",\"loadUrl\":\"http://localhost/push/html/publicElections.php?key=".$key."\"}'>View</span></td>";
 
         // $public_elections_displayed.="<td><a href='#' onclick='Public($key)'>See </a></td>";
         $public_elections_displayed.="</tr>";
