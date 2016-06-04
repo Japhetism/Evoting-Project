@@ -145,7 +145,7 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                   to activate your account.Thank you.";
 
             $mail->AltBody = "";
-            if(true==true){
+            if($mail->send()){
                 $sql = "INSERT INTO users(fname, lname, username, email, phone, password, gender)
                             VALUES('" . ucwords($fname) . "', '" . ucwords($lname) . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword ."','" . $sex . "')";
 

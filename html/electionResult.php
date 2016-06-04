@@ -227,24 +227,28 @@ if(isset($_GET['key'])){
         var message = '<?php echo $message2;?>';
         if (election_start > nowDate){
             page.style.display = 'none';
-            msg.innerHTML = 'Election is yet to commence, it will commence on '+election_start;
+            msg.innerHTML = 'Voting is yet to commence. It will commence on '+election_start;
             msg.setAttribute('class','alert alert-');
         }else{
 
             if(result_display === "during"){
                 page.style.display = 'block';
                 if (hasVoted==0) {
-                    msg.innerHTML = 'Voting has commenced for this election';            
+                    var vote_link = "voting.php";
+                    document.getElementById("vote_link").setAttribute("href", vote_link);
+                    msg.innerHTML = 'Voting has commenced for this election. Cast your vote now!!!';
                     msg.setAttribute('class','alert alert-success');
                 }else{
-                    msg.innerHTML = '<span><i class="fa fa-check-circle text-success"></i>you have already voted in this election</span>';
+                    msg.innerHTML = '<span><i class="fa fa-check-circle text-success"></i>You have already voted in this election.</span>';
                     msg.setAttribute('class','alert alert-success');
                 }
                 // page1.style.display = 'none';
             }else if(result_display === "after"){
                 page.style.display = 'none';
                 if (hasVoted==0) {
-                    msg.innerHTML = 'Voting has commenced for this election<br>Election results will be available after the election has been concluded.';
+                    var vote_link = "voting.php";
+                    document.getElementById("vote_link").setAttribute("href", vote_link);
+                    msg.innerHTML = 'Voting has commenced for this election. Cast your vote now!!!<br>Election results will be available after the election has been concluded.';
                     msg.setAttribute('class','alert alert-success');
                 }else{
                     msg.setAttribute('class','alert alert-danger');
@@ -255,7 +259,7 @@ if(isset($_GET['key'])){
             }
                 if(election_end1 < nowDate){
                     page.style.display = 'block';
-                    msg.innerHTML = 'Election has been concluded';
+                    msg.innerHTML = 'Election has been concluded.';
                     msg.setAttribute('class','alert alert-danger');
                     $('#body').css('margin-top','0px');
                     // page1.style.display = 'none';
