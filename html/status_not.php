@@ -21,8 +21,8 @@
 <div class="container">
 <div class="row">
     <div class="col-xs-12">
-        <h3>This Election is no more available.</h3>
-        <p>Thank You for using E-Voting</p>
+        <h3>This Election is no more available for this category.</h3>
+        <p>Reload your main browser to see the update.</p>
 
     </div>
 </div>

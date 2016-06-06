@@ -11,6 +11,7 @@ include_once('../php/connection.php');
 include_once("../php/database.php");
 include_once('../php/photo.php');
 require_once('../php/function.php');
+include_once('../php/public.php');
 
 $this_admin=$submit=$admin_picture='';
 //get election_id
@@ -20,7 +21,7 @@ $check=$connection1->prepare("SELECT * FROM election WHERE election_id='$electio
 $check->execute();
 $check->setFetchMode(PDO::FETCH_ASSOC);
 $this_election = $check->fetchAll();
-if(empty($this_election)){
+if(empty($this_election) && $error_msg == ''){
     //redirect to maindashboard
     header("Location:maindashboard.php");
 }else{
@@ -30,6 +31,23 @@ if(empty($this_election)){
     //get user_id
     $user_id=user_id($myemail);
     $_SESSION['user_id']=$user_id;
+    $attachment = ['joined','request'];
+    for($i = 0;$i < 2; $i++){
+        $attach = attached($attachment[$i],$user_id,$_SESSION['election_id']);
+        if($attach != null){
+            break;
+        }
+    }
+    if($attach == 'joined'){
+        $error_msg ='<span class="error">You have already joined this election. Reload your main
+                                            browser to see the effect.
+                         </span>';
+    }elseif($attach == 'request'){
+        $error_msg ='<span class="error">Your request has been processed. Reload your main
+                                            browser to see the effect.
+                         </span>';
+    }
+
     //get admin details
     $admin_id=$this_election['user_id'];
     $admin=$connection1->prepare("SELECT * FROM users WHERE user_id='$admin_id'");
@@ -43,10 +61,10 @@ if(empty($this_election)){
     if(substr($privacy_degree,1,1)==='1'){
         $str='Voter authentication is required to be part of this election.
          Click the Request button to send a request to the admin of this election.';
-        $submit='<input class="btn btn-warning" type="submit" name="request" value="Send Request">';
-    }else{
+        $submit='<input class="btn btn-warning" type="submit" name="request" value="Send Request"><br>';
+    }elseif(substr($privacy_degree,1,1)==='2'){
         $str='This election is open. Click the join button to be part of this election.';
-        $submit='<input class="btn btn-warning" type="submit" name="join" value="Join">';
+        $submit='<input class="btn btn-warning" type="submit" name="join" value="Join"><br>';
 
     }
 }
@@ -140,9 +158,9 @@ if(empty($this_election)){
                         </div>
                     </div>
                 </div>
-                <form action="../php/public.php" method="post">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="col-xs-12 form-inline" style="text-align: center; ">
-                        <?php echo($submit);?>
+                        <?php if($error_msg=='') echo($submit); echo($error_msg);?>
                     </div>
                 </form>
             </div>
