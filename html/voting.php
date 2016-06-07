@@ -373,12 +373,12 @@ include_once('../php/photo.php');
             <!-- container header-->
             <div class="row">
                 <div class="page-title col-xs-12">
-                    <h3>Edit Participants</h3>
+                    <h3>Voting Page</h3>
                     <div class="page-breadcrumb">
                         <ol class="breadcrumb">
                             <li><a href="maindashboard.php">Home</a></li>
                             <li><a href="<?php echo $_SESSION['adek_link'];?> "><?php echo $_SESSION['election_name'];?> </a></li>
-                            <li class="active">Edit Participants</li>
+                            <li class="active">Voting</li>
                         </ol>
                     </div>
                 </div>
@@ -400,10 +400,8 @@ include_once('../php/photo.php');
                                 </div>
                                 <div class="panel-body main">
                                     <div class="row">
-                                        <div class="col-md-12 text-danger" style="text-align: center;"><?php echo $message?></div>
                                         <div class="col-xs-12">
                                             <?php
-
                                                 echo '
                                                 <div class="table-responsive">
                                                     <table id="table1" border="0">
@@ -435,14 +433,15 @@ include_once('../php/photo.php');
                                                         </tr>
                                                     </table>
                                                 </div>';
-                                                // echo '<div class="btn btn-danger">'.$message.'</div>';
-                                                // echo $contestant_id;
                                             ?>
                                         </div>
                                     </div><br>
                                     <div class="row">
+                                        <span>Click on the contestant(s) you want to vote for,&nbsp; and then cast your vote.</span>
+                                    </div>
+                                    <div class="row">
                                         <?php
-                                            for($efe=0; $efe<count($string_array); $efe++){
+                                            for($efe = 0; $efe < count($string_array); $efe++){
                                                 echo $string_array[$efe];
                                             }
                                         ?>

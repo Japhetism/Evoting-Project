@@ -40,13 +40,21 @@ function getAllContestants($post_id){
 }
 
 //get user names
-function contestantName($user_id){
+function contestantName($user_id,$con_id = null){
     global $connection1;
     $badmus=$connection1->prepare("SELECT fname,lname FROM users WHERE user_id='$user_id'");
     $badmus->execute();
     $badmus->setFetchMode(PDO::FETCH_ASSOC);
     $details=$badmus->fetchAll();
-    return strtoupper($details[0]['fname'])." ".$details[0]['lname'];
+    $output = strtoupper($details[0]['fname'])." ".$details[0]['lname'];
+    if ($con_id != null) {
+        $badmus1=$connection1->prepare("SELECT nickname FROM contestants WHERE contestant_id='$con_id'");
+        $badmus1->execute();
+        $badmus1->setFetchMode(PDO::FETCH_ASSOC);
+        $details1=$badmus1->fetchAll();
+        $output .= '</b><br>('.$details1[0]['nickname'].')';
+    }
+    return $output;
 }
 //get Election details
 function getElectionDetails($election_id){

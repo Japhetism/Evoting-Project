@@ -1,10 +1,6 @@
 <?php
 include_once("../php/vote.php");
 include_once('../php/photo.php');
-$message2="";
-if(isset($_GET['key'])){
-    $message2=$_GET['key'];
-}
 ?>
 
 <!DOCTYPE html>
@@ -224,7 +220,6 @@ if(isset($_GET['key'])){
         var page = document.getElementById('page');
         var msg = document.getElementById('msg');
         var hasVoted = '<?php echo $hasvoted;?>';
-        var message = '<?php echo $message2;?>';
         if (election_start > nowDate){
             page.style.display = 'none';
             msg.innerHTML = 'Voting is yet to commence. It will commence on '+election_start;
@@ -239,7 +234,7 @@ if(isset($_GET['key'])){
                     msg.innerHTML = 'Voting has commenced for this election. Cast your vote now!!!';
                     msg.setAttribute('class','alert alert-success');
                 }else{
-                    msg.innerHTML = '<span><i class="fa fa-check-circle text-success"></i>You have already voted in this election.</span>';
+                    msg.innerHTML = '<span><i class="fa fa-check-circle text-success"></i>You have successfully casted your vote in this election.</span>';
                     msg.setAttribute('class','alert alert-success');
                 }
                 // page1.style.display = 'none';
@@ -263,18 +258,10 @@ if(isset($_GET['key'])){
                     msg.setAttribute('class','alert alert-danger');
                     $('#body').css('margin-top','0px');
                     // page1.style.display = 'none';
-                
-            //  if(hasVoted == 1 && message!=='') {
-            //     document.getElementById('message').innerHTML = message;
-            // }else{
-            //      document.getElementById('message').innerHTML = 'You have already voted in this election';
-            // }
+
             }
 
         }
-
-
-
     }
 </script>
 </head>
@@ -315,7 +302,7 @@ if(isset($_GET['key'])){
                         <div class="row">
                             <?php 
                                 echo $string_election;
-                                for($k=0;$k<count($string_result_array);$k++){
+                                for($k = 0 ; $k < count($string_result_array) ; $k++){
                                     echo $string_result_array[$k].'<p>';
                                 }
                             ?>
