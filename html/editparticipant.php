@@ -1,18 +1,12 @@
 <?php
 error_reporting(0);
 
-session_start();
-
-if(isset($_SESSION['login_user'])){
-    $myemail = $_SESSION['login_user'];
-}
-else{
-    header("Location:index.php");
-}
+include_once('../php/session.php');
+include_once('../php/function.php');
 
 if(isset($_SESSION['election_id'])) {
     $id = $_SESSION['election_id'];
-    $election_id = substr($id, 9, strlen($id) - 17);
+    $election_id = unwrap($id);
 }
 else {
     header('Location: maindashboard.php');

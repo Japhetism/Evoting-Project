@@ -25,13 +25,13 @@ if (isset($_SESSION['election_key'])) {
                                 <a href="'.$_SESSION['adek_link'].'" class="active" data-parent="#SubMenu1"></i><i class="fa fa-minus"></i>Election Details</a>
                             </li>
                             <li>
-                                <a href="updateelectiondetails.php?key='.$_SESSION['election_key'].'" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>Update Election</a>
+                                <a href="updateelectiondetails.php" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>Update Election</a>
                             </li>
                             <li>
-                                <a href="editparticipant.php?key='.$_SESSION['election_key'].'" class="active"><i class="fa fa-minus"></i>Edit Participants</a>
+                                <a href="editparticipant.php" class="active"><i class="fa fa-minus"></i>Edit Participants</a>
                             </li>
                             <li>
-                                <a href="electionResult.php?key='.$_SESSION['election_key'].'" id="result_link" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>View Results</a>
+                                <a href="electionResult.php" id="result_link" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>View Results</a>
                             </li>
                         </ul>
                     </li>';
@@ -49,7 +49,7 @@ if (isset($_SESSION['election_key'])) {
                                 <a href="'.$_SESSION['adek_link'].'" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>Election Details</a>
                             </li>
                             <li>
-                                <a  id="register_link" href="registercandidate.php?key='.$_SESSION['election_key'].'" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>Register as Contestant</a>
+                                <a  id="register_link" href="registercandidate.php" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>Register as Contestant</a>
                             </li>
                             <li>
                                 <a href="#" class="active" id="contestant_link"><i class="fa fa-minus"></i>View Profile</a>
@@ -58,7 +58,7 @@ if (isset($_SESSION['election_key'])) {
                                 <a href="#" id="vote_link" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>Vote</a>
                             </li>
                             <li>
-                                <a href="viewresult.php?key='.$_SESSION['election_key'].'" id="result_link" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>View Results</a>
+                                <a href="viewresult.php" id="result_link" class="active" data-parent="#SubMenu1"><i class="fa fa-minus"></i>View Results</a>
                             </li>
                         </ul>
                     </li>';
