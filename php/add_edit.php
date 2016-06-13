@@ -208,7 +208,12 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                         if($voter['user_id'] != $user_id) {
                             $insert_query = "INSERT INTO invites (user_id, election_id) VALUES (:user_id, :election_id)";
                             $smh = $connection1->prepare($insert_query);
-                            $smh->execute($voter);
+                            //invite this user and send notification
+                            if ($smh->execute($voter)) {
+                                //get recipient & admin needed details.I'l love to do this without another query
+//                                $recipient_address = $voter['email'];
+                            }
+
                             $display_invites[] = getAllMembers('users', array('email'), array('user_id', '=', $voter['user_id']), 1)[0];
                             $added++;   
                         }
@@ -322,7 +327,44 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $smh = $connection1->prepare($insert_query);
                     $smh->bindValue('user_id', $user_id);
                     $smh->bindValue('election_id', $election_id);
-                    $smh->execute();
+                    //execute the query and send notification
+                    if ($smh->execute()) {
+                        //get recipient
+                        $recipient = getAllMembers('users',['*'],['user_id','=',$user_id])[0];
+                        //get election and its admin name
+                        $admin_query = "SELECT
+                                            election.election_name,users.fname AS admin_fname,users.lname AS admin_lname
+                                        FROM
+                                            election
+                                        LEFT JOIN
+                                            users
+                                        ON
+                                            election.user_id = users.user_id
+                                        WHERE
+                                            election_id = $election_id";
+                        $admin = $connection1->prepare($admin_query);
+                        $admin->execute();
+                        $admin->setFetchMode(PDO::FETCH_ASSOC);
+                        $admin = $admin->fetchAll()[0];
+                        $election_name = $admin['election_name'];
+                        $sender_name = strtoupper($admin['admin_fname'])." ".$admin['admin_lname'];
+
+                        $recipient_address = $recipient['email'];
+                        $recipient_name = strtoupper($recipient['fname'])." ".$recipient['lname'];
+
+                        $mail_subject = "Invitation to join an election.";
+                        $mail_body = "Hello ".$recipient['username'].".<br>
+                                                This is to notify you that ".$sender_name." has invited you to be a voter
+                                                in the election named ".$election_name.". The acceptance of this invitation
+                                                makes you a valid voter in the election but if rejected, this invitation will
+                                                be removed from the list of your current invitations. Also note that this invitation
+                                                will be available for a specified period of time depending on the type of election
+                                                which ".$election_name." is. To see more details about this invitation or respond to it,
+                                                <a href='evoting.oauife.edu.ng'>Login into your account</a> now.";
+                        sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
+
+                    }
+
                 }   
             }
             else {
@@ -331,7 +373,40 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                     $smh = $connection1->prepare($insert_query);
                     $smh->bindValue(':email', $email);
                     $smh->bindValue('election_id', $election_id);
-                    $smh->execute();
+                    //execute the query and send notification
+                    if ($smh->execute()) {
+                        //get election and its admin name
+                        $recipient_name = '';
+                        $admin_query = "SELECT
+                                            election.election_name,users.fname AS admin_fname,users.lname AS admin_lname
+                                        FROM
+                                            election
+                                        LEFT JOIN
+                                            users
+                                        ON
+                                            election.user_id = users.user_id
+                                        WHERE
+                                            election_id = $election_id";
+                        $admin = $connection1->prepare($admin_query);
+                        $admin->execute();
+                        $admin->setFetchMode(PDO::FETCH_ASSOC);
+                        $admin = $admin->fetchAll()[0];
+                        $election_name = $admin['election_name'];
+                        $sender_name = strtoupper($admin['admin_fname'])." ".$admin['admin_lname'];
+
+                        $mail_subject = "Invitation to join an election.";
+                        $mail_body = "Hello User.<br>
+                                                This is to notify you that,even though you are yet to create an account with us,
+                                                 ".$sender_name." has invited you to be a voter
+                                                in the election named <bold>".$election_name."</bold>. The acceptance of this invitation
+                                                makes you a valid voter in the election but if rejected, this invitation will
+                                                be removed from the list of your current invitations. Also note that this invitation
+                                                will be available for a specified period of time depending on the type of election
+                                                which ".$election_name." is. To see more details about this invitation or respond to it,
+                                                <a href='evoting.oauife.edu.ng'>SignUp</a> now.";
+                        sendEmail($email,$recipient_name,$mail_subject,$mail_body);
+
+                    }
                     $added_joined++;
                 }
                 else {

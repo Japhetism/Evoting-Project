@@ -375,9 +375,10 @@ if ($name_of_election && $start_date_of_election && $end_date_of_election && $ti
                     $_SESSION['csv'] = $csvArray;
 
                     if($valid_voters_id) {
-                        $query_electionId = "SELECT election_id FROM election WHERE election_pin = '$election_pin'";
+                        $query_electionId = "SELECT election_id,election_name FROM election WHERE election_pin = '$election_pin'";
                         foreach($result = $connection1->query($query_electionId) as $election) {
                             $election_id = $election['election_id'];
+                            $election_name = $election['election_name'];
                         }
                         $result->closeCursor();
 
@@ -386,12 +387,34 @@ if ($name_of_election && $start_date_of_election && $end_date_of_election && $ti
                         }
 
                         $user_id = user_id($myemail);
-
+                        //get admin details for mail sending
+                        $administrator = getAllMembers('users',['*'],['user_id','=',$user_id])[0];
+                        $sender_name = strtoupper($administrator['fname'])." ".$administrator['lname'];
+                        //keep the sender_name and election_name for the ignored guys
+                        $_SESSION['sender_name'] = $sender_name;
+                        $_SESSION['election_name'] = $election_name;
                         foreach($valid_voters_id as $voter) {
                             if($voter['user_id'] != $user_id) {
                                 $insertQuery = "INSERT INTO invites (user_id, election_id) VALUES (:user_id, :election_id)";
                                 $smh = $connection1->prepare($insertQuery);
-                                $smh->execute($voter);
+                                //lets forward the invite to the invitee and also send notification to the invitee
+                                if ($smh->execute($voter))
+                                {
+                                    //forward the mail. start by getting sender and receiver first
+                                    $recipient = getAllMembers('users',['*'],['user_id','=',$voter['user_id']])[0];
+                                    $recipient_name = strtoupper($recipient['fname'])." ".$recipient['lname'];
+                                    $mail_subject = "Invitation to join an election - ".$election_name;
+                                    $mail_body = "Hello ".$recipient['username'].".<br>
+                                                This is to notify you that ".$sender_name." has invited you to be a voter
+                                                in the election named <bold>".$election_name."</bold>. The acceptance of this invitation
+                                                makes you a valid voter in the election but if rejected, this invitation will
+                                                be removed from the list of your current invitations. Also note that this invitation
+                                                will be available for a specified period of time depending on the type of election
+                                                which ".$election_name." is. To see more details about this invitation or respond to it,
+                                                <a href='evoting.oauife.edu.ng'>Login into your account</a> now.";
+                                    sendEmail($recipient['email'],$recipient_name,$mail_subject,$mail_body);
+                                }
+
                             }
                         }
                     }

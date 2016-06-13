@@ -533,7 +533,7 @@ include_once('../php/photo.php');
                     details.slideUp(400,function(){
                         details.siblings('.panel-body').removeClass('media');
                         details.siblings('.panel-body').children('.contestant').removeClass('active');
-                        details.siblings('.panel-body').find('input#option').prop('checked','false');
+                        details.siblings('.panel-body').find('input#option').attr('checked',false);
                     });                  
                     
                 });

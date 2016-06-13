@@ -5,6 +5,8 @@
  * Date: 2/9/16
  * Time: 11:52 AM
  */
+require_once "../PHPMailer/vendor/autoload.php";
+
 
 function dateString($date){
     $year=explode("-",$date)[0];
@@ -240,4 +242,42 @@ function getActualtime($input){
         $hour="00";
     }
     return $hour.":".removeSpace($time[1]).":00";
+}
+
+//lets write a function to handle mail sending
+function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = "")
+{
+    //instantiate mailer class
+    $mail = new PHPMailer;
+    //Enable SMTP debugging.
+//    $mail->SMTPDebug = 3;
+    //Set PHPMailer to use SMTP.
+    $mail->isSMTP();
+    //Set SMTP host name
+    $mail->Host = "smtp.gmail.com";
+    //Set this to true if SMTP host requires authentication to send email
+    $mail->SMTPAuth = true;
+    //Provide username and password
+    $mail->Username = "oauevoting@gmail.com";
+    $mail->Password = "webo2016";
+    //If SMTP requires TLS encryption then set it
+    $mail->SMTPSecure = "tls";
+    //Set TCP port to connect to
+    $mail->Port = 587;
+
+    $mail->From = "noreply@oauevoting.com";
+    $mail->FromName = "OAU E-voting system.";
+    $mail->addReplyTo("noreply@oauevoting.com");
+    $mail->addAddress($recipient_address, $recipient_name);
+    $mail->isHTML(true);
+    $mail->Subject = $subject;
+    $mail->Body = $body;
+    $mail->AltBody = $AltBody;
+
+    if ($mail->send()) {
+        return true;
+    }else {
+        return false;
+    }
+
 }

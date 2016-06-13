@@ -2,6 +2,7 @@
 require_once '../php/csv.php';
 require_once '../php/database.php';
 require_once '../php/photo.php';
+require_once '../php/function.php';
 
 error_reporting(0);
 
@@ -18,9 +19,10 @@ if(isset($_GET['election']) && isset($_GET['csv'])) {
         unset($_SESSION['csv']);
     }
 
-    $query_electionId = "SELECT election_id FROM election WHERE election_pin = '$election_pin'";
+    $query_electionId = "SELECT election_id,election_name FROM election WHERE election_pin = '$election_pin'";
     if($result = $connection1->query($query_electionId)) {
         $election_id = $result->fetch()['election_id'];
+        $election_name = $result->fetch()['election_name'];
     }
 }
 else header('Location: createelection1.php');
@@ -55,9 +57,29 @@ if($type == 1) {
                     if(!in_array($voters['email'], $ignored)) {
                         $insert_query = "INSERT INTO ignored (email, election_id) VALUES (:email, :election_id)";
                         $smh = $connection1->prepare($insert_query);
-                        $smh->execute($voters);
+                        //push to ignored and send notification
+                        if ($smh->execute($voters)) {
+                            $recipient_address = $voters['email'];
+                            $recipient_name = '';
+                            $mail_subject = "Invitation to join an election - ".$_SESSION['election_name'];
+                            $mail_body = "Hello User.<br>
+                                                This is to notify you that,even though you are yet to create an account with us,
+                                                 ".$_SESSION['sender_name']." has invited you to be a voter
+                                                in the election named <bold>".$_SESSION['election_name']."</bold>. The acceptance of this invitation
+                                                makes you a valid voter in the election but if rejected, this invitation will
+                                                be removed from the list of your current invitations. Also note that this invitation
+                                                will be available for a specified period of time depending on the type of election
+                                                which ".$_SESSION['election_name']." is. To see more details about this invitation or respond to it,
+                                                <a href='evoting.oauife.edu.ng'>SignUp</a> now.";
+                            sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
+
+                        }
+
                     }
-                }                   
+                }
+                //unset the session variables
+                unset($_SESSION['sender_name']);
+                unset($_SESSION['election_name']);
             }
 
             if($user_count == $csv_length && $valid_count == 0) {
@@ -68,7 +90,7 @@ if($type == 1) {
                 $message .= "<p>The number of individuals not sent invitation to participate in this election is: {$user_count}</p><br>";
             }
             if($user_count != 0) {
-                $message .= '<p style="border-top: 1px solid #eee; color:maroon; padding-top: 5px text-align:center"><em>Uninvited individuals need to create an account to participate in this election</em></p>';
+                $message .= '<p style="border-top: 1px solid #eee; color:maroon; padding-top: 5px; text-align:center"><em>Uninvited individuals need to create an account to participate in this election</em></p>';
             }
 
             $message .= "</div><hr>";

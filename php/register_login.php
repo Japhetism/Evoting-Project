@@ -4,7 +4,7 @@
 require_once("database.php");
 include_once('connection.php');
 include_once('function.php');
-require_once "../PHPMailer/vendor/autoload.php";
+//require_once "../PHPMailer/vendor/autoload.php";
 
 
 //Check connection
@@ -106,46 +106,21 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
             $mainError = "Username already exist";
 
         } else {
-            //get datas to be encoded in mail
+            //get data's to be encoded in mail
             $last_id=mysqli_fetch_array(mysqli_query($connection2,"SELECT MAX(user_id) FROM users"))[0]+1;
             $coded=base64_encode(($last_id))."_".base64_encode($email);
-            //send confirmation mail
-            $mail = new PHPMailer;
-
-            //Enable SMTP debugging.
-            $mail->SMTPDebug = 3;
-            //Set PHPMailer to use SMTP.
-            $mail->isSMTP();
-            //Set SMTP host name
-            $mail->Host = "smtp.gmail.com";
-            //Set this to true if SMTP host requires authentication to send email
-            $mail->SMTPAuth = true;
-            //Provide username and password
-            $mail->Username = "oauevoting@gmail.com";
-            $mail->Password = "webo2016";
-            //If SMTP requires TLS encryption then set it
-            $mail->SMTPSecure = "tls";
-            //Set TCP port to connect to
-            $mail->Port = 587;
-
-            $mail->From = "noreply@oauevoting.com";
-            $mail->FromName = "OAU E-voting system.";
-            $mail->addReplyTo("noreply@oauevoting.com");
-
-            $mail->addAddress($email, strtoupper($fname)." ".$lname);
-
-            $mail->isHTML(true);
-
-            $mail->Subject = "Activate your online voting account.";
-            $mail->Body = "Hello ".$username.".<br>
+//            //send confirmation mail
+            $recipient_name = strtoupper($fname)." ".$lname;
+            $subject = "Activate your online voting account.";
+            $body = "Hello ".$username.".<br>
                  You are welcome to Obafemi Awolowo University online voting system.<br>
                  This is to notify you that your email address has been used to create an
                  account with us. Kindly ignore this mail if your account was used without your consent.
-                 If not, click on <a href='http://localhost/E-voting/html/index.php?confirm_me=".$coded."'>Activate account.</a>
+                 If not, click on <a href='http:evoting.oauife.edu.ng/html?confirm_me=".$coded."'>Activate account.</a>
                   to activate your account.Thank you.";
 
-            $mail->AltBody = "";
-            if($mail->send()){
+//            $mail->AltBody = "";
+            if(SendEmail($email,$recipient_name,$subject,$body)){
                 $sql = "INSERT INTO users(fname, lname, username, email, phone, password, gender)
                             VALUES('" . ucwords($fname) . "', '" . ucwords($lname) . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword ."','" . $sex . "')";
 
