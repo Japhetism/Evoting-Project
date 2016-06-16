@@ -30,7 +30,12 @@ if (!empty($result1)) {
     $problem = "Your name cannot be found in our database";
 }
 
-$sql6 = $connection1->prepare("SELECT election_start_date FROM election WHERE election_id='$contestant_election_id'");
+$sql6 = $connection1->prepare("SELECT
+                                election_start_date,election_end_date,election_time_from,election_time_to
+                               FROM
+                                election
+                               WHERE
+                               election_id='$contestant_election_id'");
 $sql6->execute();
 $result5 = $sql6->setFetchMode(PDO::FETCH_ASSOC);
 $result5 = $sql6->fetchAll();
@@ -49,12 +54,11 @@ $last_contestant_id=0;
 $last_manifesto_id=0;
 $registration_message="";
 
-
-if(strtotime(date("Y-m-d"))== strtotime($election_start) && (strtotime($election_time)-(60*60*2))>strtotime(date("H:i:s"))){
-    $registration_message = "Sorry registeration is closed for this election. You can register only 2 hours before the election.";
-}elseif(strtotime(date("Y-m-d"))> strtotime($election_start)){
-    $registration_message = "This election has already been concluded therefore your request cannot be processed" ;
-}else {
+if(concluded($result5[0]['election_end_date'],$result5[0]['election_time_to'],0)){
+    $registration_message = "This election has already been concluded therefore your request cannot be processed." ;
+}elseif(concluded($election_start,$result5[0]['election_time_from'],3600)){
+    $registration_message = "Contestant registration has closed for this election.";
+}else{
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -91,12 +95,11 @@ if(strtotime(date("Y-m-d"))== strtotime($election_start) && (strtotime($election
                         $contestant_post_id = $result2[$i]["post_id"];
                     }
                 }
-                if (empty($contestant_pin) && empty($contestant_post)) {
-                    $errors = "Invalid pin or post! please contact
-                                    the admin of this election for valid pin or post";
+                if (empty($contestant_pin) || empty($contestant_post)) {
+                    $errors = "Invalid pin or post!";
                 }
             } else {
-                $errors = "Sorry there was a problem reading from the database";
+                $errors = "Sorry there was a problem reading from the database.";
             }
         }
 

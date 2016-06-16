@@ -1,6 +1,6 @@
 <?php
-include_once('../php/accept_reject_invite.php');
 include_once('../php/connection.php');
+include_once('../php/accept_reject_invite.php');
 /*include_once('../php/session.php');*/
 include_once('../php/database.php');
 include_once('../php/function.php');

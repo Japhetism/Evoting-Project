@@ -78,6 +78,9 @@ include_once('../php/photo.php');
                             <div class="col-xs-10 col-xs-offset-1 personal-info">
                                 <h3 style=" text-align: center">Candidate Registration</h3><br>
                                    <form enctype="multipart/form-data" class="form-horizontal" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="POST">
+                                        <span class="col-xs-9 col-xs-offset-2 " style="font-size: 14px">
+                                            Contestants registration is available until 2hours before voting starts.
+                                        </span>
                                         <span class="col-xs-9 col-xs-offset-2 error" style="font-size: 14px">
                                             <?php echo $registration_message; ?>
                                         </span>

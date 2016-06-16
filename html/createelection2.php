@@ -247,9 +247,12 @@ include_once('../php/photo.php');
                             <fieldset class="dash">
                                 <div class="row">
                                     <div class="col-md-10 col-md-offset-1">
-                                        <p style="border-bottom: solid 2px #265a88"><label>Welcome to i-vote election creation page, please fill in appropriately, details of the election you want to
-                                                create in the fields provided below.</label></p>
-                                        Note: All fields are compulsory to complete the registration of your election.<br><br>
+                                        <p style="border-bottom: solid 2px #265a88">
+                                            <label>Welcome to the election creation page, please fill in appropriately, details of the election you want to
+                                                create in the fields provided below.
+                                            </label>
+                                        </p>
+                                        Note: All fields (except CSV file input) are compulsory to complete the registration of your election.<br><br>
                                     </div>
 
                                     <div class="col-lg-8 col-lg-offset-2 form">

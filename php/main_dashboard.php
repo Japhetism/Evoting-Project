@@ -200,15 +200,24 @@ $public_elections=$all_public->fetchAll();
 $fully_public=array();
 $fully=0;
 //extract all fully public elections from $public elections
-for($current=0;$current<count($public_elections);$current++){
-    if(substr($public_elections[$current]["privacy"],1,1)==1)#election is closed
-        $lag=7200;
-    else#election is open
-        $lag=3600;
+for($current = 0 ; $current < count($public_elections) ; $current++){
+    $privacy = substr($public_elections[$current]["privacy"],1,1);
     $totally=publicDisplayable($user_id,$public_elections[$current]['election_id']);
-    if($totally!=='partially' && !concluded($public_elections[$current]["election_start_date"],$public_elections[$current]["election_time_from"],$lag)){
-        $fully_public[$fully]=$public_elections[$current];
-        $fully++;
+    if ($totally!=='partially') {
+        if($privacy == 1){ #election is closed
+            $lag=3900;
+            if (!concluded($public_elections[$current]["election_start_date"],$public_elections[$current]["election_time_from"],$lag)) {
+                $fully_public[$fully]=$public_elections[$current];
+                $fully++;
+            }
+        }
+        else{#election is open
+            $lag=-300;
+            if (!concluded($public_elections[$current]["election_end_date"],$public_elections[$current]["election_time_to"],$lag)) {
+                $fully_public[$fully]=$public_elections[$current];
+                $fully++;
+            }
+        }
     }
 }
 

@@ -49,19 +49,19 @@ include_once('../php/photo.php');
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-                <a class="navbar-brand" href="#">
-                    <!-- logo -->
-                    <i class="fa fa-play-circle"></i>  <span class="light">E -</span> Voting
-                </a>
+            <a class="navbar-brand" href="#">
+                <!-- logo -->
+                <i class="fa fa-play-circle"></i>  <span class="light">E -</span> Voting
+            </a>
         </div>
         <!-- Top-right Menu Items -->
         <ul class="nav navbar-right top-nav">
             <li class="dropdown userActions">
                 <a href="#" class="dropdown-toggle showActions" id="showActions" data-toggle="dropdown">
                     <i>
-                        <img src="<?php echo $photo_fetched;?>" width="30px" height="30px" >
+                        <img class="preview img-circle"  src="<?php echo $photo_fetched;?>" width="30px" height="30px" >
                     </i>
-                        <?php echo $myemail;?>
+                    <?php echo $myemail;?>
                     <i class="fa fa-angle-down"></i>
                 </a>
                 <ul class="dropdown-menu userOptions" id="userOptions">
@@ -75,9 +75,9 @@ include_once('../php/photo.php');
                 </ul>
             </li>
         </ul>
-            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+        <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
         <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
-        <ul class="nav navbar-nav side-nav sidebar" id="MainMenu">
+            <ul class="nav navbar-nav side-nav sidebar" id="MainMenu">
                 <li class="col-md-12 ">
                     <div class="row userProfile" id="userActions">
                         <div class="col-md-12 userActions">
@@ -89,18 +89,18 @@ include_once('../php/photo.php');
                 </li>
                 <!-- link to dashboard -->
                 <li class="active">
-                        <a href="maindashboard.php" class="active"><i class="fa fa-dashboard"></i>
+                    <a href="maindashboard.php" class="active"><i class="fa fa-dashboard"></i>
                         Dashboard</a>
                 </li>
-                
+
                 <li class="active">
                     <a data-target="#" class="inactive" data-toggle="collapse" data-parent="#MainMenu">
                         <i class="fa fa-pencil-square-o"></i>
-                            Manage Elections
+                        Manage Elections
                         <i class="fa fa-angle-left pull-right" style="width:10px;"></i>
                     </a>
-                    <ul class="collapse" id="demo3">   
-                        <li id="demo3_1" >    
+                    <ul class="collapse" id="demo3">
+                        <li id="demo3_1" >
                             <a href="#" class="inactive" > Public Elections<i class="btn pull-right success" >1 </i></a>
                         </li>
                         <li class="active1" id="demo3_2" target="table_2" >
@@ -110,7 +110,7 @@ include_once('../php/photo.php');
                             <ul class="nav collapse" id="SubMenu">
                                 <li class="active1">
                                     <a href="#" class="active" data-parent="#SubMenu1">
-                                    Election Details
+                                        Election Details
                                     </a>
                                 </li>
                                 <li>
@@ -123,13 +123,13 @@ include_once('../php/photo.php');
                                     <a href="#" class="active" data-parent="#SubMenu1">View Results</a>
                                 </li>
                             </ul>
-                        </li>   
-                        <li target="table_3" id="demo3_3" >    
+                        </li>
+                        <li target="table_3" id="demo3_3" >
                             <a href="#" data-target="#" data-toggle="collapse" class="inactive" > Joined Elections<i class="btn pull-right warning" >3</i></a>
                             <ul class="nav collapse" id="SubMenu1">
                                 <li>
                                     <a href="#" class="inactive" data-parent="#SubMenu1">
-                                    Election Details
+                                        Election Details
                                     </a>
                                 </li>
                                 <li>
@@ -142,36 +142,36 @@ include_once('../php/photo.php');
                                     <a href="#" class="inactive" data-parent="#SubMenu1">Vote</a>
                                 </li>
                             </ul>
-                        </li>   
-                        <li target="table_4" id="demo3_4" >    
+                        </li>
+                        <li target="table_4" id="demo3_4" >
                             <a href="#" class="inactive" > Pending Invites<i class="btn pull-right danger" >4</i></a>
-                        </li>   
-                        <li target="table_5" id="demo3_5" >    
+                        </li>
+                        <li target="table_5" id="demo3_5" >
                             <a href="#" class="inactive" > Pending Requests<i class="btn pull-right default" >5</i></a>
                         </li>
                     </ul>
                 </li>
-                    
+
                 <li class="active" >
                     <a href="#" data-target="#demo4" class="active" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-plus"></i>Create an Election<i class="fa fa-angle-left pull-right" ></i></a>
-                        <ul class="open collapse in" id="demo4">
-                            <li>
-                                <a href="#" class="active">Step 1<i class="fa fa-spinner fa-spin pull-right" ></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="inactive">Step 2<i class="fa fa-pencil-square-o pull-right" ></i></a>
-                            </li>
-                            <li>
-                                <a href="#" class="inactive">Step 3<i class="fa fa-check-circle pull-right" ></i></a>
-                            </li>
-                        </ul>
+                    <ul class="open collapse in" id="demo4">
+                        <li>
+                            <a href="#" class="active">Step 1<i class="fa fa-spinner fa-spin pull-right" ></i></a>
+                        </li>
+                        <li>
+                            <a href="#" class="inactive">Step 2<i class="fa fa-pencil-square-o pull-right" ></i></a>
+                        </li>
+                        <li>
+                            <a href="#" class="inactive">Step 3<i class="fa fa-check-circle pull-right" ></i></a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="active">
                     <a href="#" class="inactive" data-toggle="modal" data-target="#myModal">
                         <i class="fa fa-user-plus"></i>Join an election
                     </a>
                 </li>
-                    
+
             </ul>
         </div>
         <!-- /.navbar-collapse -->
@@ -181,55 +181,84 @@ include_once('../php/photo.php');
 
     <div id="page-wrapper">
 
-            <!-- container header-->
-            <div class="row">
-                <div class="page-title col-md-12">
-                    <h3>Create Election</h3>
-                    <div class="page-breadcrumb">
-                        <ol class="breadcrumb">
-                            <li><a href="maindashboard.php">Home</a></li>
-                            <li><a href="#">Create Election</a></li>
-                            <li class="active">Step 1</li>
-                        </ol>
-                    </div>
+        <!-- container header-->
+        <div class="row">
+            <div class="page-title col-md-12">
+                <h3>Create Election</h3>
+                <div class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li><a href="maindashboard.php">Home</a></li>
+                        <li><a href="#">Create Election</a></li>
+                        <li class="active">Step 1</li>
+                    </ol>
                 </div>
+            </div>
 
-            </div><br>
-            <!-- container header ends-->
+        </div><br>
+        <!-- container header ends-->
 
-    <!-- /#page-wrapper -->
+        <!-- /#page-wrapper -->
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2 dash">
-					<div class="col-xs-12">
-						<h3 class="page-header1">
-							Follow the instructions below to create an election
-						</h3>
-					</div>	
+                    <div class="col-xs-12">
+                        <h3 class="alert alert-danger">
+                            Please, read the instructions below carefully before creating this election.
+                        </h3>
+                    </div>
                     <div class="col-xs-12">
                         <fieldset class="info">
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
-                            Explain how the admin should go about the election creation.<br>
+                            <p align="left">
+                            <ul align="left" style="list-style-type: square;"><br>
+                                <li>
+                                    You have a maximum of five (5) slots to create election. An election once created cannot
+                                    be deleted.
+                                </li><br>
+                                <li>
+                                    You are advised to have a clear picture of yourself as your profile picture to allow
+                                    easy identification by your invited voters (if any) so as to enable them join this
+                                    election.
+                                </li><br>
+                                <li>
+                                    Voting in an election can commence 3hours (minimum) ahead of the time the election was
+                                    created, and can last for a minimum duration of 2hours. You can change election details
+                                    (e.g times, privacy and authentication level); add new posts; invite voters; remove
+                                    voters/contestants, voters can send request; accept/reject the invitation and/or register
+                                    as a contestant before 2hours to the commencement of voting.
+                                </li><br>
+                                <li>
+                                    Carefully specify the pins for each and every post/office. The pin for a particular post will
+                                    be required from any registered voter who wants to contest for that same post in this election.
+                                </li><br>
+                                <li>
+                                    If an election is visible to all users, the auto-generated unique pin for that election
+                                    will be publicized. This pin can be used by users to either join or send a request to
+                                    join that election based on the election's voter authentication level.
+                                </li><br>
+                                <li>
+                                    If voter authentication is required, voters can only make a request to join your election.
+                                    You may either accept or reject this request. If authentication is not required, voters
+                                    will be added to the election automatically whenever they make request to join this election,
+                                    and can join the election anytime just before the voting ends.
+                                </li><br>
+                                <li>
+                                    You may upload a spreadsheet document (.csv extension only. See image below.) containing
+                                    email addresses of voters you will like to invite for this election now or at any other
+                                    time (2hours before commencement of voting). This invitation may either be accepted
+                                    or rejected by any voter.
+                                </li><br>
+                                <img src="../images/pic.jpg" alt="emails" width="90%" height="30%" style="padding: 1%;"><br><br>
+                            </ul>
+                            </p>
                         </fieldset>
                     </div>
-					<div class="col-md-8 col-md-offset-2" id="success">
-					<form action="createelection2.php">
-						<input type="checkbox" required/> I agree to the terms and conditions<br> 
-						<button class="btn btn-success">submit</button>
-					</form>
-					</div>
+                    <div class="col-md-8 col-md-offset-2" id="success">
+                        <form action="createelection2.php">
+                            <input type="checkbox" required/> I have read the instructions above and I agree to its terms
+                                                                and conditions.<br>
+                            <button class="btn btn-success">Proceed</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
@@ -251,4 +280,3 @@ include_once('../php/photo.php');
 </body>
 
 </html>
-

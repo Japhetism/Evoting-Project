@@ -40,8 +40,8 @@ $pin_string.='</div>';
 $now_date =convert_date(date("Y-m-d"));
 $now_time = convert_date(date("H:i:s"));
 //check if election has not started
-if(concluded($this_election["election_start_date"],$this_election["election_time_from"],3600)){
-    $message="Voting will start in less than an hour.Your update cannot be processed.";
+if(concluded($this_election["election_start_date"],$this_election["election_time_from"],7200)){
+    $message="Voting will start in less than 2hours.Your update cannot be processed.";
 }if(concluded($this_election["election_start_date"],$this_election["election_time_from"],0)){
     $message="Voting has commenced.Your update cannot be processed.";
 }if(concluded($this_election["election_end_date"],$this_election["election_time_to"],0)){
