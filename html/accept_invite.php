@@ -1,25 +1,17 @@
 <?php
 include_once('../php/connection.php');
 include_once('../php/accept_reject_invite.php');
-/*include_once('../php/session.php');*/
 include_once('../php/database.php');
 include_once('../php/function.php');
 
-$election_id=$_SESSION['election_index'];
-
+$election_id = $_SESSION['election_index'];
 
 //fetching the election details
 $election_name = $election_start_date = $election_end_date = $election_time_from = $election_time_to = $string_election = "";
 $result_tag1 = $result_tag2 = "";
-$election_details1 = getElectionDetails($election_id);
-for($j=0;$j<count($election_details1);$j++){
-    /*  $election_name = $election_details1[$j]['election_name'];*/
-    $election_start_date =changeDateFormat( $election_details1[$j]['election_start_date']);
-    /*  $election_end_date = $election_details1[$j]['election_end_date'];*/
-        $adela = $election_details1[$j]['election_time_from'];
-    $election_time_from=(explode(":",$adela)[0]-1).":".explode(":",$adela)[1].":".explode(":",$adela)[2];
-}
-
+$election_start_date = changeDateFormat( $election_details['election_start_date']);
+$adela = $election_details['election_time_from'];
+$election_time_from=(explode(":",$adela)[0]-1).":".explode(":",$adela)[1].":".explode(":",$adela)[2];
 
 ?>
 <!DOCTYPE html>
@@ -68,11 +60,11 @@ for($j=0;$j<count($election_details1);$j++){
 
             <div class="panel panel-default">
                 <div class="panel-heading">
-                    <h3 class="panel-title" style="font-size: 20px; text-align: center"><?php print $election_details[1];?></h3>
+                    <h3 class="panel-title" style="font-size: 20px; text-align: center"><?php print $election_details["election_name"];?></h3>
 
                 </div>
                 <div class="panel-body">
-                    <p>You have been invited to participate in the <b><?php print $election_details[1];?></b>.
+                    <p>You have been invited to participate in the <b><?php print $election_details["election_name"];?></b>.
                     This invitation will be  discarded if you do not ACCEPT or DECLINE it in</p>
 
                     <div class="row">
@@ -94,7 +86,7 @@ for($j=0;$j<count($election_details1);$j++){
                                 <div class="smalltext">Seconds</div>
                             </div>
                         </div>
-                        <label for="pin">Election Pin:</label><h4><?php print $election_details[6];?></h4>
+                        <label for="pin">Election Pin:</label><h4><?php print $election_details["election_pin"];?></h4>
 
                     <h5 style="text-align: center">ADMIN DETAILS</h5>
                     <div clas="row">
@@ -102,10 +94,10 @@ for($j=0;$j<count($election_details1);$j++){
                             <p ><?php echo $election_admin_detail?></p>
                         </div>
                         <div class="col-xs-8">
-                            <label for="aName">Name:</label><h4><?php print $admin_details[1].'  '.$admin_details[2]?></h4><br>
-                            <label for="aEmail">Email:</label><h4><?php print $admin_details[4]?></h4><br>
-                            <label for="aphone">Phone Num.:</label><h4><?php print $admin_details[5]?></h4><br>
-                            <label for="aGender">Gender:</label><h4><?php echo $admin_details[7]?></h4>
+                            <label for="aName">Name:</label><h4><?php echo $admin_details["fname"].'  '.$admin_details["lname"]?></h4><br>
+                            <label for="aEmail">Email:</label><h4><?php print $admin_details["email"]?></h4><br>
+                            <label for="aphone">Phone Num.:</label><h4><?php print $admin_details["phone"]?></h4><br>
+                            <label for="aGender">Gender:</label><h4><?php echo $admin_details["gender"]?></h4>
                         </div>
                     </div>
                     <div class="row" style="padding-top: 200px;padding-left: 230px;">
