@@ -4,13 +4,6 @@
 require_once("database.php");
 include_once('connection.php');
 include_once('function.php');
-//require_once "../PHPMailer/vendor/autoload.php";
-
-
-//Check connection
-if(!$connection2){
-    die("Connection failed: " . mysqli_connect_error());
-}
 
 $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassword=$error=$lerror=$lmainError=$mainError=$confirmationMessage=$picture_name= $output =$output2= "";
     //check if user wants to be confirmed
@@ -20,9 +13,7 @@ $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassw
         $this_user_email=base64_decode(explode("_",$this_user_coded)[1]);
         $lemail=$this_user_email;
         //get the status of this user
-        $status_query="SELECT status FROM users WHERE user_id='$this_user_id' AND email='$this_user_email'";
-        $get_status=mysqli_fetch_row(mysqli_query($connection2,$status_query));
-        $this_user_status=$get_status[0];
+        $this_user_status=getAllMembers("users",["status"],["user_id","=",$this_user_id],0,"AND",["email","=",$this_user_email])[0]["status"];
         //check if the id and email is nonsense
         if($this_user_status==""){
             //redirect to index.php
@@ -31,7 +22,7 @@ $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassw
             $confirmationMessage="<span style='color: red'>Your account has already been activated.You can now login.</span>";
         }elseif($this_user_status==0){
             $update_status_query="UPDATE users SET status='1' WHERE user_id='$this_user_id'";
-            if(mysqli_query($connection2,$update_status_query)){
+            if($connection1->query($update_status_query)){
                 $confirmationMessage="<span style='color: #008000'>Account has been successfully activated.You can now login.</span>";
             }else{
                 $confirmationMessage="<span style='color: red'>Account activation not successful.Click on the link in your email again.</span>";
@@ -41,14 +32,14 @@ $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassw
 
 if(!empty($_POST["register"]) && isset($_POST["register"])) {
 
-    $fname = mysqli_real_escape_string($connection2, $_POST["fname"]);
-    $lname = mysqli_real_escape_string($connection2, $_POST["lname"]);
-    $username = mysqli_real_escape_string($connection2, $_POST["username"]);
-    $password1 = mysqli_real_escape_string($connection2, $_POST["password1"]);
-    $password2 = mysqli_real_escape_string($connection2, $_POST["password2"]);
-    $email = mysqli_real_escape_string($connection2, $_POST["email"]);
-    $phone = mysqli_real_escape_string($connection2, $_POST["phone"]);
-    $sex = mysqli_real_escape_string($connection2, $_POST["sex"]);
+    $fname = stripcslashes($_POST["fname"]);
+    $lname = stripcslashes($_POST["lname"]);
+    $username = stripcslashes($_POST["username"]);
+    $password1 = stripcslashes($_POST["password1"]);
+    $password2 = stripcslashes($_POST["password2"]);
+    $email = stripcslashes($_POST["email"]);
+    $phone = stripcslashes($_POST["phone"]);
+    $sex = stripcslashes($_POST["sex"]);
 
     $error = false;
 
@@ -90,24 +81,22 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
     //Querying table users in eVoting database
 
     if(!$error) {
-        $query = "SELECT email FROM users WHERE email='" . $email . "' ";
-        $result = mysqli_query($connection2, $query);
-        $query1 = "SELECT username FROM users WHERE username='".$username."' ";
-        $result1 = mysqli_query($connection2, $query1);
+        $result = getAllMembers("users",["email"],["email","=",$email]);
+        $result1 = getAllMembers("users",["email"],["username","=",$username]);
 
 
-        if (mysqli_num_rows($result) != 0 && mysqli_num_rows($result1)!=0) {
+        if (count($result) != 0 && count($result1)!=0) {
             $mainError = "Email and Username already exist";
 
-        }else if(mysqli_num_rows($result)!=0){
+        }else if(count($result)!=0){
             $mainError = "Email already exist";
 
-        }else if(mysqli_num_rows($result1)){
+        }else if(count($result1)){
             $mainError = "Username already exist";
 
         } else {
             //get data's to be encoded in mail
-            $last_id=mysqli_fetch_array(mysqli_query($connection2,"SELECT MAX(user_id) FROM users"))[0]+1;
+            $last_id=getAllMembers("users",["MAX(user_id)"])[0]["MAX(user_id)"]+1;
             $coded=base64_encode(($last_id))."_".base64_encode($email);
 //            //send confirmation mail
             $recipient_name = strtoupper($fname)." ".$lname;
@@ -124,7 +113,7 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                 $sql = "INSERT INTO users(fname, lname, username, email, phone, password, gender)
                             VALUES('" . ucwords($fname) . "', '" . ucwords($lname) . "', '" . $username . "', '" . $email . "', '" . $phone . "', '" . $hashedpassword ."','" . $sex . "')";
 
-                if (mysqli_query($connection2, $sql)) {
+                if ($connection1->query($sql)) {
                     //Invite the signed up user for an election he has been invited
                     $output = "<span style='color: #008000'>Account created successfully. Check Your email For verification.</span>";
                     $electionId=$election_start=$election_time=$invite_message="";
@@ -142,11 +131,10 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                             $invite_date = $invite_result[$i]["ignored_date"];
                             if (!concluded($election_start,$election_time,7200)) {
                                 $insertQuery = "INSERT INTO invites (user_id, election_id, invite_date) VALUES ('$last_id', '$electionId', '$invite_date')";
-                                if (mysqli_query($connection2, $insertQuery)) {
+                                if ($connection1->query($insertQuery)) {
                                     $deleteQuery = "DELETE FROM ignored WHERE email='$email' AND election_id='$electionId'";
-                                    if (mysqli_query($connection2, $deleteQuery)) {
-                                        $invite_message = "You have been invited to participate in an election";
-                                    }
+                                    $connection1->query($deleteQuery);
+
                                 }
                             }
                         }
@@ -177,13 +165,10 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
     $lemail = stripcslashes($_POST["lemail"]);
     $lpassword = stripcslashes($_POST["lpassword"]);
 
-    $lemail = mysqli_real_escape_string($connection2, $_POST["lemail"]);
-    $lpassword = mysqli_real_escape_string($connection2, $_POST["lpassword"]);
-
     $lerror = false;
 
     if(empty($lemail) || empty($lpassword)){
-        $lmainError = "Invalid username or password ";
+        $lmainError = "Invalid username or password. ";
         $lerror = true;
     }else{
         $lhashedpassword = md5($lpassword);
@@ -191,19 +176,18 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
 
 
     if(!$lerror){
-        $query2 = "SELECT email, password, status FROM users WHERE email='".$lemail."' AND password='".$lhashedpassword."'  ";
-        $result2 =mysqli_query($connection2, $query2);
+        $result2 = getAllMembers("users",["email","status"],["email","=",$lemail],0,"AND",["password","=",$lhashedpassword]);
 
 
-        if(mysqli_num_rows($result2) !=0){
+        if(count($result2) == 2){
             //check status
-            $result2=mysqli_fetch_row($result2);
-            if($result2[2]==0){
+            $status = $result2[0]["status"];
+            if($status == 0){
                 $lmainError="Sorry, you are yet to confirm your email. A confirmation<br> mail has already
                                 been sent to your mailbox.";
             }else{
                 session_start();
-                $_SESSION['login_user']=$lemail;
+                $_SESSION['login_user']=$$result2[0]["email"];
                 $_SESSION['adek_link']='';
                 $_SESSION['adek_status']='';
                 header('Location:maindashboard.php');
@@ -215,7 +199,6 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
         }
     }
 
-    mysqli_close($connection2); // closing connection
 }
 
 
