@@ -13,10 +13,8 @@ if(isset($_POST["pin"]) && !empty($_POST["pin"])){
     //collect pin
     $election_pin=$_POST['pin'];
     //get the election corresponding to the pin
-    $election_pin_query="SELECT * FROM election WHERE election_pin='$election_pin'";
-    $election_query= mysqli_query($connection2,$election_pin_query);
-    $election = mysqli_fetch_assoc($election_query);
-        if(!empty($election)){
+    $election = getAllMembers("election",["*"],["election_id","=",1])[0];
+        if(count($election) != 0){
             //get openness
             $openness=substr($election["privacy"],1,1);
             //get user_id
