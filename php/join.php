@@ -46,7 +46,7 @@ if(isset($_POST["pin"]) && !empty($_POST["pin"])){
                 if($connection1->query($query)){
                     echo($success_message);
                 }else{
-                    echo('Request processing not successful.The problem will be fixed soon.Send your request later or contact the admin to add you up.');
+                    echo('Request processing not successful.The problem will be fixed soon.Contact the admin to add you up.');
                 }
             }
         }else{
