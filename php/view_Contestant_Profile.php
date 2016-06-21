@@ -2,11 +2,12 @@
 include('session.php');
 include_once("connection.php");
 include_once("database.php");
+include_once("function.php");
 $date_diff = '';
 
 $contestant_user_id = $election_id_here=$joined="";
 $key=$_GET['key'];
-$contestant_user_id = substr($key,9,strlen($key)-17);
+$contestant_user_id = unwrap($key);
 
 $election_id_here= $_SESSION["election_id_view"];
 

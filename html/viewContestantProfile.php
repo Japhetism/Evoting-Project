@@ -132,67 +132,9 @@ include_once('../php/photo.php');
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
-            <!--<div class="row">
-             profile column     
-                <div class="col-lg-8 col-lg-offset-2">
-                    <div class="row">
-                        <div class="col-md-3 col-md-offset-1 " style="border-radius: 10px;margin-top: 15px">
-                            <?php echo "<img src='$contestant_picture' alt='' width='100%' height='100%'>"; ?><br>
-                        </div>
-                        <div class="col-md-6 col-md-offset-1">
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h4>Full Name: </h4><?php echo $contestant_fullname; ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-8">
-                                    <h4>Nickname: </h4><?php echo $contestant_nickname; ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class=" col-md-8">
-
-                                    <h4>E-mail Address: </h4><?php echo $contestant_email ;?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class=" col-md-8">
-                                    <h4>Contesting for: </h4><?php echo $contestant_post . " in ". $contestant_election_name; ?>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class=" col-md-8">
-                                    <h4>Manifestos: </h4><?php
-                                    if(!empty($manifestos)) {
-
-                                        echo "<ul>";
-                                        for ($i = 0; $i < count($manifestos); $i++) {
-                                            echo "<li>" . $manifestos[$i] . "</li>";
-                                        }
-                                        echo "</ul>";
-                                    }else{
-                                        echo "None";
-                                    }
-                                    if(!empty($contestant_citation)) {
-                                        $download_link=$citation_dir.$contestant_citation;
-                                    echo  "<a href='$download_link' download>"."Download citation here"."</a>";
-                                    }
-                                    else {
-                                        echo "<h4>Contestant Citation: None</h4>";
-                                    }
-
-                                        ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>-->
         </div>
     </div>
     <!--    wrapper-->

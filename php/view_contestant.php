@@ -1,12 +1,13 @@
 <?php
 include_once("connection.php");
 include_once("database.php");
+include_once('function.php');
 //session_start();
 $election_id =$result1 ="";
 include_once('session.php');
     if(isset($_GET["key"])) {
         $key=$_GET['key'];
-        $election_id = substr($key,9,strlen($key)-17);
+        $election_id = unwrap($key);
         $_SESSION["election_id_view"] = $election_id;
 
     }
@@ -55,7 +56,7 @@ for($japhet=0;$japhet<count($postCon);$japhet++){
         for($length=0;$length<count($postCon[$post_name]);$length++){
             $display=$postCon[$post_name][$length];
             //$display holds a contestant detail
-            $key=  rand(1,9).rand(10,99).rand(10,99).rand(1000,9999).$display['user_id'].rand(10000,99999).rand(100,999);
+            $key =  wrap($display['user_id']);
             $image=$image_dir.$display['picture_name'];
 
             $contestant_list="<div class='col-md-4' >".
