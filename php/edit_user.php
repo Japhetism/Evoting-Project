@@ -3,7 +3,6 @@ include_once('session.php');
 include_once('connection.php');
 include_once('database.php');
 include_once('function.php');
-// include_once('adekprofile.php');
 $fname = $lname = $photo = $username = $phone = $password1 = $password2 = $old_password = $sex = $hashed_old_password= $date_diff = "";
 $error = $error2 = $mainError = $error3 = "";
 $success = $uploadErr ="";
@@ -11,29 +10,17 @@ $name = $imageFileType=$contestant_newpicture_name="";
 $image_dir = "../images/users/";
 $photo = $user_photo = $dir = $dir1 = $dir2 = "";
 
-//fetching user details from the database for modification
-
-// $useremail = $_SESSION['adekprofilevariable'];
-// if (!empty($useremail)) {
-//     $userDetails = "SELECT * FROM users WHERE email='$useremail'";
-// }else{
-//     $userDetails = "SELECT * FROM users WHERE email='$myemail'";
-// }
-
-
-    $userDetails = "SELECT * FROM users WHERE email='$myemail'";
-
-if($result_user = mysqli_query($connection2,$userDetails)){
-    while($row = mysqli_fetch_assoc($result_user)){
-        $fname = $row['fname'];
-        $lname = $row['lname'];
-        $username = $row['username'];
-        $phone = $row['phone'];
-        $sex = $row['gender'];
-        $photo = $row['picture_name'];
-        $user_photo = $image_dir.$photo;
-    }
-}
+$userDetails = $connection1->prepare("SELECT * FROM users WHERE email='$myemail'");
+$userDetails->execute();
+$userDetails->setFetchMode(PDO::FETCH_ASSOC);
+$row = $userDetails->fetchAll()[0];
+$fname = $row['fname'];
+$lname = $row['lname'];
+$username = $row['username'];
+$phone = $row['phone'];
+$sex = $row['gender'];
+$photo = $row['picture_name'];
+$user_photo = $image_dir.$photo;
 
 if(!file_exists($user_photo) || $photo==NULL){
     if($sex==="male"){
@@ -48,19 +35,17 @@ if(!file_exists($user_photo) || $photo==NULL){
 $dir = getPhotoName($user_photo);
 
 //saving the given modified useer details to the database
-$get_user_id = "SELECT user_id FROM users WHERE email='$myemail'";
-$user_id =mysqli_query($connection2,$get_user_id);
-$user_id=mysqli_fetch_row($user_id);
+$user_id=user_id($myemail);
 if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
-    $fname = mysqli_real_escape_string($connection2, $_POST["fname"]);
-    $lname = mysqli_real_escape_string($connection2, $_POST["lname"]);
-    $username = mysqli_real_escape_string($connection2, $_POST["username"]);
-    $old_password = mysqli_real_escape_string($connection2, $_POST["old_password"]);
-    $password1 = mysqli_real_escape_string($connection2, $_POST["password1"]);
-    $password2 = mysqli_real_escape_string($connection2, $_POST["password2"]);
-    $phone = mysqli_real_escape_string($connection2, $_POST["phone"]);
-    $sex = mysqli_real_escape_string($connection2, $_POST["sex"]);
+    $fname = stripcslashes($_POST["fname"]);
+    $lname = stripcslashes($_POST["lname"]);
+    $username = stripcslashes($_POST["username"]);
+    $old_password = stripcslashes($_POST["old_password"]);
+    $password1 = stripcslashes($_POST["password1"]);
+    $password2 = stripcslashes($_POST["password2"]);
+    $phone = stripcslashes($_POST["phone"]);
+    $sex = stripcslashes($_POST["sex"]);
 
     $error = false;
 
@@ -114,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
         if (!empty($_FILES["image"]["name"])) {
             //$imageFileType = pathinfo($target_file, PATHINFO_EXTENSION);
-            $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id[0] . ".";
+            $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id . ".";
             $name = $currentTime;
             $target_file = $target_dir . $name . $imageFileType;
             $folderIsWritable = is_writable($target_dir);
@@ -156,18 +141,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
 
-
-
-
     //verifying the old password with the password saved in the database
     if(!$error && empty($uploadErr)){
 
-        $query2 = "SELECT email, password FROM users WHERE email='".$myemail."' AND password='".$hashed_old_password."'  ";
-        $result2 =mysqli_query($connection2, $query2);
-        if(mysqli_num_rows($result2) !=0){
+        $result2 =getAllMembers("users",["email","password"],["email","=",$myemail],0,"AND",["password","=",$hashed_old_password]);
+        if(count($result2) != 0){
             if(!$error3){
-                $query_pass = "UPDATE users SET password='$hashedpassword' WHERE user_id='$user_id[0]'";
-                $result_pass = mysqli_query($connection2,$query_pass);
+                $query_pass = "UPDATE users SET password='$hashedpassword' WHERE user_id='$user_id'";
+                $result_pass = $connection1->query($query_pass);
             }
 
             if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {//
@@ -182,22 +163,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST"){
 
             if($picture_name != "" ){
                 //update the picture name in the database
-                $query_photo = "UPDATE users SET picture_name = '$picture_name' WHERE user_id = '$user_id[0]'";
-                if(mysqli_query($connection2,$query_photo)){
+                $query_photo = "UPDATE users SET picture_name = '$picture_name' WHERE user_id = '$user_id'";
+                if($connection1->query($query_photo)){
                     if($dir=="users" && $photo!=NULL){
                         unlink($user_photo);
                     }
                 }
             }
-            $query_update = "UPDATE users SET fname='$fname', lname='$lname', username='$username', phone='$phone', gender='$sex'WHERE user_id='$user_id[0]'";
-            if(mysqli_query($connection2, $query_update)){
+            $query_update = "UPDATE users SET fname='$fname', lname='$lname', username='$username', phone='$phone', gender='$sex'WHERE user_id='$user_id'";
+            if($connection1->query($query_update)){
                 header("Location:../html/maindashboard.php");
             }else{
 
             }
 
         }else{
-            $mainError = "Can not Authenticate User With The Old Password";
+            $mainError = "Cannot Authenticate User With The Old Password";
             $error2 = true;
         }
     }
