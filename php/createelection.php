@@ -476,7 +476,7 @@ function election_pins(){
     $count=0;
     do{
         $elect_pin =   (range('A','Z')[rand(0,25)]).(range('A','Z')[rand(0,25)]).rand(10, 999999). (range('A','Z')[rand(0,25)]).(range('A','Z')[rand(0,25)]);
-        try {
+
             $stmt = $connection1->prepare("SELECT * FROM election WHERE election_pin='$elect_pin'");
             $stmt->execute();
             $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
@@ -489,27 +489,13 @@ function election_pins(){
 
             }
 
-        }catch (PDOException $e) {
-            echo "connection failed: " . $e->getMessage();
-        }
-
     }while($election_pin_occur);
 
 }
 
 function user_id_from_session()
 {
-    global $connection1;
-    try {
-        $email = $_SESSION["login_user"];
-        $stmt = $connection1->prepare("SELECT  user_id FROM users WHERE email='$email'");
-        $stmt->execute();
-        $result = $stmt->setFetchMode(PDO::FETCH_ASSOC);
-        $result = $stmt->fetchAll();
-        return $result[0]["user_id"];
-
-    } catch (PDOException $e) {
-    }
+        return user_id($_SESSION["login_user"]);
 }
 
 ?>
