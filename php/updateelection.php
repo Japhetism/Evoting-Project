@@ -9,31 +9,28 @@
 include('../php/connection.php');
 include_once('../php/session.php');
 include_once('../php/function.php');
+include_once('../php/database.php');
 $name_of_electionErr = $start_date_of_electionErr =$new_post_Err= $end_date_of_electionErr = $time_of_election_fromErr =
 $time_of_election_toErr =$message=$message2= $post1 = $pin1 = $status_string= "";
 $name_of_election = $name_of_election_temp = $start_date_of_election =$start_date_of_election1 = $end_date_of_election =
 $end_date_of_election1 = $time_of_election_from = $time_of_election_to = $election_pin = $result_display= "";
 $dummy1=$dummy2=$dummy3=$dummy4="";
 $election_id= unwrap($_SESSION['election_id']);
-$election_details_query= "SELECT * FROM election WHERE election_id='$election_id'";
-$this_election=mysqli_fetch_assoc(mysqli_query($connection2,$election_details_query));
+$this_election = getAllMembers("election",["*"],["election_id","=",$election_id])[0];
 
 //get all post and there corresponding pin
-$old_posts=array();
-$posts_query = "SELECT post_id,post_key,post FROM posts WHERE election_id='$election_id'";
-$posts= mysqli_query($connection2,$posts_query);
-$post_pin=mysqli_fetch_assoc($posts);
+$old_posts = array();
+$post_pin = getAllMembers("posts",["post_id,post_key,post"],["election_id","=",$election_id]);
 $post_string='<div class="" style="text-align:left"><b>Post(s)</b><br>';
 $pin_string='<div class="" style="text-align:left"><b>Pin(s)</b><br>';
-do{
-    array_push($old_posts,ucwords($post_pin['post']));
-    $post_id=$post_pin['post_id'];
-    $post="post".$post_id;
-    $key="key".$post_id;
-    $button="button".$post_id;
-    $post_string.=$post_pin['post'].'<br>';
-    $pin_string.=$post_pin['post_key'].'<br>';
-}while($post_pin=mysqli_fetch_assoc($posts));
+
+for ($i = 0 ; $i < count($post_pin) ; $i++)
+{
+    array_push($old_posts,ucwords($post_pin[$i]["post"]));
+    $post_id = $post_pin[$i]["post_id"];
+    $post_string .= $post_pin[$i]["post"].'<br>';
+    $pin_string .= $post_pin[$i]["post_key"].'<br>';
+}
 $post_string.='</div>';
 $pin_string.='</div>';
 //get current date and current time
@@ -200,9 +197,9 @@ if(isset($_POST["update"])){
     }
     //lets check if the admin added a new post
     if(!empty($_POST["number_of_new_posts"])){
-        $number_of_new_posts=$_POST["number_of_new_posts"];
-        $new_posts= array();
-        for($i=0;$i<$number_of_new_posts;$i++){
+        $number_of_new_posts = $_POST["number_of_new_posts"];
+        $new_posts = array();
+        for($i=0 ; $i<$number_of_new_posts ; $i++){
             $currentPost = 'post' . $i;
             $currentPin = 'pin' . $i;
             $new_posts[$_POST[$currentPin]] = ucwords($_POST[$currentPost]);
@@ -233,25 +230,25 @@ if(isset($_POST["update"])){
                 election_time_from='$time_of_election_from',
                 election_time_to='$time_of_election_to'
              WHERE election_id='$election_id'";
-            mysqli_query($connection2,$update_dateTime_query);
+            $connection1->query($update_dateTime_query);
         }
         //check if any new post was added
         if(!empty($_POST["number_of_new_posts"])){
-            foreach($new_posts as $key=>$value){
+            foreach($new_posts as $key => $value){
                 $update_post_query="INSERT INTO posts (post_key,post,election_id) VALUES ('$key','$value','$election_id')";
-                mysqli_query($connection2,$update_post_query);
+                $connection1->query($update_post_query);
             }
         }
         //check if any of the status was changed
         if($privacy!=$_POST["privacy"] || $openness!=$_POST["openness"]){
             $new_privacy=$_POST["privacy"].$_POST["openness"];
             $status_update_query="UPDATE election SET privacy='$new_privacy' WHERE election_id='$election_id'";
-            mysqli_query($connection2,$status_update_query);
+            $connection1->query($status_update_query);
         }
         //check if the time to display result was changed
         if($display!=$_POST["result_display"]){
             $new_time=$_POST["result_display"];
-            mysqli_query($connection2,"UPDATE election SET result_display='$new_time' WHERE election_id='$election_id'");
+            $connection1->query("UPDATE election SET result_display='$new_time' WHERE election_id='$election_id'");
         }
 
         //set header to the correct page

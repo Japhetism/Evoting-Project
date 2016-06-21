@@ -114,12 +114,14 @@ include_once('../php/photo.php');
                             <div class="col-md-10 col-md-offset-1">
                                 <p style="border-bottom: solid 2px #265a88; font-size: 17px">
                                     <label>
-                                        Please fill in appropriately, details of the election you want to edit in the fields provided below.
+                                        Please fill in appropriately, details of the election you want to edit in the
+                                        fields provided below.
                                     </label>
                                 </p>
                                 <p class="text-danger" style="font-size: 15px;">
-                                    <strong>Note </strong>: None of the date and time should be left unfilled once at least one of  them is changed.<br> 
-                                      Previous values are automatically discarded once this form is submitted.<br>
+                                    <strong>Note </strong>: None of the date and time should be left unfilled once at
+                                    least one of  them is changed.<br>Previous values are automatically discarded once
+                                    this form is submitted.<br>
                                     <span class="error"><?php echo $message; ?></span>
                                 </p>
                             </div>

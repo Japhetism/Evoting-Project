@@ -227,8 +227,9 @@ include_once('../php/photo.php');
                                     as a contestant before 2hours to the commencement of voting.
                                 </li><br>
                                 <li>
-                                    Carefully specify the pins for each and every post/office. The pin for a particular post will
-                                    be required from any registered voter who wants to contest for that same post in this election.
+                                    Carefully specify the pins for each and every post/office as they cannot be changed
+                                    once the election has been created. The pin for a particular post will be required
+                                    from any registered voter who wants to contest for that same post in this election.
                                 </li><br>
                                 <li>
                                     If an election is visible to all users, the auto-generated unique pin for that election
