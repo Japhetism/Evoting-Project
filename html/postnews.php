@@ -3,42 +3,33 @@ include_once('../php/session.php');
 include_once('../php/post_news.php');
 include_once('../php/photo.php');
 include_once('../php/view_contestant.php');
+include_once('../php/connection.php');
 
-    //open connection
-    include_once('../php/connection.php');
-    //get election key
-    $key=$_GET['key'];
-    $election_idd = unwrap($key);
-    //check if key is valid
-    $election_id_check_query="SELECT * FROM election WHERE election_id='$election_idd'";
-    $election_id_check= mysqli_query($connection2,$election_id_check_query);
-    $election_details= mysqli_fetch_row($election_id_check);
-    //redirect if election is not present
-    if(count($election_details)===0){
-        header("Location:maindashboard.php");
-    }else{
-        $election_id=$election_details[0];
-        //check if the user is truly the admin of the election using the session email and the election id
-        //get user_id from email
-        $user_id_query="SELECT user_id FROM users WHERE email='$myemail'";
-        $user_id =mysqli_query($connection2,$user_id_query);
-        $user_id=mysqli_fetch_row($user_id);
-        //check if user is the admin
-        $is_user_admin_query="SELECT * FROM election WHERE user_id='$user_id[0]' AND election_id='$election_id'";
-        $is_user_admin= mysqli_query($connection2,$is_user_admin_query);
-        $is_user_admin=mysqli_fetch_row($is_user_admin);
-        if(count($is_user_admin)===0){
-            header("Location:maindashboard.php");
-        }else{
-            $date_diff=-strtotime(date("Y-m-d"))+strtotime(date($is_user_admin[2]));
-            $_SESSION['election_id'] = $key;
-        }
-        //user is now the admin of this election.
-    }   
+//get election key
+$key = $_GET['key'];
+$election_idd = unwrap($key);
+//check if key is valid
+$election_details = getElectionDetails($election_idd);
+//redirect if election is not present
+if(count($election_details) === 0)
+{
+   header("Location:maindashboard.php");
+}else
+{
+  $election_id = $election_details[0]["election_id"];
+  //check if the user is truly the admin of the election using the session email and the election id
+  if($election_details[0]["user_id"] != user_id($myemail))
+  {
+     header("Location:maindashboard.php");
+  }else
+  {
+    $date_diff = strtotime(date($election_details[0]["election_start_date"])) - strtotime(date("Y-m-d"));
+    $_SESSION['election_id'] = $key;
+  }
 
     $_SESSION['adek_link'] = 'postnews.php?key='. $_SESSION['election_key'];
     $_SESSION['adek_status'] = 'Admin';
-
+}
 
 
 ?>
