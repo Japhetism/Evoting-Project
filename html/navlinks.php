@@ -227,66 +227,79 @@ if (isset($_SESSION['election_key'])) {
 
                         $request_string_n.='<h6 id="requests_title">Pending Requests</h6></li>
                                        <li class="divider"></li>';
-                                    
-                                    //lets get pending requests but we must check if election has not concluded
-                                    $sender_id_query ="SELECT user_id FROM request WHERE election_id='$election_id'";
-                                    $sender_highdee =mysqli_query($connection2,$sender_id_query);
-                                    $sender_id =mysqli_fetch_row($sender_highdee)[0];
-                                    $request_date_query ="SELECT request_date FROM request WHERE user_id ='$sender_id' AND election_id='$election_id'";
-                                    $request_date = mysqli_query($connection2,$request_date_query);
-                                    if (mysqli_num_rows($request_date) != 0) {
-                                        $request_date = mysqli_fetch_row($request_date)[0];
-                                        $request_day = explode(" ", $request_date)[0];
-                                        $request_time = timeString(explode(" ", $request_date)[1]);
-                                    }
-                                    if ($date_diff > 0) {
-                                        if($sender_id!=''){
-                                            do{
-                                                //get email of current sender and display it
-                                                $sender_email_query="SELECT email FROM users WHERE user_id='$sender_id'";
-                                                $sender_email= mysqli_query($connection2,$sender_email_query);
-                                                $sender_email = mysqli_fetch_row($sender_email)[0];
-                                                $sender_pic_query="SELECT picture_name FROM users WHERE user_id='$sender_id'";
-                                                $sender_pic_name = mysqli_query($connection2,$sender_pic_query);
-                                                $sender_pic_name = mysqli_fetch_row($sender_pic_name)[0];
-                                                if ($sender_pic_name != NULL) {
-                                                    $img_url = '../images/users/'.$sender_pic_name;
-                                                }else $img_url = '../images/male.gif';
-                                                $specification=$sender_id.'_'.$election_id;
-                                                $request_string='<li class="row ';
-                                                $request_string.=$specification;
-                                                $request_string.='" id="'.$sender_id.'">
+                        $request_string = "";
+
+                        //lets do this properly
+                        if ($date_diff < 0)
+                        {
+                            $request_string_n .= "Requests not available.";
+                        }else
+                        {
+                           //get all requests
+                            $query = "SELECT
+                                        request.request_date,request.user_id,users.email,users.picture_name
+                                      FROM
+                                        request
+                                      LEFT JOIN
+                                        users
+                                      ON
+                                        request.user_id = users.user_id
+                                      WHERE
+                                        request.election_id = '$election_id'";
+
+                            $all_request = $connection1->prepare($query);
+                            $all_request->execute();
+                            $all_request->setFetchMode(PDO::FETCH_ASSOC);
+                            $all_request = $all_request->fetchAll();
+                            if (count($all_request) == 0)
+                            {
+                                $request_string_n .= "Requests not available.";
+                            }else
+                            {
+                                $request_count = count($all_request);
+                                for ($i = 0 ; $i < $request_count ; $i++)
+                                {
+                                    $sender_id = $all_request[$i]["user_id"];
+                                    $sender_email = $all_request[$i]["email"];
+
+                                    //separate the day from the time
+                                    $request_day = explode(" ",$all_request[$i]["request_date"])[0];
+                                    $request_time = timeString(explode(" ",$all_request[$i]["request_date"])[1]);
+
+                                    if($all_request[$i]["picture_name"] != null)
+                                        $img_url = '../images/users/'.$all_request[$i]["picture_name"];
+                                    else
+                                        $img_url = '../images/male.gif';
+
+                                    $specification = $sender_id.'_'.$election_id;
+
+                                    $request_string .= '<li class="row ';
+                                    $request_string .= $specification;
+                                    $request_string .= '" id="'.$sender_id.'">
                                                                     <span class="col-xs-2">
                                                                         <img class="img-circle preview" src="'.$img_url.'" alt="hey" width="100%" height="100%" >
                                                                     </span>
                                                                     <div class="col-xs-10" id="'.$date_diff.'">
                                                                       <span class="col-xs-8 email">';
-                                                    $request_string.=    $sender_email;
-                                                    $request_string.='<span>
+                                    $request_string .=    $sender_email;
+                                    $request_string .= '<span>
                                                                         <small>'.$request_day ." at ".$request_time.'</small>
                                                                      </span>
                                                                      </span>
                                                                         <i class="fa fa-close text-danger rejectInvite col-xs-1"></i>
                                                                         <i style="text-align: center;" class="fa fa-check text-success acceptInvite col-xs-1"></i>';
-                                                    $request_string.='
+                                    $request_string .= '
                                                                     </div> </li>' ;
-                                                           $request_count++;
+                                }
+                                $request_string_n .= $request_string;
 
-                                            }while($sender_id =mysqli_fetch_row($sender_highdee)[0]);
-                                            $request_string.='
-                                                             ';
-                                            $request_string_n.=$request_string;
-                                        }
-                                        else{
-                                            $request_string_n.= "";
-                                        }
-                                    }else{
-                                        $request_string_n.= 'You cannot see requests for this election as the election start date is past.';
-                                    }
-                                $request_string_n.='
+                            }
+                        }
+                        $request_string_n.='
                                 </li>
                             </ul>
                         </li>';
+
                     }else{
                         $request_string_n = '';
                     }

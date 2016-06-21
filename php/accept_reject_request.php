@@ -4,14 +4,14 @@ require_once("function.php");
 include_once('connection.php');
 include_once('database.php');
 $id=$_POST["id"];
-$id= (explode(" ",$id)[1]);
-$sender_id= (explode("_",$id)[0]);
-$election_id=(explode("_",$id)[1]);
+$id = (explode(" ",$id)[1]);
+$sender_id = (explode("_",$id)[0]);
+$election_id = (explode("_",$id)[1]);
 
 //check if voting has not started
-$starting_date_query= "SELECT election_start_date,election_time_from FROM election WHERE election_id='$election_id'";
-$starting_date= mysqli_fetch_row(mysqli_query($connection2,$starting_date_query))[0];
-$starting_time=mysqli_fetch_row(mysqli_query($connection2,$starting_date_query))[1];
+$election = getElectionDetails($election_id)[0];
+$starting_date = $election["election_start_date"];
+$starting_time = $election["election_time_from"];
 if(!concluded($starting_date,$starting_time,0) && isset($_POST)){
     //get needed election details in case you need to send mail
     $admin_query = "SELECT
@@ -39,14 +39,14 @@ if(!concluded($starting_date,$starting_time,0) && isset($_POST)){
 
     //delete request
     $delete_request_query="DELETE FROM request WHERE user_id='$sender_id' AND election_id='$election_id'";
-    if(mysqli_query($connection2,$delete_request_query)){
+    if($connection1->query($delete_request_query)){
         if($_POST["action"]==="accept"){
 
             //check if user has not been added to the election before
             if(attached('joined',$sender_id,$election_id) != 'joined'){
                 //add sender to joined
                 $adding_sender_query="INSERT INTO joined(user_id,election_id) VALUES ('$sender_id','$election_id')";
-                if(mysqli_query($connection2,$adding_sender_query)){
+                if($connection1->query($adding_sender_query)){
                     //send notification
                     $mail_subject .= "granted.";
                     $mail_body = "Hello ".$recipient['username'].".<br>
