@@ -2,6 +2,7 @@
 include('session.php');
 include('connection.php');
 include_once('database.php');
+include_once('function.php');
 $election_id_here= $_SESSION["election_id_view"];
 
 //Declaring variables to be used
@@ -143,7 +144,7 @@ $sql1->execute();
 $result1= $sql1->setFetchMode(PDO::FETCH_ASSOC);
 $result1 = $sql1->fetchAll();
 if(empty($result1)) {
-    $key=  rand(1,9).rand(10,99).rand(10,99).rand(1000,9999).$_SESSION["election_id"].rand(10000,99999).rand(100,999);
+    $key =  wrap($_SESSION["election_id"]);
 
     header("Location:election_detailsNews.php?key=".$key) ;
 }
