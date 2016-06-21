@@ -6,11 +6,11 @@ include_once('../php/view_contestant.php');
 include_once("../php/vote.php");
 include_once("../php/database.php");
 //check if election exists
-$election_id=$_SESSION["election_id"];
-$user_id=user_id($myemail);
-$election=mysqli_fetch_array(mysqli_query($connection2,"SELECT * FROM election WHERE election_id='$election_id'"));
-$joined=mysqli_fetch_array(mysqli_query($connection2,"SELECT * FROM joined WHERE user_id='$user_id' AND election_id='$election_id'"));
-if(empty($election) | empty($joined)){
+$election_id = $_SESSION["election_id"];
+$user_id = user_id($myemail);
+$election = getElectionDetails($election_id);
+$joined = getAllMembers("joined",["*"],["user_id","=",$user_id],0,"AND",["election_id","=",$election_id]);
+if(count($election) == 0 | count($joined) == 0){
     //that means the election does not exist or the user is not joined to the election
     header("Location:maindashboard.php");
 }
