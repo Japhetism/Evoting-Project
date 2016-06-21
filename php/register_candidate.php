@@ -167,15 +167,6 @@ if(concluded($result5[0]['election_end_date'],$result5[0]['election_time_to'],0)
                 $uploadErr = "No image file has been chosen yet please choose a valid picture.";
             }
 
-
-//            $target_dir = "../images/contestants/";
-//            $uploadErr= picture($target_dir);
-//            $currentTime = strtotime(date("Y-m-d")) . "_" . strtotime(date("H:i:s")) . "_" . $user_id . ".";
-//            $name = $currentTime;
-//            $target_file_temp = $target_dir . basename($_FILES["image"]["name"]);
-//            $imageFileType = pathinfo($target_file_temp, PATHINFO_EXTENSION);
-
-
             //citation file validation
             $citation_target_dir = "../contestant_citation/";
             $uploadCOK = 0;
@@ -273,7 +264,7 @@ if($nick_name != "" && $manifesto_point!="" && $contestant_pin!="" && $contestan
         }
 
     } else {
-        $registration_message = "You are already a contestant in this election, you cannot register for a post twice or another post.";
+        $registration_message = "You are already a contestant in this election.";
     }
 
 }
