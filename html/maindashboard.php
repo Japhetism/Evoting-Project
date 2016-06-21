@@ -76,14 +76,8 @@ include_once('../php/photo.php');
         function created(id){
             window.location = "postnews.php?key="  + id ;
         }
-        function invited(id){
-            window.location = "accept_invite.php?key="  + id ;
-        }
         function joined(id){
             window.location = "election_detailsNews.php?key="  + id ;
-        }
-        function Public(id){
-            window.location = "publicElections.php?key="  + id ;
         }
     </script>
 </head>
