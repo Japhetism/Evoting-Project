@@ -179,7 +179,7 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
         $result2 = getAllMembers("users",["email","status"],["email","=",$lemail],0,"AND",["password","=",$lhashedpassword]);
 
 
-        if(count($result2) == 2){
+        if(count($result2) > 0){
             //check status
             $status = $result2[0]["status"];
             if($status == 0){
@@ -187,7 +187,7 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
                                 been sent to your mailbox.";
             }else{
                 session_start();
-                $_SESSION['login_user']=$$result2[0]["email"];
+                $_SESSION['login_user']=$result2[0]["email"];
                 $_SESSION['adek_link']='';
                 $_SESSION['adek_status']='';
                 header('Location:maindashboard.php');

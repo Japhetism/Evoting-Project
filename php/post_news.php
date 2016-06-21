@@ -10,26 +10,28 @@ $election_id = $result_tag = $election_details_for_admin ="";
 if(isset($_GET['key'])){
     $key=$_GET['key'];
     $_SESSION['election_key']=$key;
-    $election_id = substr($key,9,strlen($key)-17);
+    $election_id = unwrap($key);
     $_SESSION['election_id']=$election_id;
 }
 
 //Posting of news by the admin
 $post_news = $error = "";
 
-if(!empty($_POST["post_submit"]) && isset($_POST["post_submit"])){
+if(!empty($_POST["post_submit"]) && isset($_POST["post_submit"]))
+ {
     $error = false;
 
-//checking if the post field is empty
-    if(empty($_POST['post_news'])){
+    //checking if the post field is empty
+    if(empty($_POST['post_news']))
+    {
         $error = true;
-    }else{
+    }else
+    {
         $post_news = $_POST['post_news'];
     }
 
-//getting user_id via the email used to login
-    $getUser_id = "SELECT user_id FROM users WHERE email='$myemail'";
-    $user_id = mysqli_fetch_row(mysqli_query($connection2, $getUser_id));
+    //getting user_id via the email used to login
+    $user_id = user_id($myemail);
 
     //inserting into the database
 
@@ -37,25 +39,22 @@ if(!empty($_POST["post_submit"]) && isset($_POST["post_submit"])){
         $sql = "INSERT INTO news(news, election_id)
 						VALUES('".$post_news."', '".$election_id."')";
 
-        if(mysqli_query($connection2, $sql)){
-
+        if($connection1->query($sql))
+        {
             header("Location:postnews.php?key=".$key);
         }
     }
-}
+ }
 
-
-
-//fetcching and displaying the news posted by the admin
+//fetching and displaying the news posted by the admin
 $posted_news = $adminPhoto = $profile1 = "";
 $images_dir = "../images/users/";
 $news_query = "SELECT * FROM news WHERE election_id='$election_id' ORDER BY date_created DESC";
-$admin_user_id = "SELECT user_id FROM election WHERE election_id='$election_id'";
-$user_id =mysqli_query($connection2,$admin_user_id);
-$user_id=mysqli_fetch_row($user_id);
-$admin_photo = "SELECT fname, lname, picture_name FROM users WHERE user_id='$user_id[0]'";
-if($result_admin = mysqli_query($connection2,$admin_photo)){
-    while($row1 = mysqli_fetch_assoc($result_admin)){
+$user_id = getAllMembers("election",["user_id"],["election_id","=",$election_id]);
+$user_id = $user_id[0]["user_id"];
+$admin_photo = "SELECT fname, lname, picture_name FROM users WHERE user_id='$user_id'";
+$result_admin = mysqli_query($connection2,$admin_photo);
+    $row1 = mysqli_fetch_assoc($result_admin);
         if($result = mysqli_query($connection2, $news_query)){
             while($row = mysqli_fetch_assoc($result)){
                 $add = $row['news_id'];
@@ -63,14 +62,23 @@ if($result_admin = mysqli_query($connection2,$admin_photo)){
                 $date_time = explode(" ", $row['date_created']);
                 $date = getDateInterval($date_time[0]);
                 $time = timeString($date_time[1]);
-                $posted_news.="<div class='me' style='margin-bottom:10px;' >"."<br><div id='dem$add' style='padding-left:2%;'><label id=$add style='overflow:hidden;text-overflow:ellipsis;'>".$row['news']."</label><br>".$date."&nbsp".$time."&nbsp<br>";
-                /* $encrypted_news_id=rand(1,9).rand(10,99).rand(10,99).rand(1000,9999).$row['news_id'].rand(10000,99999).rand(100,999);*/
-                $posted_news.="<a href='#' onclick='editNews($add)'>Edit</a>&nbsp&nbsp<a href='#' onclick='deleteNews($add)'>Delete</a></div><div id='other$add'><form method='post'><textarea name='modify_news' id='modify_news$add' style='display:none; margin-bottom:5px;min-width:90%;margin-left:1%;'></textarea><input type='submit' value='Update News' name='update_news' id='update_news$add' style='display: none;float:left;'><input type='submit' value='Confirm Delete' name='delete_news' id='delete_news$add' style='display: none;float:left;'><input type='button' value='Cancel' id='cancel_delete_news$add' onclick='cancelNews($add)' style='display: none;margin-left:40%;'><input type='text' name='id' id='getid$add' style='display:none'></form></div></div>";
+                $posted_news.="<div class='me' style='margin-bottom:10px;' >"."<br><div id='dem$add' style='padding-left:2%;'>
+                                <label id=$add style='overflow:hidden;text-overflow:ellipsis;'>".$row['news']."</label>
+                                <br>".$date."&nbsp".$time."&nbsp<br>";
+                $posted_news.="<a href='#' onclick='editNews($add)'>Edit</a>&nbsp&nbsp<a href='#' onclick='deleteNews($add)'>Delete</a>
+                                </div><div id='other$add'><form method='post'><textarea name='modify_news' id='modify_news$add'
+                                style='display:none; margin-bottom:5px;min-width:90%;margin-left:1%;'></textarea>
+                                <input type='submit' value='Update News' name='update_news' id='update_news$add'
+                                style='display: none;float:left;'><input type='submit' value='Confirm Delete'
+                                name='delete_news' id='delete_news$add' style='display: none;float:left;'>
+                                <input type='button' value='Cancel' id='cancel_delete_news$add' onclick='cancelNews($add)'
+                                style='display: none;margin-left:40%;'><input type='text' name='id' id='getid$add'
+                                style='display:none'></form></div></div>";
             }
         }
 
-    }
-}
+
+
 
 
 

@@ -19,5 +19,9 @@ function shit()
     return $election_details1;
 
 }
+$myemail= "mummy@gmail.com";
+$admin_photo = "SELECT fname, lname, picture_name FROM users WHERE user_id=1";
+$result_admin = mysqli_query($connection2,$admin_photo);
+$row1 = mysqli_fetch_assoc($result_admin);
 
-print_r(getAllMembers("users",["*"],["user_id","=",1])[0]);
+print_r($row1);
