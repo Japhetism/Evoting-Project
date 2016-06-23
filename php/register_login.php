@@ -105,7 +105,7 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
                  You are welcome to Obafemi Awolowo University online voting system.<br>
                  This is to notify you that your email address has been used to create an
                  account with us. Kindly ignore this mail if your account was used without your consent.
-                 If not, click on <a href='http:evoting.oauife.edu.ng/html?confirm_me=".$coded."'>Activate account.</a>
+                 If not, click on <a href='http://evoting.oauife.edu.ng/html?confirm_me=".$coded."'>Activate account.</a>
                   to activate your account.Thank you.";
 
 //            $mail->AltBody = "";

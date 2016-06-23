@@ -50,10 +50,10 @@ if($datediff > 0) {
                                                   stated by the administrator of this election, needed to be a valid voter
                                                   in this election. Whatever the case may be, the administrators best
                                                    understands why you were removed from this election.<br><br> We will
-                                                   like to remind you that, at <a href='evoting.oauife.edu.ng'>OAU E-voting system</a>,
+                                                   like to remind you that, at <a href='http://evoting.oauife.edu.ng'>OAU E-voting system</a>,
                                                    it is our responsibility to provide a reliable and trustworthy one-man-one-vote
                                                    online voting system for you always. Thank you.
-                                                   <a href='evoting.oauife.edu.ng'>Login into your account.</a>";
+                                                   <a href='http://evoting.oauife.edu.ng'>Login into your account.</a>";
                 sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
 
 				echo "User is no more a voter";
@@ -84,10 +84,10 @@ if($datediff > 0) {
                                                   stated by the administrator of this election, needed to be a valid contestant
                                                   in this election. Whatever the case may be, the administrators best
                                                    understands why you were deprived of this.<br><br> We will
-                                                   like to remind you that, at <a href='evoting.oauife.edu.ng'>OAU E-voting system</a>,
+                                                   like to remind you that, at <a href='http://evoting.oauife.edu.ng'>OAU E-voting system</a>,
                                                    it is our responsibility to provide a reliable and trustworthy one-man-one-vote
                                                    online voting system for you always. Thank you.
-                                                   <a href='evoting.oauife.edu.ng'>Login into your account.</a>";
+                                                   <a href='http://evoting.oauife.edu.ng'>Login into your account.</a>";
                 sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
 				echo "Voter is no longer a contestant for this election";
 			}

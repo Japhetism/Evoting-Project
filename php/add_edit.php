@@ -131,7 +131,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                   be removed from the list of your current invitations. Also note that this invitation
                   will be available for a specified period of time depending on the type of election
                   which ".$election_name." is. To see more details about this invitation or respond to it,
-                  <a href='evoting.oauife.edu.ng'>SignUp</a> now.";
+                  <a href='http://evoting.oauife.edu.ng'>SignUp</a> now.";
 
 
     $errors = array();
@@ -252,7 +252,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 be removed from the list of your current invitations. Also note that this invitation
                                                 will be available for a specified period of time depending on the type of election
                                                 which ".$election_name." is. To see more details about this invitation or respond to it,
-                                                <a href='evoting.oauife.edu.ng'>Login into your account</a> now.";
+                                                <a href='http://evoting.oauife.edu.ng'>Login into your account</a> now.";
                                 sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
                             }
 
@@ -386,7 +386,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST') {
                                                 be removed from the list of your current invitations. Also note that this invitation
                                                 will be available for a specified period of time depending on the type of election
                                                 which ".$election_name." is. To see more details about this invitation or respond to it,
-                                                <a href='evoting.oauife.edu.ng'>Login into your account</a> now.";
+                                                <a href='http://evoting.oauife.edu.ng'>Login into your account</a> now.";
                         sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
 
                     }

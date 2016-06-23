@@ -52,9 +52,9 @@ if(!concluded($starting_date,$starting_time,0) && isset($_POST)){
                     $mail_body = "Hello ".$recipient['username'].".<br>
                                                 This is to notify you that ".$sender_name."; the administrator of ".$election_name."
                                                 has granted your request to join ".$election_name.". Therefore, you are
-                                                now a valid voter in the election. <a href='evoting.oauife.edu.ng'>Login into your account.</a>
+                                                now a valid voter in the election. <a href='http://evoting.oauife.edu.ng'>Login into your account.</a>
                                                 now to view the latest about the election.<br><br> We will like to remind
-                                                you that, at <a href='evoting.oauife.edu.ng'>OAU E-voting system</a>, it
+                                                you that, at <a href='http://evoting.oauife.edu.ng'>OAU E-voting system</a>, it
                                                 is our responsibility to provide a reliable and trustworthy one-man-one-vote
                                                 online voting system for you always. Thank you.";
                     sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
@@ -74,10 +74,10 @@ if(!concluded($starting_date,$starting_time,0) && isset($_POST)){
                                                 administrator of this election, needed to be a valid voter in this election.
                                                 Whatever the case may be, the administrators best understands why your
                                                 request was rejected.<br><br> We will like to remind you that, at
-                                                <a href='evoting.oauife.edu.ng'>OAU E-voting system</a>, it is our
+                                                <a href='http://evoting.oauife.edu.ng'>OAU E-voting system</a>, it is our
                                                 responsibility to provide a reliable and trustworthy one-man-one-vote
                                                 online voting system for you always. Thank you.
-                                                <a href='evoting.oauife.edu.ng'>Login into your account.</a>";
+                                                <a href='http://evoting.oauife.edu.ng'>Login into your account.</a>";
             sendEmail($recipient_address,$recipient_name,$mail_subject,$mail_body);
 
             echo 'Request successfully rejected.';
