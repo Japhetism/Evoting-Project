@@ -431,8 +431,6 @@ if ($name_of_election && $start_date_of_election && $end_date_of_election && $ti
     }
 }
 
-$connection1 = null;
-
 if ($last_election_id >0 && $last_post_id > 0 ) {
     $page = 'createelection3.php?election=' . $election_pin . '&csv=' . $csv;
     header('Location: '. $page);
