@@ -98,7 +98,12 @@ if(empty($_POST['id'])){
 
 
 //fetching those posted news by admin to modify
-$news_fetched = getAllMembers("news",["news"],["news_id","=",$news_id])[0]["news"];
+$news_fetched = getAllMembers("news",["news"],["news_id","=",$news_id]);
+if (count($news_fetched) > 0) {
+    $news_fetched = $news_fetched[0]["news"];
+}else{
+    $news_fetched = "";
+}
 
 //posting the update of news
 $post_update = $updateErr = "";

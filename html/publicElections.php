@@ -13,7 +13,7 @@ include_once('../php/photo.php');
 require_once('../php/function.php');
 include_once('../php/public.php');
 
-$this_admin=$submit=$admin_picture='';
+$this_admin=$submit=$admin_picture=$error_msg='';
 //get election_id
 $election_id=unwrap($_GET['key']);
 //check if the election exists and public

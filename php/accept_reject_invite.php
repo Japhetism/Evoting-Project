@@ -7,7 +7,8 @@
  */
 include_once("session.php");
 require_once('function.php');
-include_once('../php/connection.php');
+include_once('connection.php');
+include_once('database.php');
 
 $election_details = $admin_details="";
 //get election key
