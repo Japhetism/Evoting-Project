@@ -35,7 +35,7 @@ if(!concluded($starting_date,$starting_time,0) && isset($_POST)){
     $recipient = getAllMembers('users',['*'],['user_id','=',$sender_id])[0];
     $recipient_address = $recipient['email'];
     $recipient_name = strtoupper($recipient['fname'])." ".$recipient['lname'];
-    $mail_subject = "Your request to join ".$election_name."has been ";
+    $mail_subject = "Your request to join ".$election_name." has been ";
 
     //delete request
     $delete_request_query="DELETE FROM request WHERE user_id='$sender_id' AND election_id='$election_id'";
