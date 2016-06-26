@@ -13,7 +13,7 @@ include_once('../php/photo.php');
 require_once('../php/function.php');
 include_once('../php/public.php');
 
-$this_admin=$submit=$admin_picture=$error_msg='';
+$this_admin=$submit=$admin_picture='';
 //get election_id
 $election_id=unwrap($_GET['key']);
 //check if the election exists and public
@@ -139,7 +139,7 @@ if(empty($this_election) && $error_msg == ''){
                     </div>
                     <div class="row">
                         <div class="col-xs-6 col-md-4">
-                            <?php echo $admin_picture;?>
+<!--                            --><?php //echo $admin_picture;?>
                         </div>
                         <div class="col-xs-6 col-md-8">
                             <div class="row">
@@ -160,7 +160,12 @@ if(empty($this_election) && $error_msg == ''){
                 </div>
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                     <div class="col-xs-12 form-inline" style="text-align: center; ">
-                        <?php if($error_msg=='') echo($submit); echo($error_msg);?>
+                        <?php if($error_msg=='')
+                        {
+                            echo($submit);
+                        }else{
+                            echo($error_msg);
+                        } ?>
                     </div>
                 </form>
             </div>

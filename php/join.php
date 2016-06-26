@@ -13,8 +13,9 @@ if(isset($_POST["pin"]) && !empty($_POST["pin"])){
     //collect pin
     $election_pin=$_POST['pin'];
     //get the election corresponding to the pin
-    $election = getAllMembers("election",["*"],["election_id","=",1])[0];
+    $election = getAllMembers("election",["*"],["election_pin","=",$election_pin]);
         if(count($election) != 0){
+            $election = $election[0];
             //get openness
             $openness=substr($election["privacy"],1,1);
             //get user_id

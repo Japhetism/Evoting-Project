@@ -7,8 +7,8 @@
  */
 //session_start();
 //include_once("connection.php");
+$error_msg = '';
 if (isset($_POST['join']) || isset($_POST['request'])) {
-    $error_msg = '';
     $user_id=$_SESSION['user_id'];
     $election_id=$_SESSION['election_id'];
 
