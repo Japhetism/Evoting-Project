@@ -230,10 +230,7 @@ if (isset($_SESSION['election_key'])) {
                         $request_string = "";
 
                         //lets do this properly
-                        if ($date_diff < 0)
-                        {
-                            $request_string_n .= "Requests not available.";
-                        }else
+                        if ($date_diff > 0)
                         {
                            //get all requests
                             $query = "SELECT
@@ -251,10 +248,7 @@ if (isset($_SESSION['election_key'])) {
                             $all_request->execute();
                             $all_request->setFetchMode(PDO::FETCH_ASSOC);
                             $all_request = $all_request->fetchAll();
-                            if (count($all_request) == 0)
-                            {
-                                $request_string_n .= "Requests not available.";
-                            }else
+                            if (count($all_request) > 0)
                             {
                                 $request_count = count($all_request);
                                 for ($i = 0 ; $i < $request_count ; $i++)
@@ -315,7 +309,7 @@ if (isset($_SESSION['election_key'])) {
                     </a>
                     <ul class="dropdown-menu userOptions" id="userOptions">
                         <li>
-                            <a href="#" onclick="window.location = 'viewuserprofile.php?email=' + '<?php echo $myemail?>';"><i class="fa fa-user"></i> profile</a>
+                            <a href="#" onclick="window.location = 'viewuserprofile.php'"><i class="fa fa-user"></i> profile</a>
                         </li>
                         <li class="divider"></li>
                         <li>

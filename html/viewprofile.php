@@ -144,7 +144,7 @@ include_once('../php/photo.php');
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-md-3">
-                                        <strong>Email Address: </strong>
+                                        <strong>Email Add.: </strong>
                                     </div>
                                     <div class="col-xs-9 col-md-9">
                                         <small><?php echo $myemail; ?></small>
@@ -152,7 +152,7 @@ include_once('../php/photo.php');
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-md-3">
-                                        <strong>Contesting for: </strong>
+                                        <strong>Post: </strong>
                                     </div>
                                     <div class="col-xs-9 col-md-9">
                                         <small><?php echo $user_contestant_post; ?></small>
@@ -192,22 +192,7 @@ include_once('../php/photo.php');
                                         </small>
                                     </div>
                                 </div>
-                                <div class="row">
-                                    <div class="col-xs-3 col-md-3"><strong>Citation</strong></div>
-                                    <div class="col-xs-9 col-md-9">
-                                        <small>
-                                            <?php
-                                            if(!empty($user_citation_here)) {
-                                                echo $user_citation_here;
-                                            }else{
-                                                echo "None";
-                                            }
-                                            ?>
-                                        </small>
-                                    </div>
-                                </div>
-
-                                </div>
+                               </div>
 
                             </div>
 

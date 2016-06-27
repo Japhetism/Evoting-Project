@@ -98,6 +98,7 @@ if(empty($this_election) && $error_msg == ''){
             padding: 5px 5px 30px 5px;
             background: #fff;
             box-shadow: 0px 0px 3px rgba(0,0,0,0.2);
+            max-height: 275px;
         }
     </style>
 
@@ -138,8 +139,8 @@ if(empty($this_election) && $error_msg == ''){
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-xs-6 col-md-4">
-<!--                            --><?php //echo $admin_picture;?>
+                        <div class="col-xs-6 col-md-4" >
+                            <?php echo $admin_picture;?>
                         </div>
                         <div class="col-xs-6 col-md-8">
                             <div class="row">

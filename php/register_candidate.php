@@ -68,7 +68,7 @@ if(concluded($result5[0]['election_end_date'],$result5[0]['election_time_to'],0)
         } elseif (!preg_match("/^[a-zA-Z0-9 ]*$/", $_POST["nick_name"])) {
             $nick_nameErr = "Nick name with only letters and numbers are allowed";
         } else {
-            $nick_name = trim(ucwords($_POST["nick_name"]));
+            $nick_name = trim($_POST["nick_name"]);
         }
 
         //contestants post and pin validation
@@ -256,10 +256,10 @@ if($nick_name != "" && $manifesto_point!="" && $contestant_pin!="" && $contestan
                 $last_manifesto_id = $connection1->lastInsertId();
 
                 if ($last_contestant_id > 0 && $last_manifesto_id > 0) {
-                    header("Location:viewprofile.php?key=".$_SESSION['election_key']) ;
+                    header("Location:viewprofile.php") ;
                 }
             }else{
-                echo "Sorry an error occur while inserting your details in the database please try again.";
+                echo "An error occur while processing your registration. Try again.";
             }
         }
 

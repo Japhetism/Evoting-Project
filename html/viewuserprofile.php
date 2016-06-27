@@ -149,7 +149,7 @@ include_once('../php/photo.php');
                                 </div>
                                 <div class="row">
                                     <div class="col-xs-3 col-md-3">
-                                        <strong>Email Address: </strong>
+                                        <strong>Email Add.: </strong>
                                     </div>
                                     <div class="col-xs-9 col-md-9">
                                         <small><?php echo $myemail; ?></small>
