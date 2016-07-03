@@ -222,12 +222,15 @@ if(isset($_GET['key'])){
         <div class="row contact">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1>Contact Us</h1>
-                <p>E-mail us with your suggestions or complaints at any time </p>
-                <p><a href="ouremail-link???">ouremail link??</a> </p>
+<!--                <p>E-mail us with your suggestions or complaints at any time </p>-->
+<!--                <p>ouremail link??</p>-->
             </div>
             <div class="col-lg-8 col-lg-offset-2">
                 <div class="row">
-                    <div class="col-md-12"><span class="fa fa-building-o"></span><h3>reach us at computer building,Ife</h3></div>
+                    <div class="col-md-12">
+                        <span class="fa fa-building-o"></span>
+                        <h3>Reach us at Room 011, computer building, Obafemi Awolowo University, Ile-Ife.</h3>
+                    </div>
                     <div class="col-md-12"><span class="fa fa-facebook"></span><p></p></div>
                     <div class="col-md-12"><span class="fa fa-newspaper-o"></span><p>View news on any election you're involved in...</p></div>
                 </div>
@@ -274,8 +277,8 @@ if(isset($_GET['key'])){
                     $('#description>.about-description>h3, #description>.about-description>hr').animate({'top':"0",'opacity':'0.9'},400);
                 });
             }
-            var nav = $('.navbar').offset().top;
-            console.log(nav);
+//            var nav = $('.navbar').offset().top;
+//            console.log(nav);
 
         });
 

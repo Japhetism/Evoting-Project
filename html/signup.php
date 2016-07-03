@@ -110,12 +110,12 @@ if(isset($_SESSION['login_user'])){
 		<!--signup section-->
             <div id="signup" class="row signup">
                 <div class="col-md-8 col-lg-offset-2">
-                    <fieldset class="home">
-                        <h4 style="color: white">Register or <a href="index.php#login" >sign in</a> </h4>
+                    <fieldset class="home" style="margin-left: 15px;">
+                        <h4 style="color: white; margin-left: 50px;">Register or <a href="index.php#login" >sign in</a> </h4>
                         <form action="<?php echo htmlspecialchars("#register");?>" method="post">
                             <span class="error" ><?php echo $mainError;?></span><p>
                             <span class="error"><?php echo $output;?></span><p>
-                            <div class="row">
+                            <div class="row" style="margin-left: 12px;">
                                 <div class="col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input class="form-control" type="text" placeholder="first name" name="fname" value="<?php echo $fname;?>" maxlength="25" required/>
@@ -125,7 +125,7 @@ if(isset($_SESSION['login_user'])){
                                     <input class="form-control" type="text" placeholder="last name" name="lname" value="<?php echo $lname;?>" maxlength="25" required/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-left: 12px;">
                                 <div class="col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
                                     <input class="form-control" type="text" placeholder="username" name="username" value="<?php echo $username;?>" maxlength="25" required/>
@@ -135,7 +135,7 @@ if(isset($_SESSION['login_user'])){
                                     <input class="form-control" type="email" placeholder="Email address" name="email" value="<?php echo $email;?>" maxlength="40" required/>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-left: 12px;">
                                 <div class="col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-key fa-fw"></i>
@@ -155,7 +155,7 @@ if(isset($_SESSION['login_user'])){
                                     </span>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row" style="margin-left: 12px;">
                                 <div class="col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-mobile-phone fa-fw"></i></span>
                                     <input class="form-control" type="number" placeholder="phone number" name="phone" value="<?php echo $phone;?>" maxlength="14" required/>
@@ -163,13 +163,13 @@ if(isset($_SESSION['login_user'])){
                                 <div class="col-md-1 col-md-offset-1 input-group">
                                     <input  type="radio" name="sex" <?php if (isset($sex) && $sex=="male") echo "checked";?> value="male" required/>Male
                                 </div>
-                                <div class="col-md-2 input-group">
+                                <div class="col-md-2 input-group" style="margin-left: 20px;">
                                     <input type="radio" name="sex" <?php if (isset($sex) && $sex=="female") echo "checked";?> value="female" required/>Female
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4 ">
-                                  <input type="submit" class="btn btn-success" name="register" value="CREATE ACCOUNT" ></span>
+                            <div class="row" style="margin-left: 50px;">
+                                <div class="col-md-4 col-md-offset-4" >
+                                  <input type="submit" class="btn btn-success" name="register" value="CREATE ACCOUNT"></span>
                                 </div>
                             </div>
                         </form>
@@ -183,12 +183,15 @@ if(isset($_SESSION['login_user'])){
         <div class="row contact">
             <div class="col-lg-8 col-lg-offset-2">
                 <h1>Contact Us</h1>
-                <p>E-mail us with your suggestions or complaints at any time </p>
-                <p><a href="ouremail-link???">ouremail link??</a> </p>
+<!--                <p>E-mail us with your suggestions or complaints at any time </p>-->
+<!--                <p><a href="ouremail-link???">ouremail link??</a> </p>-->
             </div>
             <div class="col-lg-8 col-lg-offset-2">
                 <div class="row">
-                    <div class="col-md-12"><span class="fa fa-building-o"></span><h3>reach us at computer building,Ife</h3></div>
+                    <div class="col-md-12">
+                        <span class="fa fa-building-o"></span>
+                        <h3>Reach us at Room 011, computer building, Obafemi Awolowo University, Ile-Ife.</h3>
+                    </div>
                     <div class="col-md-12"><span class="fa fa-facebook"></span><p></p></div>
                     <div class="col-md-12"><span class="fa fa-newspaper-o"></span><p>View news on any election you're involved in...</p></div>
                 </div>
