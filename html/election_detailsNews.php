@@ -308,7 +308,7 @@ $_SESSION['adek_status'] = $adekagun;
                                 <div class="panel-heading" >
                                     <h3 class="panel-title" style="text-align: center ">CONTESTANTS</h3>
                                 </div>
-                                <div style="text-align: left; max-height:300px; overflow-y:auto; overflow-x:hidden;padding-top:10px";>
+                                <div style="text-align: left; max-height:320px; overflow-y:auto; overflow-x:hidden;padding-top:10px";>
                                     <style>
                                         .panel > .panel-heading {
                                             background-image: none;

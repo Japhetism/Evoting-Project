@@ -32,13 +32,13 @@ $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassw
 
 if(!empty($_POST["register"]) && isset($_POST["register"])) {
 
-    $fname = stripcslashes($_POST["fname"]);
-    $lname = stripcslashes($_POST["lname"]);
-    $username = stripcslashes($_POST["username"]);
-    $password1 = stripcslashes($_POST["password1"]);
-    $password2 = stripcslashes($_POST["password2"]);
-    $email = stripcslashes($_POST["email"]);
-    $phone = stripcslashes($_POST["phone"]);
+    $fname = removeSpace(stripcslashes($_POST["fname"]));
+    $lname = removeSpace(stripcslashes($_POST["lname"]));
+    $username = removeSpace(stripcslashes($_POST["username"]));
+    $password1 = removeSpace(stripcslashes($_POST["password1"]));
+    $password2 = removeSpace(stripcslashes($_POST["password2"]));
+    $email = removeSpace(stripcslashes($_POST["email"]));
+    $phone = removeSpace(stripcslashes($_POST["phone"]));
     $sex = stripcslashes($_POST["sex"]);
 
     $error = false;

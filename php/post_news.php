@@ -37,9 +37,12 @@ if(!empty($_POST["post_submit"]) && isset($_POST["post_submit"]))
 
     if(!$error){
         $sql = "INSERT INTO news(news, election_id)
-						VALUES('".$post_news."', '".$election_id."')";
+						VALUES(:post_news,:election_id)";
+        $insert = $connection1->prepare($sql);
+        $insert->bindParam(':post_news',$post_news);
+        $insert->bindParam(':election_id',$election_id);
 
-        if($connection1->query($sql))
+        if($insert->execute())
         {
             header("Location:postnews.php?key=".$key);
         }
@@ -116,8 +119,10 @@ if(!empty($_POST['update_news']) && isset($_POST['update_news'])){
     }
 
     if(!$updateErr){
-        $query_update = "UPDATE news SET news='$post_update' WHERE news_id='$news_id'";
-        if($connection1->query($query_update)){
+        $query_update = "UPDATE news SET news = :post_update WHERE news_id='$news_id'";
+        $update = $connection1->prepare($query_update);
+        $update->bindParam(':post_update',$post_update);
+        if($update->execute()){
             header("Location:postnews.php?key=".$key);
         }else{
 
@@ -195,8 +200,8 @@ $row = getAllMembers("users",["*"],["user_id","=",$user_id_result])[0];
 $election_admin_details .= "<div class='col-md-6'><label>Name:</label> ".$row['lname']."&nbsp".$row['fname']."
         <br><label>Username:</label> ".$row['username']."<br><label>Email:</label> ".$row['email']."<br>
         <label>Telephone:</label> ".$row['phone']."</div>";
-$election_admin_detail .= "<div class='col-md-4'><img src=".$images_dir.$row['picture_name']." width='100px'
-        height='100px' style='border-radius:100%;' id='displayedPhoto'></div>";
+$election_admin_detail .= "<div class='col-md-4'><img src=".$images_dir.$row['picture_name']." width='120px'
+        height='auto' style='border-radius:100%;max-height:200px;' class='preview' id='displayedPhoto'></div>";
 
 
 

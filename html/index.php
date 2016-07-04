@@ -229,9 +229,12 @@ if(isset($_GET['key'])){
                 <div class="row">
                     <div class="col-md-12">
                         <span class="fa fa-building-o"></span>
-                        <h3>Reach us at Room 011, computer building, Obafemi Awolowo University, Ile-Ife.</h3>
+                        <h4>Reach us at Room 011, computer building, Obafemi Awolowo University, Ile-Ife.</h4>
                     </div>
-                    <div class="col-md-12"><span class="fa fa-facebook"></span><p></p></div>
+                    <div class="col-md-12">
+                        <span class="fa fa-facebook"></span>
+                        <p>www.facebook.com/oauevoting</p>
+                    </div>
                     <div class="col-md-12"><span class="fa fa-newspaper-o"></span><p>View news on any election you're involved in...</p></div>
                 </div>
             </div>
