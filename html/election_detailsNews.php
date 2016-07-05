@@ -428,7 +428,6 @@ $_SESSION['adek_status'] = $adekagun;
         </div>
     </div>
 </div>
-        <!-- wrapper-->
-
+<script src="../js/file.js"></script>
 </body>
 </html>

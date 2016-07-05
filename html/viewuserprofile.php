@@ -94,6 +94,30 @@ include_once('../php/photo.php');
 
     <div id="page-wrapper" style="overflow-x: hidden;">
 
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h3 class="modal-title" id="myModalLabel" style="color:black;border:none;">Enter the election pin</h3>
+                    </div>
+                    <form  method="POST" id="thatForm" >
+                        <div class="modal-body row" id="input" style="text-align:center;" >
+                            <div class=" col-md-4 col-md-offset-4 " >
+                                <input type="text" name="pin" class=" form-control" style="background: rgba(0,0,0,0.1);text-align:center; width: 100%" placeholder="PIN">
+                            </div>
+                            <p class="col-md-8 col-md-offset-2 " id="output"></p>
+                        </div>
+                        <div class="modal-footer" id="input2">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <input type="submit" class="btn btn-success" value="Join" id="formSubmit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
         <!-- /#page-wrapper -->
         <div class="container-fluid">
             <!-- Page Heading -->
@@ -223,7 +247,7 @@ include_once('../php/photo.php');
 
 
 <!-- jQuery -->
-<!-- <script src="../js/file.js"></script> -->
+ <script src="../js/file.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <!-- <script src="../js/bootstrap.min.js"></script> -->

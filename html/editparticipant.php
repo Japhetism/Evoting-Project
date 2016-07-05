@@ -301,7 +301,7 @@ EOD;
     <!-- Bootstrap Core JavaScript -->
     <!-- <script src="../js/bootstrap.min.js"></script> -->
     <script src="../js/jQuery.dataTables.js"></script>
-    <!-- <script src="../js/file.js"></script> -->
+     <script src="../js/file.js"></script>
     <script src="../js/dummy.js"></script>
     <script type="text/javascript">
         // $('.showForm').click(function(){

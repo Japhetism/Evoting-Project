@@ -30,8 +30,8 @@
     		</div>
     		<div class="panel-body">
     			<span class="fa fa-5x fa-check-circle text-success"></span>
-		        <h3> Your request has been sent sucessfully, please click the close button to dismiss this message.</h3>
-		        <p style="text-align: right;width: 100%;">Thank you</p>
+		        <h3> Your request has been sent successfully, please click the close button to dismiss this message.</h3>
+		        <p style="text-align: right;width: 100%;">Thank you.</p>
 
     		</div>
     	</div>

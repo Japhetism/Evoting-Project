@@ -405,8 +405,8 @@ if(count($election_details) === 0)
 
 <!-- Bootstrap Core JavaScript -->
 <!-- <script src="../js/bootstrap.min.js"></script> -->
-<!-- <script src="../js/request.js"></script>
-<script src="../js/file.js"></script> -->
+<!-- <script src="../js/request.js"></script>-->
+<script src="../js/file.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){
         var height = getScreenHeight();

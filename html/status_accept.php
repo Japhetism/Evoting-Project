@@ -30,7 +30,7 @@
     		</div>
     		<div class="panel-body">
     			<span class="fa fa-5x fa-check-circle text-success"></span>
-		        <h3>You have successfully joined this Election.</h3>
+		        <h3>You have successfully joined this election.</h3>
 		        <p style="text-align: right;width: 100%;">Thank you</p>
 
     		</div>

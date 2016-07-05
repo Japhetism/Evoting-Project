@@ -381,7 +381,7 @@ if (isset($_SESSION['election_key'])) {
         <?php echo $request_count;?>
     </div>
 <script src="../js/request.js"></script>
-<script src="../js/file.js"></script>
+<!--<script src="../js/file.js"></script>-->
 <script type="text/javascript">
     function check_link(){
         var vote_link = $('#vote_link');

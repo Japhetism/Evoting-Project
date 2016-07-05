@@ -21,8 +21,11 @@
 <div class="container">
 <div class="row">
     <div class="col-xs-12">
-        <h3>You have declined the invitation to join this Election. It will be deleted automatically from your invite list.</h3>
-        <p>Thank you</p>
+        <h3>
+            You have declined the invitation to join this Election. Thus, it has been deleted automatically from your
+            invite list.
+        </h3>
+        <p>Thank you.</p>
 
     </div>
 </div>
