@@ -26,6 +26,7 @@ CREATE TABLE IF NOT EXISTS election(
   user_id INT UNSIGNED ,
   privacy INT UNSIGNED NOT NULL ,
   result_display VARCHAR (20) NOT NULL DEFAULT "after",
+  reminder_sent BOOLEAN DEFAULT 0,
   result_mail_sent BOOLEAN NOT NULL DEFAULT FALSE ,
   CONSTRAINT fk_election_user_id FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
