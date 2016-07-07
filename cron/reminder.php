@@ -9,7 +9,7 @@ include_once('../php/connection.php');
 include_once('../php/function.php');
 include_once('../php/database.php');
 //this script should execute at every hour
-
+date_default_timezone_set("Africa/Lagos");
 $to_remind = $remind_ready = [];
 $remind_ready_num = 0;
 $main_body = "We will like to remind you that, at <a href='http://evoting.oauife.edu.ng'>OAU E-voting system</a>, it
@@ -86,7 +86,7 @@ for ( $j = 0 ; $j < count($remind_ready) ; $j++ )
     $voters->execute();
     $voters = $voters->fetchAll(PDO::FETCH_ASSOC);
 
-    //prepare mail body and mail subject
+    //prepare mail subject
     $subject = "Remember to cast your vote in ".$election_name.".";
     //send reminder
     for ($k = 0 ; $k < count($voters) ; $k++)

@@ -8,6 +8,7 @@
 include_once('../php/connection.php');
 include_once('../php/function.php');
 include_once('../php/database.php');
+date_default_timezone_set("Africa/Lagos");
 //this script should execute every i don't know yet hour
 $result_send = $result_ready = [];
 $result_ready_num = 0;
