@@ -18,7 +18,7 @@ include_once('../php/photo.php');
 <script type="text/javascript">
 
     var current="Election Has Closed!";   //-->enter what you want the script to display when the target date and time are reached, limit to 20 characters
-    var current3 = "Election Ends In";
+    var current3 = "Time left:";
     var year=<?php echo $end_year;?>;    //-->Enter the count down target date YEAR
     var month=<?php echo $end_month;?>;       //-->Enter the count down target date MONTH
     var day=<?php echo $end_day;?> ;       //-->Enter the count down target date DAY
@@ -100,7 +100,7 @@ include_once('../php/photo.php');
 
 </script>
 
-    <title>Dashboard</title>
+    <title>E-voting | Vote </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -424,7 +424,7 @@ include_once('../php/photo.php');
                                     </div>
                                 </div>
                                 <div class="panel-body main">
-                                    <div class="row">
+                                    <div class="row" style="margin-left: 15%;">
                                         <div class="col-xs-12">
                                             <?php
                                                 echo '
@@ -461,9 +461,9 @@ include_once('../php/photo.php');
                                             ?>
                                         </div>
                                     </div><br>
-                                    <div class="row">
-                                        <span>Click on the contestant(s) you want to vote for,&nbsp; and then cast your vote.</span>
-                                    </div>
+                                    <div class="row" style="text-align: center;">
+                                        <span><strong>Click on the contestant(s) you want to vote for,&nbsp; and then cast your vote.</strong></span>
+                                    </div><br>
                                     <div class="row">
                                         <?php
                                             for($efe = 0; $efe < count($string_array); $efe++){
