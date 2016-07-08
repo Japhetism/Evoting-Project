@@ -1,11 +1,4 @@
 <?php
-include_once("../php/connection.php");
-if (!$connection1)
-{
-    die(
-    "We are really sorry to inform you that the server is currently down. This will be fixed as soon as possible. We
-    hereby apologise for every inconveniences caused. Thank you.");
-}
 include('../php/register_login.php'); // Includes register and login script
 
 if(isset($_SESSION['login_user'])){

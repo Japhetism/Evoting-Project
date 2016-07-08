@@ -4,6 +4,12 @@
 require_once("database.php");
 include_once('connection.php');
 include_once('function.php');
+if (!$connection1)
+{
+    die(
+    "We are really sorry to inform you that the server is currently down. This will be fixed as soon as possible. We
+    hereby apologise for every inconveniences caused. Thank you.");
+}
 
 $fname=$lname=$username=$password1=$password2=$email=$phone=$sex=$lemail=$lpassword=$error=$lerror=$lmainError=$mainError=$confirmationMessage=$picture_name= $output =$output2= "";
     //check if user wants to be confirmed
