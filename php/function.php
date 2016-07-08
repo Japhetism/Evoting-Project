@@ -267,7 +267,7 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     //Set this to true if SMTP host requires authentication to send email
     $mail->SMTPAuth = true;
     //Provide username and password
-    $mail->Username = "oauevoting@gmail.com";
+    $mail->Username = "oauevoting@evoting.oauife.edu.ng";
     $mail->Password = "webo2016";
     //If SMTP requires TLS encryption then set it
     $mail->SMTPSecure = "tls";
@@ -290,3 +290,4 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     }
 
 }
+sendEmail('gabrieloyetunde@gmail.com','gabe','pic','show');

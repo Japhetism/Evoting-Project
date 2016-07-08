@@ -15,6 +15,7 @@ if(isset($_GET['key'])){
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta name="google-site-verification" content="2ERX4arw9MZd-etZD-ru7sXrr9nLNcptyYuFoT7ciNQ" />
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1,">
