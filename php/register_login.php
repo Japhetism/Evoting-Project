@@ -174,7 +174,7 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
     $lerror = false;
 
     if(empty($lemail) || empty($lpassword)){
-        $lmainError = "Invalid username or password. ";
+        $lmainError = "Invalid email or password. ";
         $lerror = true;
     }else{
         $lhashedpassword = md5($lpassword);
@@ -201,7 +201,7 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
 
 
         }else{
-            $lmainError = "Invalid username or password";
+            $lmainError = "Invalid email or password.";
         }
     }
 
