@@ -225,6 +225,27 @@ include_once('../php/photo.php');
         </div>
     </div>
 </div>
+//lets use php to determine if the vote_link should be active
+<?php
+$activate_vote = 0;
+if ( concluded($result5[0]["election_start_date"],$result5[0]["election_time_from"],0) &&
+    !concluded($result5[0]["election_end_date"],$result5[0]["election_time_to"],0) &&
+    hasvoted($user_id,$contestant_election_id) == 0 )
+{
+    $activate_vote = 1;
+}
+
+?>
+//lets do the script
+<script type="text/javascript">
+    var activate_vote = 0;
+     activate_vote =<?php echo $activate_vote;?> ;
+    if( activate_vote == 1 )
+    {
+        var vote_link = $('#vote_link');
+        vote_link.attr({'href':'voting.php'});
+    }
+</script>
 <!--    wrapper-->
 
 

@@ -27,7 +27,7 @@ if (!empty($result1)) {
     $user_id= $result1[0]["user_id"];
 
 } else {
-    $problem = "Your name cannot be found in our database";
+    header("Location:index.php");
 }
 
 $sql6 = $connection1->prepare("SELECT
@@ -240,8 +240,12 @@ if($nick_name != "" && $manifesto_point!="" && $contestant_pin!="" && $contestan
             }
 
             if ($uploadOK = 1 && ($uploadCOK == 1 || $uploadCOK==0)) {
-                $sql3 = "INSERT INTO contestants(picture_name, nickname, post_id, election_id, citation_name, user_id) VALUES('$contestant_picture_name', '$nick_name', '$contestant_post_id', '$contestant_election_id', '$contestant_citation_name', '$user_id') ";
-                $connection1->exec($sql3);
+                $sql3 = "INSERT INTO contestants(picture_name, nickname, post_id, election_id, citation_name, user_id)
+                VALUES('$contestant_picture_name', :nick_name, '$contestant_post_id', '$contestant_election_id',
+                        '$contestant_citation_name', '$user_id') ";
+                $sql33 = $connection1->prepare($sql3);
+                $sql33->bindParam(':nickname',$nick_name);
+                $sql33->execute();
                 $last_contestant_id = $connection1->lastInsertId();
 
                 $sql4 = $connection1->prepare("INSERT INTO manifesto(manifesto, contestant_id)VALUES (:manifesto, :contestant_id)");
