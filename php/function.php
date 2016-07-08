@@ -265,9 +265,9 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     //Set TCP port to connect to
     $mail->Port = 587;
 
-    $mail->From = "noreply@oauevoting.com";
+    $mail->From = "noreply@evoting.oauife.edu.ng";
     $mail->FromName = "OAU E-voting system.";
-    $mail->addReplyTo("noreply@oauevoting.com");
+    $mail->addReplyTo("noreply@evoting.oauife.edu.ng");
     $mail->addAddress($recipient_address, $recipient_name);
     $mail->isHTML(true);
     $mail->Subject = $subject;
@@ -281,3 +281,5 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     }
 
 }
+
+sendEmail("gabrieloyetunde@gmail.com","gabriel",'test','nice job');

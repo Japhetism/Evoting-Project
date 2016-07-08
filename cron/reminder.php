@@ -54,7 +54,7 @@ for ($i = 0 ; $i < $to_remind_num ; $i++)
             $election_update_query = "UPDATE
                                         election
                                       SET
-                                        remainder_sent = 1
+                                        reminder_sent = 1
                                       WHERE
                                          election_id = :election_id";
             $update = $connection1->prepare($election_update_query);
@@ -91,19 +91,19 @@ for ( $j = 0 ; $j < count($remind_ready) ; $j++ )
     //send reminder
     for ($k = 0 ; $k < count($voters) ; $k++)
     {
-        $recipient_name = strtoupper($voters[$i]["fname"])." ".$voters[$i]["lname"];
-        $body = "Hello ".$voters[$i]["username"].".<br> This is to bring to your notice that the aforementioned election
+        $recipient_name = strtoupper($voters[$k]["fname"])." ".$voters[$k]["lname"];
+        $body = "Hello ".$voters[$k]["username"].".<br> This is to bring to your notice that the aforementioned election
                  will commence in less than an hour from the time this remainder was received by you. You are being
                  reminded of this as regards to the fact that you have successfully registered to participate in the
                  election. So, go ahead and make your vote count!!!.<br><br>".$main_body;
-        $recipient_address = $voters[$i]["email"];
+        $recipient_address = $voters[$k]["email"];
         sendEmail($recipient_address,$recipient_name,$subject,$body);
     }
     //set remainder_sent to 1
     $election_update_query = "UPDATE
                                 election
                               SET
-                                remainder_sent = 1
+                                reminder_sent = 1
                               WHERE
                                 election_id = :election_id";
     $update = $connection1->prepare($election_update_query);
