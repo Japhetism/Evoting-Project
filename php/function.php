@@ -290,5 +290,3 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     }
 
 }
-
-sendEmail("gabrieloyetunde@gmail.com","gabriel",'test','nice job');
