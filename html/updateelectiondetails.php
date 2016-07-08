@@ -146,7 +146,7 @@ include_once('../php/photo.php');
                                     <strong>Note </strong>: None of the date and time should be left unfilled once at
                                     least one of  them is changed.<br>Previous values are automatically discarded once
                                     this form is submitted.<br>
-                                    <span class="error"><?php echo $message; ?></span>
+                                    <span class="error"><?php echo $messaging; ?></span>
                                 </p>
                             </div>
                             <div class="col-xs-10 col-xs-offset-1 form">
@@ -166,7 +166,7 @@ include_once('../php/photo.php');
                                                     <d><?php echo dateString($this_election['election_start_date'])?></d>
                                                     <input type="text" class="datePicker form-control"  id="datePicker1" name="start_date" value="<?php echo $dummy1;?>" style="display: none;">
                                                 </div>
-                                                <span class="error"><?php if(empty($message)) echo $start_date_of_electionErr; ?></span>
+                                                <span class="error"><?php if(empty($messaging)) echo $start_date_of_electionErr; ?></span>
                                             </div>
                                             <div class="form-group col-xs-12 col-md-6">
                                                 <label>Start Time of Election</label><br>
@@ -207,7 +207,7 @@ include_once('../php/photo.php');
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <span class="error"><?php if(empty($message)) echo $time_of_election_fromErr; ?></span>
+                                                    <span class="error"><?php if(empty($messaging)) echo $time_of_election_fromErr; ?></span>
                                                 </div><br>
                                             </div>
                                         </div><br>
@@ -219,7 +219,7 @@ include_once('../php/photo.php');
                                                     <d><?php echo dateString($this_election['election_end_date'])?></d>
                                                     <input type="text" class="datePicker form-control" id="datePicker2" name="end_date" value="<?php echo $dummy2;?>" style="display: none;">
                                                 </div>
-                                                <span class="error"><?php if(empty($message)) echo $end_date_of_electionErr; ?></span><br>
+                                                <span class="error"><?php if(empty($messaging)) echo $end_date_of_electionErr; ?></span><br>
                                             </div>
                                             <div class="form-group col-xs-12 col-md-6">
                                                 <label>End Time of Election</label><br>
@@ -260,7 +260,7 @@ include_once('../php/photo.php');
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <span class="error"><?php if(empty($message)) echo $time_of_election_toErr; ?></span>
+                                                    <span class="error"><?php if(empty($messaging)) echo $time_of_election_toErr; ?></span>
                                                 </div><br>
                                             </div>
 

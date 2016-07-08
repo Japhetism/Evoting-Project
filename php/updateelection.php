@@ -11,7 +11,7 @@ include_once('../php/session.php');
 include_once('../php/function.php');
 include_once('../php/database.php');
 $name_of_electionErr = $start_date_of_electionErr =$new_post_Err= $end_date_of_electionErr = $time_of_election_fromErr =
-$time_of_election_toErr =$message=$message2= $post1 = $pin1 = $status_string= "";
+$time_of_election_toErr =$messaging=$message2= $post1 = $pin1 = $status_string= "";
 $name_of_election = $name_of_election_temp = $start_date_of_election =$start_date_of_election1 = $end_date_of_election =
 $end_date_of_election1 = $time_of_election_from = $time_of_election_to = $election_pin = $result_display= "";
 $dummy1=$dummy2=$dummy3=$dummy4="";
@@ -37,12 +37,15 @@ $pin_string.='</div>';
 $now_date =convert_date(date("Y-m-d"));
 $now_time = convert_date(date("H:i:s"));
 //check if election has not started
-if(concluded($this_election["election_start_date"],$this_election["election_time_from"],7200)){
-    $message="Voting will start in less than 2hours.Your update cannot be processed.";
-}if(concluded($this_election["election_start_date"],$this_election["election_time_from"],0)){
-    $message="Voting has commenced.Your update cannot be processed.";
-}if(concluded($this_election["election_end_date"],$this_election["election_time_to"],0)){
-    $message="This election has already been concluded.No changes will thus be processed.";
+if( concluded($this_election["election_end_date"],$this_election["election_time_to"],0) )
+{
+    $messaging="This election has already been concluded.No changes will thus be processed.";
+}elseif( concluded($this_election["election_start_date"],$this_election["election_time_from"],0) )
+{
+    $messaging="Voting has commenced.Your update cannot be processed.";
+}elseif( concluded($this_election["election_start_date"],$this_election["election_time_from"],7200) )
+{
+    $messaging="Voting will start in less than 2hours.Your update cannot be processed.";
 }
 //election status
 $status=$this_election["privacy"];
@@ -129,13 +132,13 @@ if(isset($_POST["update"])){
     if(!empty($_POST["start_date"])||!empty($_POST["end_date"])||!empty($_POST["start_time"])||!empty($_POST["end_time"])){
         //ensure all the date and time fields were actually changed
         if(empty($_POST["start_date"])){
-            $message="Election start date should not be empty!";
+            $messaging="Election start date should not be empty!";
         }elseif(empty($_POST["end_date"])){
-            $message="Election end date should not be empty!";
+            $messaging="Election end date should not be empty!";
         }elseif(empty($_POST["start_time"])){
-            $message="Election start time should not be empty!";
+            $messaging="Election start time should not be empty!";
         }elseif(empty($_POST["end_time"])){
-            $message="Election end date should not be empty!";
+            $messaging="Election end date should not be empty!";
         }
 
         //check start date relative to today
@@ -216,26 +219,39 @@ if(isset($_POST["update"])){
         }
     }
     //check if there is no error message
-    if(empty($name_of_electionErr)&&empty($start_date_of_electionErr)&&empty($end_date_of_electionErr)&&empty($time_of_election_fromErr)&&empty($time_of_election_toErr)&&empty($new_post_Err)&&empty($message)){
+    if(empty($name_of_electionErr)&&empty($start_date_of_electionErr)&&empty($end_date_of_electionErr)&&empty($time_of_election_fromErr)&&empty($time_of_election_toErr)&&empty($new_post_Err)&&empty($messaging)){
         //update election name straight away
-        $update_name_query="UPDATE election SET election_name='$name_of_election' WHERE election_id='$election_id'";
-        mysqli_query($connection2,$update_name_query);
+        $update_name_query="UPDATE election SET election_name = :election_name WHERE election_id='$election_id'";
+        $update_name = $connection1->prepare($update_name_query);
+        $update_name->bindParam(':election_name',$name_of_election);
+        $update_name->execute();
         //check if date and/or time was changed
         if(!empty($_POST["start_date"])&&!empty($_POST["end_date"])&&!empty($_POST["start_time"])&&!empty($_POST["end_time"])){
             $start_date_of_election=explodeDatePicker($start_date_of_election);
             $end_date_of_election=explodeDatePicker($end_date_of_election);
             $update_dateTime_query="UPDATE election
-            SET election_start_date='$start_date_of_election',
-                election_end_date='$end_date_of_election',
-                election_time_from='$time_of_election_from',
-                election_time_to='$time_of_election_to'
-             WHERE election_id='$election_id'";
-            $connection1->query($update_dateTime_query);
+            SET election_start_date = :start_date,
+                election_end_date = :end_date,
+                election_time_from = :time_from,
+                election_time_to = :time_to
+             WHERE election_id = :id";
+            $update_dateTime = $connection1->prepare($update_dateTime_query);
+            $update_dateTime->bindParam(':start_date',$start_date_of_election);
+            $update_dateTime->bindParam(':end_date',$end_date_of_election);
+            $update_dateTime->bindParam(':time_from',$time_of_election_from);
+            $update_dateTime->bindParam(':time_to',$time_of_election_to);
+            $update_dateTime->bindParam(':id',$election_id);
+            $update_dateTime->execute();
         }
         //check if any new post was added
         if(!empty($_POST["number_of_new_posts"])){
             foreach($new_posts as $key => $value){
-                $update_post_query="INSERT INTO posts (post_key,post,election_id) VALUES ('$key','$value','$election_id')";
+                $update_post_query="INSERT INTO posts (post_key,post,election_id) VALUES (:keys,:val,:id)";
+                $update_post = $connection1->prepare($update_post_query);
+                $update_post->bindParam(':keys',$key);
+                $update_post->bindParam(':val',$value);
+                $update_post->bindParam(':id',$election_id);
+                $update_post->execute();
                 $connection1->query($update_post_query);
             }
         }
