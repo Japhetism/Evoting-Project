@@ -145,7 +145,7 @@ include_once('../php/photo.php');
                                 <p class="text-danger" style="font-size: 15px;">
                                     <strong>Note </strong>: None of the date and time should be left unfilled once at
                                     least one of  them is changed.<br>Previous values are automatically discarded once
-                                    this form is submitted.<br>
+                                    this form is submitted.<br><br>
                                     <span class="error"><?php echo $messaging; ?></span>
                                 </p>
                             </div>

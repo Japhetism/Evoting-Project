@@ -39,13 +39,13 @@ $now_time = convert_date(date("H:i:s"));
 //check if election has not started
 if( concluded($this_election["election_end_date"],$this_election["election_time_to"],0) )
 {
-    $messaging="This election has already been concluded.No changes will thus be processed.";
+    $messaging="This election has already been concluded. No changes will thus be processed.";
 }elseif( concluded($this_election["election_start_date"],$this_election["election_time_from"],0) )
 {
-    $messaging="Voting has commenced.Your update cannot be processed.";
+    $messaging="Voting has commenced. Your update cannot be processed.";
 }elseif( concluded($this_election["election_start_date"],$this_election["election_time_from"],7200) )
 {
-    $messaging="Voting will start in less than 2hours.Your update cannot be processed.";
+    $messaging="Voting will start in less than 2hours. Your update cannot be processed.";
 }
 //election status
 $status=$this_election["privacy"];

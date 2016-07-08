@@ -233,15 +233,24 @@ function getTime($mytime){
 }
 //function to get the actual time
 function getActualtime($input){
+
     $time= explode(":",$input);
-    $hour=removeSpace($time[0]);
-    if(removeSpace($time[2])=="PM"){
-        $hour=$hour+12;
+
+    if ( count($time) == 3)
+    {
+        $hour=removeSpace($time[0]);
+
+        if(removeSpace($time[2])=="PM"){
+            $hour+=12;
+        }
+        if($hour==24){
+            $hour="00";
+        }
+        return $hour.":".removeSpace($time[1]).":00";
+    }else{
+        return "00:00:00";
     }
-    if($hour==24){
-        $hour="00";
-    }
-    return $hour.":".removeSpace($time[1]).":00";
+
 }
 
 //lets write a function to handle mail sending
