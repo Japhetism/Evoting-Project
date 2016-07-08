@@ -128,6 +128,10 @@ include_once('../php/photo.php');
                     </h3>
            <!--  </div> -->
             </div><!-- /#page-wrapper -->
+            <p style="text-align: center;">
+                <strong>Note : </strong> You can step down or edit your profile as a contestant on or before
+                an hour to the commencement of this election.
+            </p>
             <div class="row" id="updateProfile">
                 <form class="form-horizontal" enctype="multipart/form-data" role="form" id="706641944" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"])?>" method="post">
                     <div class="row profile">
@@ -220,15 +224,27 @@ include_once('../php/photo.php');
                                </div>
 
                             </div>
-
-                            <div class="row">
-                                <div class="col-md-8" style="text-align: center;">
-                                    <input class="btn btn-danger" value="Step Down" type="submit" name="delete">
-                                    <button type="button" class="toggleEdit editField btn btn-primary">Edit</button>
-                                    <input class="editField btn btn-primary hide" value="Save" type="submit" name="submit">
-                                    <input class="toggleEdit editField btn btn-default hide" onclick="window.location = location.href;" value="Cancel" type="reset">
-                                </div>
-                            </div>
+                            <?php
+                            if (!concluded($election_start,$election_start_time,3600))
+                            {
+                                echo('<div class="row">
+                                        <div class="col-md-8" style="text-align: center;">
+                                            <input class="btn btn-danger" value="Step Down" type="submit" name="delete">
+                                            <button type="button" class="toggleEdit editField btn btn-primary">Edit</button>
+                                            <input class="editField btn btn-primary hide" value="Save" type="submit" name="submit">
+                                            <input class="toggleEdit editField btn btn-default hide" onclick="window.location = location.href;" value="Cancel" type="reset">
+                                        </div>
+                                    </div>');
+                            }
+                            ?>
+<!--                            <div class="row">-->
+<!--                                <div class="col-md-8" style="text-align: center;">-->
+<!--                                    <input class="btn btn-danger" value="Step Down" type="submit" name="delete">-->
+<!--                                    <button type="button" class="toggleEdit editField btn btn-primary">Edit</button>-->
+<!--                                    <input class="editField btn btn-primary hide" value="Save" type="submit" name="submit">-->
+<!--                                    <input class="toggleEdit editField btn btn-default hide" onclick="window.location = location.href;" value="Cancel" type="reset">-->
+<!--                                </div>-->
+<!--                            </div>-->
                         </div>
                     </div>
                 </form>
