@@ -40,11 +40,11 @@ if(!empty($_POST["register"]) && isset($_POST["register"])) {
 
     $fname = removeSpace(stripcslashes($_POST["fname"]));
     $lname = removeSpace(stripcslashes($_POST["lname"]));
-    $username = removeSpace(stripcslashes($_POST["username"]));
-    $password1 = removeSpace(stripcslashes($_POST["password1"]));
-    $password2 = removeSpace(stripcslashes($_POST["password2"]));
-    $email = removeSpace(stripcslashes($_POST["email"]));
-    $phone = removeSpace(stripcslashes($_POST["phone"]));
+    $username = removeSpace2(stripcslashes($_POST["username"]));
+    $password1 = removeSpace2(stripcslashes($_POST["password1"]));
+    $password2 = removeSpace2(stripcslashes($_POST["password2"]));
+    $email = removeSpace2(stripcslashes($_POST["email"]));
+    $phone = removeSpace2(stripcslashes($_POST["phone"]));
     $sex = stripcslashes($_POST["sex"]);
 
     $error = false;
@@ -177,11 +177,38 @@ if(!empty($_POST["login"]) && isset($_POST["login"])){
         $lmainError = "Invalid email or password. ";
         $lerror = true;
     }else{
-        $lhashedpassword = md5($lpassword);
+        $mistake = [
+            'Hackinwale.adetola@gmail.com',
+            'Dgreatkenny@gmail.com',
+            'Sofiebereshepherd@gmail.com',
+            'Saopayne@gmail.com',
+            'Afolabi.michael@ymail.com',
+            'Afomic1@gmail.com',
+            'Bellomuba.rak0@gmail.com',
+            'Olaiyaezekiel@gmail.com',
+            'Adeniranyusufabdullateef@gmail.com',
+            'Oladayo225@gmail.com',
+            'Drniyi4u@gmail.com',
+            'Eopeyemie@gmail.com',
+            'Hafizferanmi@gmail.com',
+            'Odunlamisamuel4@gmail.com',
+            'Ifyveronica7@gmail.com',
+            'Olaiyaomotayo009@yahoo.com',
+            'Donleyduke2@gmail.com'
+        ];
+        if (in_array(ucwords($lemail),$mistake))
+        {
+            $lhashedpassword = md5(ucwords($lpassword));
+            $lemail = ucwords($lemail);
+        }else
+        {
+            $lhashedpassword = md5($lpassword);
+        }
     }
 
 
     if(!$lerror){
+
         $result2 = getAllMembers("users",["email","status"],["email","=",$lemail],0,"AND",["password","=",$lhashedpassword]);
 
 

@@ -139,6 +139,21 @@ function removeSpace($value){
     return trim($data);
 }
 
+//removespace without capitalising
+function removeSpace2($value)
+{
+    $data="";
+    $dataarray= array();
+    $dataarray = explode(" ", $value);
+    for ($i = 0; $i < count($dataarray); $i++) {
+        if (!empty($dataarray[$i])) {
+            $data =$data.trim($dataarray[$i]);
+        }
+    }
+    return trim($data);
+
+}
+
 //function to check if an election has concluded
 function concluded($date,$time,$lag){
     if( (strtotime(date("Ymd"))>strtotime(date($date))) | ( (strtotime(date("Ymd"))==strtotime(date($date))) && (strtotime(date("His"))>(strtotime(date($time)))-$lag) ) )
@@ -259,7 +274,7 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     //instantiate mailer class
     $mail = new PHPMailer;
     //Enable SMTP debugging.
-//    $mail->SMTPDebug = 3;
+    //$mail->SMTPDebug = 3;
     //Set PHPMailer to use SMTP.
     $mail->isSMTP();
     //Set SMTP host name
@@ -267,7 +282,7 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     //Set this to true if SMTP host requires authentication to send email
     $mail->SMTPAuth = true;
     //Provide username and password
-    $mail->Username = "oauevoting@evoting.oauife.edu.ng";
+    $mail->Username = "oauevoting@gmail.com";
     $mail->Password = "webo2016";
     //If SMTP requires TLS encryption then set it
     $mail->SMTPSecure = "tls";
@@ -290,4 +305,3 @@ function sendEmail($recipient_address,$recipient_name,$subject,$body,$AltBody = 
     }
 
 }
-sendEmail('gabrieloyetunde@gmail.com','gabe','pic','show');
