@@ -57,6 +57,7 @@ if(count($election_details) === 0)
 
     <title>E-voting | Election Details</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -69,7 +70,7 @@ if(count($election_details) === 0)
     <!-- Custom Fonts -->
     <link href="../fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
-        <style type="text/css"> 
+        <style type="text/css">
         .panel-primary img{
             width: 50px;
             height: 50px;
@@ -159,7 +160,6 @@ if(count($election_details) === 0)
             text-overflow: ellipsis;
             overflow: hidden;
             position: relative;
-            /*box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 1px 1px;*/
         }
         .img img {
             width: 100%;
@@ -253,11 +253,11 @@ if(count($election_details) === 0)
 
     <!-- Navigation -->
     <?php include_once('navlinks.php');?>
-    
-    
+
+
     <!--page wrapper opens-->
     <div id="page-wrapper">
-    
+
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -324,7 +324,7 @@ if(count($election_details) === 0)
                             </div>
                         </div>
                         <!--col-md-8 row1 col-md-12 closes-->
-                        
+
                     </div>
                     <!--col-md-8 row1 closes-->
 
@@ -372,13 +372,13 @@ if(count($election_details) === 0)
                     <div class="col-xs-12 col-md-12">
                         <form method="post">
                             <label>Post News </label><br>
-                            <textarea name="post_news" id="post_news" class="form" rows="3" cols="40"></textarea><br>
+                            <textarea name="post_news" id="post_news" class="form" rows="3" style="width: 100%;"></textarea><br>
                             <input class="btn btn-default pull-right" type="submit" value="POST" name="post_submit" id="post_submit">
                         </form><br><br>
                     </div>
-                <!--news opens-->  
+                <!--news opens-->
                     <div class="col-xs-12 col-md-12">
-                        <div class="panel panel-primary">
+                        <div class="panel panel-primary" style="max-height: 600px;overflow-y: auto;">
                             <div class="panel-heading">
                                 <h4 class="panel-title">News</h4>
                             </div>

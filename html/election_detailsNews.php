@@ -131,7 +131,7 @@ $_SESSION['adek_status'] = $adekagun;
 
 
             }else {
-                
+
                 document.getElementById('write').innerHTML = current1;
                 document.getElementById('count2').style.display="none";
                 document.getElementById('dday').innerHTML=sdday;
@@ -165,7 +165,7 @@ $_SESSION['adek_status'] = $adekagun;
             window.location = "viewContestantProfile.php?key=" + id;
         }
     </script>
-   
+
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -174,6 +174,7 @@ $_SESSION['adek_status'] = $adekagun;
 
     <title>E-voting | Election Details</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -210,7 +211,7 @@ $_SESSION['adek_status'] = $adekagun;
 
     <div id="page-wrapper">
     <!-- /#page-wrapper -->
-    
+
         <!-- Modal -->
         <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -415,7 +416,7 @@ $_SESSION['adek_status'] = $adekagun;
                 </div>
 
                 <div class="col-md-4  " >
-                    <div class="panel panel-warning">
+                    <div class="panel panel-warning" style="max-height: 600px;overflow-y: auto;">
                         <div class="panel-heading">
                             <h3 class="panel-title" style="text-align: center">News and Updates</h3>
                         </div>

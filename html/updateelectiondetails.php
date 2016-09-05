@@ -59,6 +59,7 @@ include_once('../php/photo.php');
 
     <title>E-voting | Update Election Details</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 

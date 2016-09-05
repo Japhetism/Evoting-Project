@@ -146,7 +146,6 @@ a:focus {
     display: table;
     width: 100%;
     height: auto;
-    padding: 100px 0;
     text-align: center;
     color: #fff;
     background: url(../images/voting1.jpg) no-repeat bottom center scroll;
@@ -161,6 +160,7 @@ a:focus {
     display: table-cell;
     vertical-align: middle;
     background-color: rgba(0,0,0,0.5);
+    padding: 100px 0;
 }
 
 .intro .intro-body .brand-heading {
@@ -265,8 +265,11 @@ a:focus {
 .content-section .about{
     font-size: 20px;
 }
-.content-section .contact span{
-    font-size: 50px;
+.b_r{
+    border-right: solid 1px #555;
+}
+.content-section a{
+    color: #999;
 }
 .content-section {
     padding-top: 50px;
@@ -274,19 +277,28 @@ a:focus {
     font-weight: bolder;
     padding-bottom: 20px;
 }
+.login-section a:hover{
+    text-decoration: underline;
+}
+.fa-eye,
+.fa-eye-slash{
+    cursor: pointer;
+}
 .login-section .input-group{
     float: left;
     margin-bottom: 25px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 .login-section .login fieldset{
     background: rgba(0,0,0,0.6);
     border-radius:5px;
-    padding: 30px 0;
+    padding: 30px 10px;
 }
 .login-section #signup fieldset{
     background: rgba(0,0,0,0.8);
     border-radius:5px;
-    padding: 50px 60px 50px 0;
+    padding: 100px 60px 100px 0;
 }
 .login-section{
     width: 100%;
@@ -323,9 +335,17 @@ span.error{
     margin-top: 60px;
 }
 
-@media(max-width: 768px){   
+@media(max-width: 768px){
     .about-description{
         margin-top:0px;
+    }
+    .login-section #signup fieldset{
+        padding: 50px 10px;
+    }
+    #contact  .text-left,
+    #contact  .text-right{
+        text-align: center!important;
+        margin-bottom: 20px;
     }
 }
 .about>.row{

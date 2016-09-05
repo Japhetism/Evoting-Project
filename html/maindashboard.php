@@ -41,6 +41,7 @@ include_once('../php/photo.php');
         }    </style>
 
     <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../images/logo.png" rel="icon">
     <link href="../css/countdown.css" rel="stylesheet">
 
 
@@ -56,7 +57,7 @@ include_once('../php/photo.php');
 
     <!-- Custom CSS for navbar-->
     <link href="../css/nav.css" rel="stylesheet">
-        
+
     <!-- Custom CSS for table-->
     <link href="../css/dataTables.bootstrap.min.css" rel="stylesheet">
 
@@ -126,7 +127,7 @@ include_once('../php/photo.php');
                     </ul>
                 </li>
             </ul>
-            
+
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="sidebar collapse navbar-collapse navbar-right navbar-main-collapse" id="sidebar">
                 <ul class="nav navbar-nav side-nav sidebar" id="MainMenu">
@@ -143,12 +144,12 @@ include_once('../php/photo.php');
                             <a href="maindashboard.php" class="active"><i class="fa fa-dashboard"></i>
                             Dashboard</a>
                     </li>
-                    
+
                     <li class="active">
                         <a data-target="#demo3" class="active" data-toggle="collapse" data-parent="#MainMenu">
                         <i class="fa fa-pencil-square-o"></i>Manage Elections<i class="fa fa-angle-left pull-right" style="width:10px;"></i></a>
                     </li>
-                    
+
                     <li class="active" >
                         <a href="createelection1.php" data-target="#demo4" class="active" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-plus"></i>Create an Election<i class="fa fa-angle-left pull-right" ></i></a>
                             <ul class="collapse" id="demo4">
@@ -168,13 +169,13 @@ include_once('../php/photo.php');
                             <i class="fa fa-user-plus"></i>Join an election
                         </a>
                     </li>
-                    
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
         </nav>
 
-        
+
         <div id="page-wrapper">
 
            <!-- Modal -->
@@ -205,7 +206,7 @@ include_once('../php/photo.php');
                 </div>
               </div>
             </div>
-            
+
             <div class="container-fluid">
 
                 <div class="row">
@@ -303,7 +304,7 @@ include_once('../php/photo.php');
     <script src="../js/jQuery.dataTables.js"></script>
     <script type="text/javascript">
 
-        
+
         var table = '<?php echo $created_adek;?>';
         if (table) {
             $('table#table_2').dataTable();

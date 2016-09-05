@@ -17,7 +17,8 @@ include_once('../php/photo.php');
 
     <title>E-voting | Create Election</title>
 
-   
+    <link href="../images/logo.png" rel="icon">
+
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -101,7 +102,7 @@ include_once('../php/photo.php');
                 <li class="dropdown userActions">
                     <a href="#" class="dropdown-toggle showActions" id="showActions" data-toggle="dropdown">
                         <i>
-                            <img src="<?php echo $photo_fetched;?>" width="30px" height="30px" >
+                            <img src="<?php echo $photo_fetched;?>" class="img-circle " width="30px" height="30px" >
                         </i>
                             <?php echo $myemail;?>
                         <i class="fa fa-angle-down"></i>
@@ -134,15 +135,15 @@ include_once('../php/photo.php');
                             <a href="maindashboard.php" class="active"><i class="fa fa-dashboard"></i>
                             Dashboard</a>
                     </li>
-                    
+
                     <li class="active">
                         <a data-target="#" class="inactive" data-toggle="collapse" data-parent="#MainMenu">
                             <i class="fa fa-pencil-square-o"></i>
                                 Manage Elections
                             <i class="fa fa-angle-left pull-right" style="width:10px;"></i>
                         </a>
-                        <ul class="collapse" id="demo3">   
-                            <li id="demo3_1" >    
+                        <ul class="collapse" id="demo3">
+                            <li id="demo3_1" >
                                 <a href="#" class="inactive" > Public Elections<i class="btn pull-right success" >1 </i></a>
                             </li>
                             <li class="active1" id="demo3_2" target="table_2" >
@@ -165,8 +166,8 @@ include_once('../php/photo.php');
                                         <a href="#" class="active" data-parent="#SubMenu1">View Results</a>
                                     </li>
                                 </ul>
-                            </li>   
-                            <li target="table_3" id="demo3_3" >    
+                            </li>
+                            <li target="table_3" id="demo3_3" >
                                 <a href="#" data-target="#" data-toggle="collapse" class="inactive" > Joined Elections<i class="btn pull-right warning" >3</i></a>
                                 <ul class="nav collapse" id="SubMenu1">
                                     <li>
@@ -184,16 +185,16 @@ include_once('../php/photo.php');
                                         <a href="#" class="inactive" data-parent="#SubMenu1">Vote</a>
                                     </li>
                                 </ul>
-                            </li>   
-                            <li target="table_4" id="demo3_4" >    
+                            </li>
+                            <li target="table_4" id="demo3_4" >
                                 <a href="#" class="inactive" > Pending Invites<i class="btn pull-right danger" >4</i></a>
-                            </li>   
-                            <li target="table_5" id="demo3_5" >    
+                            </li>
+                            <li target="table_5" id="demo3_5" >
                                 <a href="#" class="inactive" > Pending Requests<i class="btn pull-right default" >5</i></a>
                             </li>
                         </ul>
                     </li>
-                        
+
                     <li class="active" >
                         <a href="#" data-target="#demo4" class="active" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-plus"></i>Create an Election<i class="fa fa-angle-left pull-right" ></i></a>
                             <ul class="open collapse in" id="demo4">
@@ -213,7 +214,7 @@ include_once('../php/photo.php');
                             <i class="fa fa-user-plus"></i>Join an election
                         </a>
                     </li>
-                        
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -435,10 +436,10 @@ include_once('../php/photo.php');
                                                 </div>
                                             </div><br>
                                                 <?php echo $upload_photo;?>
-                                            <span class="error"> 
+                                            <span class="error">
                                                 <?php echo $uploadErr; ?>
                                             </span>
-                                            <span class="error"> 
+                                            <span class="error">
                                                 <?php echo $success; ?>
                                             </span>
                                             <input type="submit" id="submitThatForm" class="btn btn-success" name="submit" value="Submit">
@@ -457,7 +458,7 @@ include_once('../php/photo.php');
     <script>
         $('#timepicker1').timepicki();
         $( ".datePicker" ).datepicker();
-        $('#timepicker2').timepicki();  
+        $('#timepicker2').timepicki();
     </script>
 <!--    wrapper-->
 

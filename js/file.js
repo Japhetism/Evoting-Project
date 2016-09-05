@@ -9,7 +9,7 @@ $(window).scroll(function() {
 
 // jQuery for page scrolling feature - requires jQuery Easing plugin
 $(function() {
-            
+
 		$('a.page-scroll').bind('click', function(event) {
 			var $anchor = $(this);
 			$('html, body').stop().animate({
@@ -26,26 +26,6 @@ $("#formSubmit").click(function(e){
     var data = '#thatForm';
     ajax_submit(type,php_file,data);
 });
-
-
-		// $("#formSubmit").click(function(e){
-		// 	e.preventDefault();
-		// 	$.ajax({
-		// 		type: 'POST',
-		// 		url: '../php/join.php',
-		// 		data: $("#thatForm").serialize(),
-		// 		success: function(msg) {
-		// 			console.log(msg);
-		// 			var success=document.getElementById('output');
-					
-		// 			success.innerHTML=msg;
-  //                   success.style.color="red";
-		// 		},
-		// 		error:function(msg){
-		// 			console.log(msg+"error");
-		// 		}
-		// 	});
-		// });
 
 		// clear input button
 		$('.clear-input').click(function(){
@@ -68,14 +48,14 @@ $("#formSubmit").click(function(e){
 				$('i.badge').fadeIn(800);
 			}
 		});
-		
+
 		$('i').parent().mouseout(function(){
 			if ($(this).children().attr('data-toggle')=='tooltip') {
 				$(this).children('i.badge').remove();
 			}
 		});
 
-			
+
 
 
 
@@ -86,8 +66,8 @@ $("#formSubmit").click(function(e){
 		$('.tables').children().slideUp('slow');
 		$('.'+$(this).attr('target')).delay('slow').slideDown('slow');
 	});
-	
-	//show sidebar on links 	
+
+	//show sidebar on links
 	$(".sideBarSturvs").click(function(){
 		$(this).parent().children().removeClass("active1");
 		$(this).addClass("active1");
@@ -111,7 +91,7 @@ function showOrHideDiv(div_id){
 }
 
 
-//toggles password types from text and password 
+//toggles password types from text and password
 $('.eyeChange').mousedown(function(){
 	$(this).children('#eye').attr('class','fa fa-eye-slash');
 	$(this).siblings('.password').attr('type','text');
@@ -123,7 +103,7 @@ $('.eyeChange').mouseup(function(){
 });
 
 
-//toggles password types from text and password 
+//toggles password types from text and password
 function showPassword(element_id,eye_id){
 	var eye=document.getElementById(eye_id);
 	var eyeicon=eye.getAttribute('class');
@@ -132,16 +112,16 @@ function showPassword(element_id,eye_id){
 	password.setAttribute("type","text");
 	eye.setAttribute("class","fa fa-eye-slash");
 	}else{
-	password.setAttribute("type","password");	
+	password.setAttribute("type","password");
 	eye.setAttribute("class","fa fa-eye");
 	}
 }
 
-//clears modal on joining an election successfully 
+//clears modal on joining an election successfully
 function  joinSuccess(){
-	document.getElementById('input').innerHTML="Election joined successfully"; 
-	document.getElementById('input2').innerHTML=" "; 
-	document.getElementById('myModalLabel').innerHTML="";  
+	document.getElementById('input').innerHTML="Election joined successfully";
+	document.getElementById('input2').innerHTML=" ";
+	document.getElementById('myModalLabel').innerHTML="";
 }
 
 //show posts for editing
@@ -154,8 +134,8 @@ function displayPosts(div_id){
 	$('#addPosts').slideUp();
 	}
 }
-		
-//show textboxes for posts input		
+
+//show textboxes for posts input
 function myfunction(){
 	var text = "";
 	var text2="";
@@ -179,32 +159,30 @@ function myfunction(){
 	$('#dem, #dem1, #field_close').slideDown(200);
 }
 	//display dropdown menu
-	
+
 	$('.userActions').click(function(){
 		var dropdown = $(this).children('#userOptions');
-		dropdown.slideToggle();
+		dropdown.fadeToggle("slow");
 	});
+
 	$(document).click(function(){
-		$('#userOptions').slideUp();
+		$('#userOptions').fadeOut("slow");
 	});
 
 
 	function changePassword(){
 		var newPassword = document.getElementById('newPassword');
-		/*var conNewPassword = document.getElementById('conNewPassword');*/
 		var changePassword = document.getElementById('changePassword');
 		if (newPassword.style.display=='none') {
 			$('#newPassword').slideDown();
 			changePassword.innerHTML= 'hide <i class="fa fa-angle-up" style="font-weight:bold;"></i>';
-		}else{			
+		}else{
 			$('#newPassword').slideUp();
 			changePassword.innerHTML= 'change password';
 		}
-
-		/*conNewPassword.style.display = 'block';*/
 		changeP.style.display = 'none';
 	}
-	
+
 
 	//to display the image immediately when selected
 	function showPhoto(input) {
@@ -222,7 +200,7 @@ function myfunction(){
 	                });
             		$('#imgError').attr('class','text-success').html('<i class="fa fa-check-circle text-success"></i>valid image ( '+input.files[0]['name']+' )').slideDown();
 	                $('#image').fadeIn();
-            	
+
             	}else{
             		$('#imgError').attr('class','text-danger').html('<i class="fa fa-close text-danger"></i>Invalid file ( '+input.files[0]['name']+' )').slideDown();
             		$('#image').attr({'src':'',
@@ -285,7 +263,7 @@ function cancelNews(id){
 
     document.getElementById('modify_news'+id).disabled=false;
 }
-	
+
 function confirmPassword(){
 	var newP = document.getElementById('confirmNew').value;
 	var old = document.getElementById('new').value;
@@ -319,7 +297,7 @@ function ajax_submit(type,php_file,data){
                 success: function(msg) {
                     console.log(msg);
                     var success=document.getElementById('output');
-                    
+
                     success.innerHTML=msg;
                     success.style.color="red";
                 },
@@ -353,7 +331,7 @@ function genFields(input){
         $('.load_cover, #load_cover').children('i').fadeOut();
 
 
-			// image preview function		
+			// image preview function
             $('img.preview').hover(function(){
                     var image = $(this);
                     image.parent().append('<i class="preview-img" style="display:none"><img src='+image.attr('src')+' width="80px" height="100px" </i>');

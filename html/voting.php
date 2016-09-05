@@ -14,7 +14,7 @@ include_once('../php/photo.php');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-       
+
 <script type="text/javascript">
 
     var current="Election Has Closed!";   //-->enter what you want the script to display when the target date and time are reached, limit to 20 characters
@@ -102,6 +102,7 @@ include_once('../php/photo.php');
 
     <title>E-voting | Vote </title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -121,7 +122,7 @@ include_once('../php/photo.php');
     <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-<style type="text/css"> 
+<style type="text/css">
     #page-wrapper{
         padding :20px 20px;
             background-color: floralwhite;
@@ -197,7 +198,7 @@ include_once('../php/photo.php');
          border-radius: 2px;
          margin-bottom: 20px;
     }
-    .contestants.active{       
+    .contestants.active{
         box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.15), 0 6px 20px 0 rgba(0, 0, 0, 0.12);
     }
     .contestants:hover{
@@ -247,7 +248,7 @@ include_once('../php/photo.php');
         overflow: hidden;
         overflow-y:auto;
         overflow-x: hidden;
-        padding-top: 5px; 
+        padding-top: 5px;
         margin-top: 0;
     }
     .row.contestant{
@@ -266,7 +267,7 @@ include_once('../php/photo.php');
     .row.contestant-details{
         margin: 0 -10px 5px -10px;
         cursor: pointer;
-        margin-top: 0px; 
+        margin-top: 0px;
         width: 88%;
         margin-left: 0px;
         display: none;
@@ -338,7 +339,7 @@ include_once('../php/photo.php');
          background-color: rgba(208, 146, 57, 0.84)!important;
          text-align: center;
          border: none;
-         opacity: 0.7;    
+         opacity: 0.7;
     }
     .panel-body.media.main{
         padding-top: 0px!important;
@@ -365,7 +366,7 @@ include_once('../php/photo.php');
 
 
 <div id="wrapper">
-    
+
     <?php include_once('navlinks.php');?>
 
 
@@ -419,7 +420,7 @@ include_once('../php/photo.php');
 
                             <div class="panel">
                                 <div class="panel-heading" style="padding: 0">
-                                    <div class="page-header dash"> 
+                                    <div class="page-header dash">
                                         Election - <?php echo $election_name;?>
                                     </div>
                                 </div>
@@ -487,7 +488,7 @@ include_once('../php/photo.php');
             </div>
         </div>
     </div>
-    
+
 
 </div>
 
@@ -513,11 +514,11 @@ include_once('../php/photo.php');
                         thisPicked.slideUp();
                         thisContestant.parents('.panel-body').removeClass('media');
                         thisContestant.find('input#option').prop('checked',false);
-                        thisContestant.removeClass('active');  
+                        thisContestant.removeClass('active');
                     });
 
                     $('b').click(function(){
-                        $('.content').animate({'top':'-15%'},function(){                            
+                        $('.content').animate({'top':'-15%'},function(){
                             $('.blanket').fadeOut();
                         });
                     });
@@ -535,7 +536,7 @@ include_once('../php/photo.php');
                     thisContestant.parents('.panel-body').addClass('media');
                     $('.row.contestant-details').find('i.preview-img').remove();
                 }
-                    
+
             });
 
 
@@ -559,15 +560,15 @@ include_once('../php/photo.php');
                         details.siblings('.panel-body').removeClass('media');
                         details.siblings('.panel-body').children('.contestant').removeClass('active');
                         details.siblings('.panel-body').find('input#option').attr('checked',false);
-                    });                  
-                    
+                    });
+
                 });
 
                 $('b').click(function(){
-                    $('.content').animate({'top':'-15%'},200,function(){                            
+                    $('.content').animate({'top':'-15%'},200,function(){
                         $('.blanket').fadeOut();
                     });
-                }); 
+                });
             });
 
         </script>

@@ -14,8 +14,9 @@ include_once('../php/photo.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Dashboard</title>
+    <title>E-voting | Profile</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -118,7 +119,7 @@ include_once('../php/photo.php');
 
             </div><br>
             <!-- container header ends-->
-            
+
             <!-- Page Heading -->
             <div class="row">
                     <h3 style="text-align: center;" class="page-header">
@@ -137,7 +138,7 @@ include_once('../php/photo.php');
                     <div class="row profile">
                         <div class="col-xs-12 col-md-4 img-thumbnail" id="pictureClick">
                                 <p class="alert alert-warning editField hide">Please click image to change</p>
-                            <?php 
+                            <?php
                                 echo "<img id='image' class='img-responsive' src='$user_picture_here' alt='$picture_name' width='100%' height='auto'><br>";
                             ?>
                             <input type="file" style="width: 100%;height: 100%;top:0;position: absolute;opacity:0;" name="image" class="editField hide btn btn-default hide pictureChange" id="pictureChange" onchange="showPhoto(this)">

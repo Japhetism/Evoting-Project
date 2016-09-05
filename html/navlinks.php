@@ -89,28 +89,6 @@ if (isset($_SESSION['election_key'])) {
     .acceptInvite:hover,.rejectInvite:hover{
         box-shadow: 2px 2px 6px 1px #aaa;
     }
-   /* ul.dropdown-menu.pull-right h4{
-        margin-top: 0;
-    }
-    ul.dropdown-menu.pull-right span.col-xs-5{
-        background: #fff;
-        padding-right: 1px;
-        width: 40%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding-top: 5px;
-        padding-left: 0;
-    }
-    ul.dropdown-menu.pull-right span.col-xs-5:hover{
-        overflow: visible;
-        width: auto;
-        position: absolute;
-        z-index: 200;
-    }
-    ul.dropdown-menu.pull-right span.col-xs-4{
-        padding: 3px 0px 0 0 ;
-        float: right;
-    }*/
     ul.dropdown-menu.pull-right small{
         color: #aaa;
         font-size: 10px;
@@ -145,10 +123,10 @@ if (isset($_SESSION['election_key'])) {
         cursor: pointer;
         border-bottom: solid 1px #f3f3f3;
     }
-    ul.dropdown-menu.pull-right li.row:hover{ 
+    ul.dropdown-menu.pull-right li.row:hover{
         background: #f7f7f7;
-    }      
-    ul.dropdown-menu.pull-right li.row{       
+    }
+    ul.dropdown-menu.pull-right li.row{
         margin-left: 0;
         padding: 5px;
         /*color: #bababa;*/
@@ -214,7 +192,7 @@ if (isset($_SESSION['election_key'])) {
 
             <!-- Top-right Menu Items -->
             <ul class="nav navbar-right top-nav">
-                <?php 
+                <?php
                     if ($_SESSION['adek_status'] === 'Admin'){
                         $request_string_n ='
                         <li class="dropdown requests">
@@ -318,7 +296,7 @@ if (isset($_SESSION['election_key'])) {
                     </ul>
                 </li>
             </ul>
-            
+
             <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
             <div class="sidebar collapse navbar-collapse navbar-right navbar-main-collapse" id="sidebar">
                 <ul class="nav navbar-nav side-nav sidebar" id="MainMenu">
@@ -335,9 +313,9 @@ if (isset($_SESSION['election_key'])) {
                             <a href="maindashboard.php" class="active"><i class="fa fa-home"></i>
                             Dashboard</a>
                     </li>
-                    
+
                     <?php echo $manage_link?>
-                    
+
                     <li class="active" id="<?php echo $navbar_id; ?>">
                         <a href="createelection1.php" data-target="#demo4" class="active" data-toggle="collapse" data-parent="#MainMenu"><i class="fa fa-plus"></i>Create an Election<i class="fa fa-angle-left pull-right" ></i></a>
                             <ul class="collapse" id="demo4">
@@ -357,7 +335,7 @@ if (isset($_SESSION['election_key'])) {
                             <i class="fa fa-user-plus"></i>Join an election
                         </a>
                     </li>
-                    
+
                 </ul>
             </div>
             <!-- /.navbar-collapse -->
@@ -368,7 +346,7 @@ if (isset($_SESSION['election_key'])) {
         <div class="content">
 
         </div>
-    
+
     </div>
     <div style="display: none;" id="voted">
         <?php echo $hasvoted;?>

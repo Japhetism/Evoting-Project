@@ -17,6 +17,7 @@ include_once('../php/photo.php');
 
     <title>E-voting | Register as Contestant</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -49,7 +50,7 @@ include_once('../php/photo.php');
 <div id="wrapper">
     <!-- Navigation -->
     <?php include_once('navlinks.php');?>
-    
+
     <div id="page-wrapper">
 
         <!-- Modal -->
@@ -93,7 +94,7 @@ include_once('../php/photo.php');
 
             </div><br>
             <!-- container header ends-->
-            
+
             <!-- edit form column -->
             <div class="row">
                 <div class="col-xs-8 col-xs-offset-2">
@@ -198,7 +199,7 @@ include_once('../php/photo.php');
                                                         <i class="fa fa-close"  data-toggle="tooltip"  data-title="clear field"></i>
                                                     </span>
                                                 </div>
-                                                
+
                                                 <p class="help-block">
                                                     <p id="sig_error1" class="error" style="display:none; color:#FF0000;">Citation format should be PDF.</p>
                                                     <p id="sig_error2" class="error" style="display:none; color:#FF0000;">Max file size should be 2MB.</p>

@@ -29,6 +29,7 @@ require_once '../php/photo.php';
 
     <title>E-voting | Edit Participants</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -115,7 +116,7 @@ require_once '../php/photo.php';
                 margin-left: -10px;
 
             }
-            
+
 
         }
         .badge{
@@ -128,7 +129,7 @@ require_once '../php/photo.php';
             padding: 5px;
         }
         table i.preview-img{
-            left: 50px; 
+            left: 50px;
             top: -35px;
         }
 
@@ -225,7 +226,7 @@ require_once '../php/photo.php';
                 else {
                     echo $success_message;
                 }
-                
+
                 if(!empty($users)) {
             ?>
                 <div class="table-responsive">
@@ -272,8 +273,8 @@ require_once '../php/photo.php';
                                         </div>
                                     </div>
                                 </td>
-                            </tr>                
-              
+                            </tr>
+
 EOT;
                         }
             ?>
@@ -288,7 +289,7 @@ EOT;
                             <div class="col-md-8 col-md-offset-2">
                                 <p><h3>There are no participants (voters or contestants) in this election yet</h3></p>
                             </div>
-                        </div>       
+                        </div>
 EOD;
                 }
             ?>
@@ -329,7 +330,7 @@ EOD;
             });
         });
         $('#table_1').dataTable();
-        // image preview function     
+        // image preview function
             $('img.preview').hover(function(){
                     var image = $(this);
                     image.parent().append('<i class="preview-img" style="display:none"><img src='+image.attr('src')+' width="80px" height="100px" </i>');

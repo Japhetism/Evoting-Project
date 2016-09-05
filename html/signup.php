@@ -17,10 +17,12 @@ if(isset($_SESSION['login_user'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting</title>
+    <title>E-voting | Register</title>
 
     <!--    Bootstrap CSS-->
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <link href="../images/logo.png" rel="icon">
 
     <!--    Custom CSS-->
     <link href="../css/index.css" type="text/css" rel="stylesheet">
@@ -56,13 +58,13 @@ if(isset($_SESSION['login_user'])){
                         <a href="#page-top"></a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="index.php#about-section">About</a>
+                        <a class="page-scroll" href="#about">About</a>
                     </li>
                     <li>
                         <a class="page-scroll" href="#register">register</a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="index.php#contact">Contact</a>
+                        <a class="page-scroll" href="#contact">Contact</a>
                     </li>
                 </ul>
             </div>
@@ -90,53 +92,71 @@ if(isset($_SESSION['login_user'])){
     </header>
 
     <!-- About Section -->
-    <section id="about" class="container content-section text-center">
-        <div class="row about">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h1>About E-voting</h1>
-            </div>
-                <div class="col-lg-8 col-lg-offset-2">
-                    <div class="row">
-                        <div class="col-md-4"><span class="fa fa-plus"></span><p>Create and manage your own elections...</p></div>
-                        <div class="col-md-4"><span class="fa fa-hand-paper-o"></span><p>Vote in an existing election...</p></div>
-                        <div class="col-md-4"><span class="fa fa-newspaper-o"></span><p>View news on any election you're involved in...</p></div>
-                    </div>
+    <section id="about" class="container-fluid content-section text-center">
+        <div class="about">
+            <div class="row" id="comfort">
+                <div class="col-md-4 col-md-offset-1 image">
+                    <img src="../images/voting/voteipad.jpg" height="100%" width="100%">
                 </div>
+                <div class="col-md-6 col-md-offset-1 about-description">
+                    <hr>
+                    <h3>Comfort</h3>
+                     You can vote anywhere, anytime, even <br>
+                     on your <span class="text-success">mobile</span> device...
+                </div>
+            </div>
+            <div class="row" id="realtime">
+                <div class="col-md-6 about-description">
+                    <hr>
+                    <h3>Real-time</h3>
+                     View election results in <br> <span class="text-success">real-time...</span>
+
+                </div>
+                <div class="col-md-4 col-md-offset-1 image">
+                    <img src="../images/voting/voteanywhere.jpg" height="100%" width="100%">
+                </div>
+            </div>
+            <div class="row" id="description">
+                <div class="col-md-4 col-md-offset-1 image">
+                    <img src="../images/voting/voteipad.jpg" height="100%" width="100%">
+                </div>
+                <div class="col-md-6 col-md-offset-1  about-description">
+                    <hr>
+                    <h3>Integrity</h3>
+                     Election results are <span class="text-success">accurate</span> <br>
+                     and void of manipulation...
+                </div>
+            </div>
         </div>
     </section>
 
     <!--register section-->
-    <section id="register" class="container login-section text-center">
+    <section id="register" class="container login-section text-center" style="padding: 0;">
 		<!--signup section-->
-            <div id="signup" class="row signup">
-                <div class="col-md-8 col-lg-offset-2">
-                    <fieldset class="home" style="margin-left: 15px;">
+            <div id="signup" class="row login" style="margin: 0;padding: 20px 0px">
+                <div class="col-sm-12 col-md-8 col-md-offset-2">
+                    <fieldset class="home row">
                         <h4 style="color: white; margin-left: 50px;">Register or <a href="index.php#login" >sign in</a> </h4>
                         <form action="<?php echo htmlspecialchars("#register");?>" method="post">
                             <span class="error" ><?php echo $mainError;?></span><p>
                             <span class="error"><?php echo $output;?></span><p>
-                            <div class="row" style="margin-left: 12px;">
-                                <div class="col-md-4 col-md-offset-2 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-user"></i></span>
                                     <input class="form-control" type="text" placeholder="first name" name="fname" value="<?php echo $fname;?>" maxlength="25" required/>
                                 </div>
-                                <div class="col-md-4 col-md-offset-1 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-1 input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
                                     <input class="form-control" type="text" placeholder="last name" name="lname" value="<?php echo $lname;?>" maxlength="25" required/>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-left: 12px;">
-                                <div class="col-md-4 col-md-offset-2 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-user fa-fw"></i></span>
                                     <input class="form-control" type="text" placeholder="username" name="username" value="<?php echo $username;?>" maxlength="25" required/>
                                 </div>
-                                <div class="col-md-4 col-md-offset-1 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-1 input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
                                     <input class="form-control" type="email" placeholder="Email address" name="email" value="<?php echo $email;?>" maxlength="40" required/>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-left: 12px;">
-                                <div class="col-md-4 col-md-offset-2 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-key fa-fw"></i>
                                     </span>
@@ -145,7 +165,7 @@ if(isset($_SESSION['login_user'])){
                                         <i class="fa fa-eye" id="eye"></i>
                                     </span>
                                 </div>
-                                <div class="col-md-4 col-md-offset-1 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-1 input-group">
                                     <span class="input-group-addon">
                                         <i class="fa fa-key fa-fw"></i>
                                     </span>
@@ -154,24 +174,22 @@ if(isset($_SESSION['login_user'])){
                                         <i class="fa fa-eye" id="eye"></i>
                                     </span>
                                 </div>
-                            </div>
-                            <div class="row" style="margin-left: 12px;">
-                                <div class="col-md-4 col-md-offset-2 input-group">
+                                <div class="col-sm-12 col-md-4 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-mobile-phone fa-fw"></i></span>
                                     <input class="form-control" type="number" placeholder="phone number" name="phone" value="<?php echo $phone;?>" maxlength="14" required/>
                                 </div>
-                                <div class="col-md-1 col-md-offset-1 input-group">
+                                <div class="col-sm-6 col-md-2 col-md-offset-1 input-group">
                                     <input  type="radio" name="sex" <?php if (isset($sex) && $sex=="male") echo "checked";?> value="male" required/>Male
                                 </div>
-                                <div class="col-md-2 input-group" style="margin-left: 20px;">
+                                <div class="col-sm-6 col-md-2 input-group" style="margin-left: 20px;">
                                     <input type="radio" name="sex" <?php if (isset($sex) && $sex=="female") echo "checked";?> value="female" required/>Female
                                 </div>
-                            </div>
-                            <div class="row" style="margin-left: 50px;">
-                                <div class="col-md-4 col-md-offset-4" >
-                                  <input type="submit" class="btn btn-success" name="register" value="CREATE ACCOUNT"></span>
+                                <div class="col-sm-12 col-md-4 col-md-offset-4" >
+                                  <input type="submit" class="btn btn-success btn-block" name="register" value="CREATE ACCOUNT"></span><br>
                                 </div>
-                            </div>
+                                <div class="col-sm-12">
+                                    <a href="index.php#login">Forgot password?</a>
+                                </div>
                         </form>
                     </fieldset>
                 </div>
@@ -181,19 +199,21 @@ if(isset($_SESSION['login_user'])){
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row contact">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h1>Contact Us</h1>
-<!--                <p>E-mail us with your suggestions or complaints at any time </p>-->
-<!--                <p><a href="ouremail-link???">ouremail link??</a> </p>-->
-            </div>
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-md-12">
-                        <span class="fa fa-building-o"></span>
-                        <h3>Reach us at Room 011, computer building, Obafemi Awolowo University, Ile-Ife.</h3>
+                    <div class="col-sm-6 text-right b_r">
+                        <i class="fa fa-building-o"></i>
+                        Room 011, computer building, Obafemi Awolowo University, Ile-Ife.
                     </div>
-                    <div class="col-md-12"><span class="fa fa-facebook"></span><p></p></div>
-                    <div class="col-md-12"><span class="fa fa-newspaper-o"></span><p>View news on any election you're involved in...</p></div>
+                    <div class="col-sm-6 text-left">
+                        <a href="www.facebook.com/oauevoting" class="text-default">
+                            Contact on us facebook
+                            <span class="fa-stack fa-sm">
+                              <i class="fa fa-square-o fa-stack-2x text-primary"></i>
+                              <i class="fa fa-facebook fa-stack-1x text-primary"></i>
+                            </span>
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -210,5 +230,38 @@ if(isset($_SESSION['login_user'])){
 
     <!-- Custom Theme JavaScript -->
     <script src="../js/file.js"></script>
+
+    <script type="text/javascript">
+        // jQuery to collapse the navbar on scroll
+        $(window).scroll(function() {
+            if ($(".navbar").offset().top > 50) {
+                $(".navbar-fixed-top").addClass("top-nav-collapse");
+            } else {
+                $(".navbar-fixed-top").removeClass("top-nav-collapse");
+            }
+
+            if ($('.navbar').offset().top > 280) {
+                $('#comfort>.image').animate({'opacity':"1"},400,function(){
+                    $('#comfort>.about-description').animate({'opacity':'1'},400);
+                        $('#comfort>.about-description>h3, #comfort>.about-description>hr').animate({'top':"0",'opacity':'0.9'},400);
+                });
+            }
+            if ($('.navbar').offset().top > 610) {
+                $('#realtime>.image').animate({'opacity':"1"},400,function(){
+                    $('#realtime>.about-description').animate({'opacity':'1'},400);
+                    $('#realtime>.about-description>h3, #realtime>.about-description>hr').animate({'top':"0",'opacity':'0.9'},400);
+                });
+            }
+            if ($('.navbar').offset().top > 900) {
+                $('#description>.image').animate({'opacity':"1"},400,function(){
+                    $('#description>.about-description').animate({'opacity':'1'},400);
+                    $('#description>.about-description>h3, #description>.about-description>hr').animate({'top':"0",'opacity':'0.9'},400);
+                });
+            }
+
+        });
+
+    </script>
+
 </body>
 </html>

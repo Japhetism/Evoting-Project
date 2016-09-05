@@ -102,27 +102,27 @@ th{
     color:floralwhite;
     opacity: 0.8;
 }
-.success,   
-.success th{    
+.success,
+.success th{
     background: #5cb85c!important;
     border:none!important;
 }
-th:last-child{  
-    background: transparent!important;  
+th:last-child{
+    background: transparent!important;
     text-align:center;
     border:none;
 }
-.default,.default th{ 
+.default,.default th{
     background: #000;
 }
-.danger,.danger th{ 
+.danger,.danger th{
     background: #d9534f;
 }
-.warning,.warning th{   
+.warning,.warning th{
     background: #D09239;
 }
 .primary,
-.primary th{    
+.primary th{
     background: #2A5D89;
 }
 table tr:nth-child(even):hover{
@@ -157,11 +157,6 @@ thead tr:first-child:hover{
     cursor: pointer;
     opacity: 0.8;
     width: 20%;
-    /*width: 23%;
-    margin-right: 2%;
-    border-radius: 5px;
-    box-shadow: 3px 3px 12px rgba(0,0,0,0.5);
-    transition: box-shadow .3s;*/
 }
 .tableLinks .col-md-3:hover{
     box-shadow: 1px 1px 6px rgba(0,0,0,0.5);
@@ -205,7 +200,7 @@ td i:hover{
     background: #fff;
     border: solid 1px #ccc;
     color: #777;
-} 
+}
 .pagination>.active>a:focus{
     background: #000;
     color: #fff;
@@ -213,7 +208,7 @@ td i:hover{
 .pagination>.active>a:hover{
     background: #555;
     border:solid 1px #555;
-    color: #fff;    
+    color: #fff;
     cursor: pointer;
 }
 .row.profile .col-md-3{
@@ -245,11 +240,6 @@ a.contestant{
 
 /*Style for elections joined by adela*/
 .Adelne{
-    /*width: 32%;*/
-    /*margin-right: 1%;*/
-    /*height: 350px;*/
-    /*border: 1px solid gray;*/
-    /*border-radius: 5px;*/
     background: rgba(500,500,500,0.8);
     padding: 20px 0;
     text-align: left;
@@ -280,15 +270,6 @@ a.contestant{
     background: rgba(200, 200, 200, 0.1);
     transition: 0.5s;
 }
-
-/*.stylish-panel > div:hover img {*/
-    /*border-radius: 50%;*/
-    /*-webkit-transform: rotate(360deg);*/
-    /*-moz-transform: rotate(360deg);*/
-    /*-o-transform: rotate(360deg);*/
-    /*-ms-transform: rotate(360deg);*/
-    /*transform: rotate(360deg);*/
-/*}*/
 #textarea{
     width: 600px;
 }
@@ -385,7 +366,7 @@ i.preview-img:before{
     /*border-left: solid 1px #ddd;
     border-bottom: solid 1px #ddd;*/
 }
-.clear-input{        
+.clear-input{
     cursor: pointer;
 }
 .clear-input>i{
@@ -435,7 +416,7 @@ i.badge:after{
 }
 .load_cover>i{
     position: absolute;
-    top: 40%;
-    left:49%;
+    top: 40vh;
+    left:45vw;
     font-size: 50px;
 }

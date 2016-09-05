@@ -13,9 +13,10 @@ include_once('../php/photo.php');
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-       
+
     <title>E-voting | Results</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
@@ -38,7 +39,7 @@ include_once('../php/photo.php');
 <style type="text/css">
     #page-wrapper{
         background: rgba(0,0,0,0.05);
-        min-height: 700px;   
+        min-height: 700px;
         padding :0px 100px;
     }
     #election_time_left>label{
@@ -126,7 +127,7 @@ include_once('../php/photo.php');
         overflow: hidden;
         overflow-y:auto;
         overflow-x: hidden;
-        padding-top: 5px; 
+        padding-top: 5px;
         margin-top: 0;
     }
     .row.contestant{
@@ -141,7 +142,7 @@ include_once('../php/photo.php');
         margin: 0 -10px 5px -10px;
         cursor: pointer;
         min-height: 50px;
-        margin-top: 0px; 
+        margin-top: 0px;
         width: 89%;
         margin-left: 0px;
         display: none;
@@ -247,7 +248,7 @@ include_once('../php/photo.php');
                     msg.setAttribute('class','alert alert-success');
                 }else{
                     msg.setAttribute('class','alert alert-danger');
-                    msg.innerHTML = 'Election results will be available after the election has been concluded.';                
+                    msg.innerHTML = 'Election results will be available after the election has been concluded.';
                 }
                 $('#body').css('margin-top','40px');
                 // page1.style.display = 'block';
@@ -272,14 +273,14 @@ include_once('../php/photo.php');
     <div class="content">
 
     </div>
-    
+
 </div>
 
 <div id="wrapper">
 
     <!-- Navigation -->
     <?php include_once('navlinks.php');?>
-                
+
     <div id="page-wrapper">
 
         <!-- Modal -->
@@ -324,7 +325,7 @@ include_once('../php/photo.php');
                      </div>
                     <div class='col-md-12' id="page" style="display:none">
                         <div class="row">
-                            <?php 
+                            <?php
                                 echo $string_election;
                                 for($k = 0 ; $k < count($string_result_array) ; $k++){
                                     echo $string_result_array[$k].'<p>';

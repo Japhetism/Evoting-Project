@@ -14,7 +14,7 @@ include_once('../php/photo.php');
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting | View Profile</title>
+    <title>E-voting | Profile</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
@@ -135,7 +135,7 @@ include_once('../php/photo.php');
                     <div class="row profile">
                         <div class="col-xs-12 col-md-4" id="pictureClick">
                             <span class="error" id="imgError" style="display: none;width: 100%;text-align: center;">Invalid image</span>
-                            <?php 
+                            <?php
                                 echo "<img id='image' class='image-responsive' src='$user_photo' alt='$photo' width='100%' height='300px'><br>";
                             ?>
                             <input type="file" style="width: 100%" name="image" class="editField hide btn btn-default hide pictureChange" id="pictureChange" onchange="showPhoto(this);">
@@ -143,7 +143,7 @@ include_once('../php/photo.php');
                         <div class="col-xs-12 col-md-8">
                             <div class="row">
                                 <div class="col-xs-12 ">
-                                   
+
                                 <div class="row">
                                     <div class="col-xs-3 col-md-3">
                                         <strong>Lastname: </strong>
@@ -224,7 +224,7 @@ include_once('../php/photo.php');
                                         <strong>Confirm Password:</strong>
                                     </div>
                                     <div class="col-xs-9 col-md-9">
-                                        <input type="password" name="password2" id="confirmNew" oninput="confirmPassword()"> 
+                                        <input type="password" name="password2" id="confirmNew" oninput="confirmPassword()">
                                         <br><span id="hello" style="display: none"></span>
                                     </div>
                                 </div>
@@ -260,7 +260,7 @@ include_once('../php/photo.php');
 
 
 
-    
+
 </body>
 
 </html>

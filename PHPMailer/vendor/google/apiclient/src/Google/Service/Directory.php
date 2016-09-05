@@ -5612,7 +5612,7 @@ class Google_Service_Directory_RoleAssignments extends Google_Collection
   }
   public function getEtag()
   {
-    return $this->etag;
+    return$$this->etag;
   }
   public function setItems($items)
   {

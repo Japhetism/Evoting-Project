@@ -22,14 +22,17 @@ if(isset($_GET['key'])){
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>E-voting</title>
+    <title>E-voting | Home</title>
 
     <!--    Bootstrap CSS-->
     <link href="../css/bootstrap.min.css" rel="stylesheet" type="text/css">
 
+
+    <link href="../images/logo.png" rel="icon">
+
     <!--Custom fonts-->
     <link href="../fontawesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-	
+
     <!--    Custom CSS-->
     <link href="../css/index.css" type="text/css" rel="stylesheet">
 
@@ -44,8 +47,8 @@ if(isset($_GET['key'])){
         top: 0;
     }
     .row.details>.col-md-4{
-        background: #fff; 
-        padding: 0; 
+        background: #fff;
+        padding: 0;
         width: 30%;
         margin-right: 5%;
         font-size: 20px;
@@ -55,7 +58,7 @@ if(isset($_GET['key'])){
     .row.details>.col-md-4:last-of-type{
         margin-right: 0;
     }
-    .image{        
+    .image{
         padding: 10px 10px 30px 10px;
         /*box-shadow: 1px 2px 4px rgba(0,0,0,0.5);*/
         border: solid 1px #ddd;
@@ -77,6 +80,28 @@ if(isset($_GET['key'])){
     <![endif]-->
 </head>
 <body id="page-top" data-spy="scroll" data-target=".navbar-fixed-top">
+    <div id="reset_modal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- password reset form -->
+            <form id="reset_form">
+                <div class="modal-content" style="color:#555;">
+                  <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Reset Password</h4>
+                  </div>
+                  <div class="modal-body text-center">
+                    <div id="form_field">
+                        <input class="form-control" type="email" required="required" id="forgotten_password" name="email" placeholder="Enter Email Address">
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Dismiss</button>
+                    <button type="submit" class="btn btn-success" id="submit_email">Submit</button>
+                  </div>
+                </div>
+            </form>
+        </div>
+    </div>
     <!-- Navigation -->
     <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
         <div class="container">
@@ -133,50 +158,39 @@ if(isset($_GET['key'])){
     <!-- About Section -->
     <section id="about" class="container-fluid content-section text-center">
         <div class="about">
-            <!-- <div class="col-lg-8 col-lg-offset-2"> -->
-                <!-- <h1>About E-voting</h1> -->
-            <!-- </div> -->
-                    <div class="row" id="comfort">
-                        <div class="col-md-4 col-md-offset-1 image">
-                            <img src="../images/voting/voteipad.jpg" height="100%" width="100%">
-                        </div>
-                        <div class="col-md-6 col-md-offset-1 about-description">
-                            <hr>
-                            <h3>Comfort</h3>
-                             You can vote anywhere, anytime<br>
-                             on your <span class="text-success">mobile</span> device...
-                        </div>
+            <div class="row" id="comfort">
+                <div class="col-md-4 col-md-offset-1 image">
+                    <img src="../images/voting/voteipad.jpg" height="100%" width="100%">
+                </div>
+                <div class="col-md-6 col-md-offset-1 about-description">
+                    <hr>
+                    <h3>Comfort</h3>
+                     You can vote anywhere, anytime, even <br>
+                     on your <span class="text-success">mobile</span> device...
+                </div>
+            </div>
+            <div class="row" id="realtime">
+                <div class="col-md-6 about-description">
+                    <hr>
+                    <h3>Real-time</h3>
+                     View election results in <br> <span class="text-success">real-time...</span>
 
-                        <!-- <div class="col-md-4"><span class="fa fa-plus" style="background: url('../images/voting/voteipad.jpg') no-repeat center; background-size: cover;"></span><p>Vote anywhere, anytime...</p></div>
-                        <div class="col-md-4"><span class="fa fa-hand-paper-o" style="background: url('../images/voting1.jpg') no-repeat center; background-size: cover;"></span><p>Vote in an existing election...</p></div>
-                        <div class="col-md-4"><span class="fa fa-newspaper-o"></span><p>View realtime election updates...</p></div> -->
-                    </div>
-                    <div class="row" id="realtime">
-                        <div class="col-md-6 about-description">
-                            <hr>
-                            <h3>Real-time</h3>
-                             Election results are updated<br> <span class="text-success">per second...</span>
-                             
-                        </div>
-                        <div class="col-md-4 col-md-offset-1 image">
-                            <img src="../images/voting/voteanywhere.jpg" height="100%" width="100%">
-                        </div>
-                    </div>
-                    <div class="row" id="description">
-                        <div class="col-md-4 col-md-offset-1 image">
-                            <img src="../images/voting/voteipad.jpg" height="100%" width="100%">
-                        </div>
-                        <div class="col-md-6 col-md-offset-1  about-description">
-                            <hr>
-                            <h3>Comfort</h3>
-                             You can vote anywhere, anytime<br>
-                             on your <span class="text-success">mobile</span> device...
-                        </div>
-
-                        <!-- <div class="col-md-4"><span class="fa fa-plus" style="background: url('../images/voting/voteipad.jpg') no-repeat center; background-size: cover;"></span><p>Vote anywhere, anytime...</p></div>
-                        <div class="col-md-4"><span class="fa fa-hand-paper-o" style="background: url('../images/voting1.jpg') no-repeat center; background-size: cover;"></span><p>Vote in an existing election...</p></div>
-                        <div class="col-md-4"><span class="fa fa-newspaper-o"></span><p>View realtime election updates...</p></div> -->
-                    </div>
+                </div>
+                <div class="col-md-4 col-md-offset-1 image">
+                    <img src="../images/voting/voteanywhere.jpg" height="100%" width="100%">
+                </div>
+            </div>
+            <div class="row" id="description">
+                <div class="col-md-4 col-md-offset-1 image">
+                    <img src="../images/voting/voteipad.jpg" height="100%" width="100%">
+                </div>
+                <div class="col-md-6 col-md-offset-1  about-description">
+                    <hr>
+                    <h3>Integrity</h3>
+                     Election results are <span class="text-success">accurate</span> <br>
+                     and void of manipulation...
+                </div>
+            </div>
         </div>
     </section>
 
@@ -184,28 +198,25 @@ if(isset($_GET['key'])){
     <section id="login" class="container login-section text-center" style="padding: 0">
 		<!--login section-->
         <div class="row login" style="margin: 0;padding: 20px 0px">
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-sm-12 col-md-4 col-md-offset-4">
                 <form action="<?php echo htmlspecialchars("#login");?>" method="post">
-                    <fieldset class="home">
+                    <fieldset class="home row">
                         <h4 style="color: white">login or <a href="signup.php#register">create an account</a> </h4>
-                            <div class="row">
-                                <div class="col-md-8 col-md-offset-2 input-group">
+                                <div class="col-sm-12 col-md-8 col-md-offset-2 input-group">
                                     <span class="input-group-addon"><i class="fa fa-envelope-o fa-fw"></i></span>
                                     <input class="form-control" type="email" placeholder="Email address" name="lemail" value="<?php echo $lemail;?>" required/>
                                 </div>
-                            </div>
-							<div class="row">
-								<div class="col-md-8 col-md-offset-2 input-group">
+								<div class="col-sm-12 col-md-8 col-md-offset-2 input-group">
 									<span class="input-group-addon"><i class="fa fa-key fa-fw"></i></span>
 									<input class="form-control password" type="password" placeholder="Password"  name="lpassword" value="<?php echo $lpassword;?>" required/>
 									<span class="input-group-addon after eyeChange"><i class="fa fa-eye" id="eye" ></i></span>
 								</div>
-							</div>
-                            <div class="row">
-                                <div class="col-md-4 col-md-offset-4">
-                                    <input type="submit" class="btn btn-success" name="login" value="LOGIN">
+                                <div class="col-sm-12 col-md-4 col-md-offset-4">
+                                    <input type="submit" class="btn btn-success btn-block" name="login" value="LOGIN"><br>
                                 </div>
-                            </div>
+                                <div class="col-sm-12">
+                                    <a href="#" data-toggle="modal" data-target="#reset_modal">Forgot password?</a>
+                                </div>
                             <?php echo $output2;?>
                             <br>
                             <span><?php if($confirmationMessage !="") echo($confirmationMessage);?></span>
@@ -215,28 +226,27 @@ if(isset($_GET['key'])){
             </div>
         </div>
 		<!--end of login section-->
-            
+
     </section>
 
     <!-- Contact Section -->
     <section id="contact" class="container content-section text-center">
         <div class="row contact">
-            <div class="col-lg-8 col-lg-offset-2">
-                <h1>Contact Us</h1>
-<!--                <p>E-mail us with your suggestions or complaints at any time </p>-->
-<!--                <p>ouremail link??</p>-->
-            </div>
-            <div class="col-lg-8 col-lg-offset-2">
+            <div class="col-sm-12">
                 <div class="row">
-                    <div class="col-md-12">
-                        <span class="fa fa-building-o"></span>
-                        <h4>Reach us at Room 011, computer building, Obafemi Awolowo University, Ile-Ife.</h4>
+                    <div class="col-sm-6 text-right b_r">
+                        <i class="fa fa-building-o"></i>
+                        Room 011, computer building, Obafemi Awolowo University, Ile-Ife.
                     </div>
-                    <div class="col-md-12">
-                        <span class="fa fa-facebook"></span>
-                        <p>www.facebook.com/oauevoting</p>
+                    <div class="col-sm-6 text-left">
+                        <a href="www.facebook.com/oauevoting" class="text-default">
+                            Contact on us facebook
+                            <span class="fa-stack fa-sm">
+                              <i class="fa fa-square-o fa-stack-2x text-primary"></i>
+                              <i class="fa fa-facebook fa-stack-1x text-primary"></i>
+                            </span>
+                        </a>
                     </div>
-                    <div class="col-md-12"><span class="fa fa-newspaper-o"></span><p>View news on any election you're involved in...</p></div>
                 </div>
             </div>
         </div>
@@ -281,8 +291,6 @@ if(isset($_GET['key'])){
                     $('#description>.about-description>h3, #description>.about-description>hr').animate({'top':"0",'opacity':'0.9'},400);
                 });
             }
-//            var nav = $('.navbar').offset().top;
-//            console.log(nav);
 
         });
 

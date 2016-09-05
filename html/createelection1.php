@@ -16,6 +16,7 @@ include_once('../php/photo.php');
 
     <title>E-voting | Create Election</title>
 
+    <link href="../images/logo.png" rel="icon">
     <!-- Bootstrap Core CSS -->
     <link href="../css/bootstrap.min.css" rel="stylesheet">
 
